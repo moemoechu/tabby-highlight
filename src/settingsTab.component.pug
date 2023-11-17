@@ -1,0 +1,47 @@
+h3(translate) Highlight
+
+ul.nav-tabs(ngbNav, #nav='ngbNav')
+    li(ngbNavItem)
+        a(ngbNavLink, translate) Highlight
+        ng-template(ngbNavContent)
+            .form-line
+                .header
+                    .title(translate) Enable highlight
+                    .description(translate) Highlight master switch
+                toggle(
+                    [(ngModel)]='config.store.highlightPlugin.highLightEnabled',
+                    (ngModelChange)='apply();',
+                )
+
+            .content-box(*ngIf='config.store.highlightPlugin.highLightEnabled === true')
+                button.btn.btn-primary((click)='addKeyword();')
+                    i.fas.fa-solid.fa-plus
+                    span(translate) Add
+                .list-group.mt-3.mb-3
+                    ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
+                        .list-group-item.d-flex.align-items-center()
+                            toggle(
+                                [(ngModel)]='item.enabled',
+                                (ngModelChange)='apply();',
+                            )
+                            input.form-control(
+                                type='text',
+                                [style.color]='"black"',
+                                [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : ""',
+                                [(ngModel)]='item.text',
+                                (ngModelChange)='apply();',
+                            )
+                            input.form-control.color-number-input.ms-1(
+                                type='number',
+                                min='0',
+                                max='15',
+                                [(ngModel)]='item.backgroundColor',
+                                (ngModelChange)='apply();',
+                            )
+                            button.btn.btn-outline-secondary.ms-1((click)='removeKeyword(i);')
+                                i.fas.fa-solid.fa-trash
+
+                .alert.alert-info.d-flex.align-items-center
+                    .me-auto
+                        span(translate) Change any setting of highlight only apply in new sessions.
+div([ngbNavOutlet]='nav')
