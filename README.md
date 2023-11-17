@@ -28,5 +28,6 @@ To install, use Tabby builtin plugin manager.
 
 ## Changelog
 
+- 1.0.2: Add RegExp support.
 - 1.0.1: Add foreground support.
 - 1.0.0: Initial version.
