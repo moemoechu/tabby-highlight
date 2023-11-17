@@ -15,6 +15,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "#FG": "前景色",
       "#BG": "背景色",
       "DEL": "删除",
+      "RegExp": "正则",
     },
   ],
 ];

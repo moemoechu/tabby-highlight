@@ -4,9 +4,8 @@ import { HighlightPluginConfig } from "./configProvider";
 // code by chatGPT >w<
 function replaceCharacter(
   inputString: string,
-  characterToReplace: string,
-  replacementCharacter: string,
-  isRegExp: boolean = false
+  characterToReplace: string | RegExp,
+  replacementCharacter: string
 ) {
   // 匹配控制序列的正则表达式模式
   const controlSequencePattern = /\x1b\[[0-9;]*[a-zA-Z]/g;
@@ -23,10 +22,7 @@ function replaceCharacter(
   tempString = tempString.replace(oscSequencePattern, "__OSC_SEQUENCE__");
 
   // 替换指定字符
-  let replacedString = tempString.replaceAll(
-    isRegExp ? new RegExp(characterToReplace, "g") : characterToReplace,
-    replacementCharacter
-  );
+  let replacedString = tempString.replaceAll(characterToReplace, replacementCharacter);
 
   // 还原控制序列和OSC序列
   if (controlSequences) {
@@ -85,8 +81,12 @@ export default class HighlightMiddleware extends SessionMiddleware {
         continue;
       }
 
+      let characterToReplace = isRegExp ? new RegExp(`(${text})`, "g") : text;
+      let replacementCharacter = isRegExp
+        ? `\x1b[${seq.join(";")}m$1\x1b[0m`
+        : `\x1b[${seq.join(";")}m${text}\x1b[0m`;
       // dataString = dataString.replaceAll(text, `\x1b[${seq.join(";")}m${text}\x1b[0m`);
-      dataString = replaceCharacter(dataString, text, `\x1b[${seq.join(";")}m${text}\x1b[0m`);
+      dataString = replaceCharacter(dataString, characterToReplace, replacementCharacter);
     }
 
     // console.log([dataString]);
