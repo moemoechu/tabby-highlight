@@ -37,10 +37,11 @@ export class HighlightSettingsTabComponent {
 
   addKeyword() {
     const newKeyword: HighlightKeyword = {
-      enabled: false,
       text: "INFO",
-      foreground: false,
-      foregroundColor: 4,
+      enabled: false,
+      isRegExp: false,
+      foreground: true,
+      foregroundColor: 0,
       background: true,
       backgroundColor: 1,
       bold: false,

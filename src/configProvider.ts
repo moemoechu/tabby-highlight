@@ -3,12 +3,12 @@ import { ConfigProvider } from "tabby-core";
 export type HighlightKeyword = {
   text: string;
   enabled: boolean;
-  isRegExp?: boolean;
-  foreground?: boolean;
-  foregroundColor?: number;
-  background?: boolean;
-  backgroundColor?: number;
-  bold?: boolean;
+  isRegExp: boolean;
+  foreground: boolean;
+  foregroundColor: number;
+  background: boolean;
+  backgroundColor: number;
+  bold: boolean;
 };
 
 export type HighlightPluginConfig = {
