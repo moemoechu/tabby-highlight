@@ -8,28 +8,7 @@ import { HighlightKeyword } from "./configProvider";
 /** @hidden */
 @Component({
   template: require("./settingsTab.component.pug"),
-  styles: [
-    `
-      .color-number-input {
-        width: 70px;
-        flex: none;
-      }
-      .font-size-input {
-        width: 100px;
-        flex: none;
-      }
-
-      .font-family-input {
-        min-width: 150px;
-        // flex: none;
-      }
-
-      .background-input {
-        min-width: 300px;
-        // flex: none;
-      }
-    `,
-  ],
+  styles: [``],
 })
 export class HighlightSettingsTabComponent {
   constructor(

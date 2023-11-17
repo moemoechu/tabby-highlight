@@ -62,7 +62,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
         enabled,
         isRegExp = false,
         foreground = false,
-        foregroundColor = 4,
+        foregroundColor = 0,
         background = false,
         backgroundColor = 1,
         bold = false,
