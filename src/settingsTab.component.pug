@@ -19,11 +19,11 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     span(translate) Add
                 .list-group.mt-3.mb-3
                     .list-group-item.active.d-flex.align-items-center()
-                        span.text-center(translate,style='width: 52px; flex: none;') ON
-                        span.text-center(translate,style='width: 100%;') Keyword
-                        span.text-center.ms-1(translate,style='width: 60px; flex: none;') #BG
-                        span.text-center.ms-1(translate,style='width: 60px; flex: none;') #FG
-                        span.text-center.ms-1(translate,style='width: 38px; flex: none;') DEL
+                        span.text-center(translate, style='width: 52px; flex: none;') ON
+                        span.text-center(translate, style='width: 100%;') Keyword
+                        span.text-center.ms-1(translate, style='width: 60px; flex: none;') #BG
+                        span.text-center.ms-1(translate, style='width: 60px; flex: none;') #FG
+                        span.text-center.ms-1(translate, style='width: 38px; flex: none;') DEL
                     ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
                         .list-group-item.d-flex.align-items-center()
                             toggle(
