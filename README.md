@@ -6,7 +6,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 - Highlight keyword
 - Highlight color support background and foreground
-- RegExp ready (developing)
+- RegExp ready
 - Settings UI support English and Chinese.
 - Tested on Windows and MacOS with Tabby version 1.0.204.
 
