@@ -32,34 +32,37 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                 [(ngModel)]='item.enabled',
                                 (ngModelChange)='apply();',
                             )
-                            input.form-control(
-                                type='text',
-                                [style.color]='item.foreground ? config.store.terminal.colorScheme.colors[item.foregroundColor ?? 1] : ""',
-                                [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : ""',
-                                [(ngModel)]='item.text',
-                                (ngModelChange)='apply();',
+                            .content-box.d-flex.w-100(
+                                [style.opacity]='item.enabled ? 1 : 0.5',
                             )
-                            input.form-control.ms-1(
-                                type='number',
-                                min='0',
-                                max='15',
-                                style='width: 60px; flex: none;',
-                                [(ngModel)]='item.backgroundColor',
-                                (ngModelChange)='apply();',
-                            )
-                            input.form-control.ms-1(
-                                type='number',
-                                min='0',
-                                max='15',
-                                style='width: 60px; flex: none;',
-                                [(ngModel)]='item.foregroundColor',
-                                (ngModelChange)='apply();',
-                            )
-                            toggle.ms-1(
-                                style='width: 60px; flex: none;',
-                                [(ngModel)]='item.isRegExp',
-                                (ngModelChange)='apply();',
-                            )
+                                input.form-control(
+                                    type='text',
+                                    [style.color]='item.foreground ? config.store.terminal.colorScheme.colors[item.foregroundColor ?? 1] : ""',
+                                    [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : ""',
+                                    [(ngModel)]='item.text',
+                                    (ngModelChange)='apply();',
+                                )
+                                input.form-control.ms-1(
+                                    type='number',
+                                    min='0',
+                                    max='15',
+                                    style='width: 60px; flex: none;',
+                                    [(ngModel)]='item.backgroundColor',
+                                    (ngModelChange)='apply();',
+                                )
+                                input.form-control.ms-1(
+                                    type='number',
+                                    min='0',
+                                    max='15',
+                                    style='width: 60px; flex: none;',
+                                    [(ngModel)]='item.foregroundColor',
+                                    (ngModelChange)='apply();',
+                                )
+                                toggle.ms-1(
+                                    style='width: 60px; flex: none;',
+                                    [(ngModel)]='item.isRegExp',
+                                    (ngModelChange)='apply();',
+                                )
                             button.btn.btn-outline-secondary.ms-1(
                                 style='width: 38px; flex: none;',
                                 (click)='removeKeyword(i);',
