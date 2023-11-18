@@ -17,6 +17,10 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 To install, use Tabby builtin plugin manager.
 
+### Warning
+
+**Currently the RegExp is not doing verification, invalid RegExp will cause terminal blank.**
+
 ## Screenshot
 
 ### Settings UI
