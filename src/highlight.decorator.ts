@@ -10,8 +10,8 @@ export class HighlightDecorator extends TerminalDecorator {
   }
 
   attach(tab: BaseTerminalTabComponent<any>): void {
-    const { highLightEnabled } = this.config.store.highlightPlugin;
-    if (!highLightEnabled) {
+    const { highlightEnabled } = this.config.store.highlightPlugin;
+    if (!highlightEnabled) {
       return;
     }
     if (tab.sessionChanged$) {

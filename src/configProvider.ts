@@ -12,7 +12,8 @@ export type HighlightKeyword = {
 };
 
 export type HighlightPluginConfig = {
-  highLightEnabled: boolean;
+  highlightEnabled: boolean;
+  highlightCaseSensitive: boolean;
   highlightMode: "xterm-control-sequence";
   highlightKeywords: HighlightKeyword[];
 };
@@ -21,7 +22,8 @@ export type HighlightPluginConfig = {
 export class HighlightConfigProvider extends ConfigProvider {
   defaults: { highlightPlugin: HighlightPluginConfig } = {
     highlightPlugin: {
-      highLightEnabled: false,
+      highlightEnabled: false,
+      highlightCaseSensitive: true,
       highlightMode: "xterm-control-sequence",
       highlightKeywords: [
         {

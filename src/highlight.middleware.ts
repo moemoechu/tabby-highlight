@@ -50,9 +50,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
   }
 
   feedFromSession(data: Buffer): void {
+    const { highlightCaseSensitive, highlightKeywords } = this.config;
     let dataString = data.toString();
     // console.log([dataString]);
-    for (const keyword of this.config.highlightKeywords) {
+    for (const keyword of highlightKeywords) {
       const {
         text,
         enabled,
@@ -81,7 +82,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
         continue;
       }
 
-      let characterToReplace = isRegExp ? new RegExp(`(${text})`, "g") : text;
+      let characterToReplace = isRegExp
+        ? new RegExp(`(${text})`, `g${highlightCaseSensitive ? "" : "i"}`)
+        : text;
       let replacementCharacter = isRegExp
         ? `\x1b[${seq.join(";")}m$1\x1b[0m`
         : `\x1b[${seq.join(";")}m${text}\x1b[0m`;

@@ -9,11 +9,19 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     .title(translate) Enable highlight
                     .description(translate) Highlight master switch
                 toggle(
-                    [(ngModel)]='config.store.highlightPlugin.highLightEnabled',
+                    [(ngModel)]='config.store.highlightPlugin.highlightEnabled',
                     (ngModelChange)='apply();',
                 )
 
-            .content-box.w-100(*ngIf='config.store.highlightPlugin.highLightEnabled === true')
+            .content-box.w-100(*ngIf='config.store.highlightPlugin.highlightEnabled === true')
+                .form-line
+                    .header
+                        .title(translate) Case sensitive
+                        .description(translate) Only apply to RegExp
+                    toggle(
+                        [(ngModel)]='config.store.highlightPlugin.highlightCaseSensitive',
+                        (ngModelChange)='apply();',
+                    )
                 button.btn.btn-primary((click)='addKeyword();')
                     i.fas.fa-solid.fa-plus
                     span(translate) Add

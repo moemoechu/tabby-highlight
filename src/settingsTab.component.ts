@@ -55,6 +55,8 @@ export class HighlightSettingsTabComponent {
     this.apply();
   }
 
+  validate(item: HighlightKeyword) {}
+
   // 为了防止频繁保存可能导致的潜在的风险（其实没有），加入了防抖
   @debounce(500)
   apply() {

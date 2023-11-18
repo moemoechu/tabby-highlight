@@ -16,6 +16,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "#BG": "背景色",
       "DEL": "删除",
       "RegExp": "正则",
+      "Case sensitive": "区分大小写",
+      "Only apply to RegExp": "仅适用于正则表达式",
     },
   ],
 ];
