@@ -6,7 +6,6 @@ import { HighlightPluginConfig } from "configProvider";
 @Injectable({ providedIn: "root" })
 export class HighlightService {
   private logger: Logger;
-  private styleElement: HTMLStyleElement;
   constructor(
     public config: ConfigService,
     private logService: LogService,

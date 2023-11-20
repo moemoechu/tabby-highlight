@@ -1,5 +1,7 @@
 import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
 import { HighlightPluginConfig } from "./configProvider";
+import { Logger } from "tabby-core";
+import { ToastrService } from "ngx-toastr";
 
 // code by chatGPT >w<
 function replaceCharacter(
@@ -42,11 +44,20 @@ function replaceCharacter(
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;
   config: HighlightPluginConfig;
+  logger: Logger;
+  toast: Function;
 
-  constructor(tab: BaseTerminalTabComponent<any>, config: HighlightPluginConfig) {
+  constructor(
+    tab: BaseTerminalTabComponent<any>,
+    config: HighlightPluginConfig,
+    logger?: Logger,
+    toast?: Function
+  ) {
     super();
     this.tab = tab;
     this.config = config;
+    this.logger = logger;
+    this.toast = toast;
   }
 
   feedFromSession(data: Buffer): void {
@@ -82,14 +93,19 @@ export default class HighlightMiddleware extends SessionMiddleware {
         continue;
       }
 
-      let characterToReplace = isRegExp
-        ? new RegExp(`(${text})`, `g${highlightCaseSensitive ? "" : "i"}`)
-        : text;
-      let replacementCharacter = isRegExp
-        ? `\x1b[${seq.join(";")}m$1\x1b[0m`
-        : `\x1b[${seq.join(";")}m${text}\x1b[0m`;
-      // dataString = dataString.replaceAll(text, `\x1b[${seq.join(";")}m${text}\x1b[0m`);
-      dataString = replaceCharacter(dataString, characterToReplace, replacementCharacter);
+      try {
+        let characterToReplace = isRegExp
+          ? new RegExp(`(${text})`, `g${highlightCaseSensitive ? "" : "i"}`)
+          : text;
+        let replacementCharacter = isRegExp
+          ? `\x1b[${seq.join(";")}m$1\x1b[0m`
+          : `\x1b[${seq.join(";")}m${text}\x1b[0m`;
+        // dataString = dataString.replaceAll(text, `\x1b[${seq.join(";")}m${text}\x1b[0m`);
+        dataString = replaceCharacter(dataString, characterToReplace, replacementCharacter);
+      } catch (e) {
+        this.logger.error(e.message);
+        this.toast("[Highlight] Something wrong in creating RegExp, please view logs at DevTool");
+      }
     }
 
     // console.log([dataString]);
