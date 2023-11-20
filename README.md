@@ -19,7 +19,7 @@ To install, use Tabby builtin plugin manager.
 
 ### Warning
 
-**Currently the RegExp is not doing verification, invalid RegExp will cause terminal blank.**
+**Currently the RegExp is not doing verification at setting, invalid RegExp will cause error in DevTools.**
 
 ## Screenshot
 
@@ -35,6 +35,7 @@ To install, use Tabby builtin plugin manager.
 
 ## Changelog
 
+- 1.0.6: Add error logs.
 - 1.0.5: Support case sensitive switch.
 - 1.0.4: Small improvements.
 - 1.0.3: Fix bugs.
