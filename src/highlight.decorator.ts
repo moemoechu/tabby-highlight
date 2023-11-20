@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import HighlightMiddleware from "./highlight.middleware";
-import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
-import { TerminalDecorator, BaseTerminalTabComponent, BaseSession } from "tabby-terminal";
 import { ToastrService } from "ngx-toastr";
+import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
+import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
 import { debounce } from "utils-decorators";
+import HighlightMiddleware from "./highlight.middleware";
 
 @Injectable()
 export class HighlightDecorator extends TerminalDecorator {
@@ -50,6 +50,5 @@ export class HighlightDecorator extends TerminalDecorator {
   @debounce(500)
   toast(message: string) {
     this.toastr.info(this.translate.instant(message));
-    this.logger.info("message");
   }
 }

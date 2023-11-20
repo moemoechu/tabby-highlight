@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { TranslateService } from "tabby-core";
 import { SettingsTabProvider } from "tabby-settings";
 import { HighlightSettingsTabComponent } from "./settingsTab.component";
 

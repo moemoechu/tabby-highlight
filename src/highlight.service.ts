@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
 import { translations } from "./translations";
-import { HighlightPluginConfig } from "configProvider";
 
 @Injectable({ providedIn: "root" })
 export class HighlightService {

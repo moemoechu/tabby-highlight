@@ -1,7 +1,6 @@
+import { Logger } from "tabby-core";
 import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
 import { HighlightPluginConfig } from "./configProvider";
-import { Logger } from "tabby-core";
-import { ToastrService } from "ngx-toastr";
 
 // code by chatGPT >w<
 function replaceCharacter(

@@ -1,16 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import TabbyCoreModule, { ConfigProvider, ConfigService } from "tabby-core";
 import { SettingsTabProvider } from "tabby-settings";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TerminalDecorator } from "tabby-terminal";
 
 import { HighlightConfigProvider } from "./configProvider";
+import { HighlightDecorator } from "./highlight.decorator";
+import { HighlightService } from "./highlight.service";
 import { HighlightSettingsTabComponent } from "./settingsTab.component";
 import { HighlightSettingsTabProvider } from "./settingsTabProvider";
-import { HighlightDecorator } from "./highlight.decorator";
-import { TerminalDecorator } from "tabby-terminal";
-import { HighlightService } from "./highlight.service";
 
 @NgModule({
   imports: [CommonModule, FormsModule, TabbyCoreModule, NgbModule],
