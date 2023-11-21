@@ -4,12 +4,15 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 ## Features
 
-- Highlight keyword based on Xterm control sequence.
-- Support highlight background and foreground color.
-- RegExp keywords ready.
-- RegExp verification (developing).
-- Settings UI support English and Chinese.
-- Tested on Windows and MacOS with Tabby version 1.0.204.
+- [x] Highlight keyword based on Xterm control sequence.
+- [x] Support highlight background and foreground color.
+- [x] Support background and foreground highlight switch separately.
+- [x] RegExp keywords ready.
+- [ ] RegExp verification.
+- [ ] Priority adjustment.
+- [ ] Profile import and export.
+- [x] Settings UI support English and Chinese.
+- [x] Tested on Windows and MacOS with Tabby version 1.0.205.
 
 ## Usage
 
@@ -35,6 +38,7 @@ To install, use Tabby builtin plugin manager.
 
 ## Changelog
 
+- 1.0.7: Support background and foreground highlight switch separately.
 - 1.0.6: Add error logs.
 - 1.0.5: Support case sensitive switch.
 - 1.0.4: Small improvements.
