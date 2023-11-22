@@ -5,11 +5,12 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 ## Features
 
 - [x] Highlight keyword based on Xterm control sequence.
+- [ ] Highlight keyword based on xterm.js decorator.
 - [x] Support highlight background and foreground color.
 - [x] Support background and foreground highlight switch separately.
 - [x] RegExp keywords ready.
 - [ ] RegExp verification.
-- [ ] Priority adjustment.
+- [x] Priority adjustment.
 - [ ] Profile import and export.
 - [x] Settings UI support English and Chinese.
 - [x] Tested on Windows and MacOS with Tabby version 1.0.205.
@@ -19,6 +20,14 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 ### Install
 
 To install, use Tabby builtin plugin manager.
+
+### Reorder
+
+Drag the ON switch will make the keyword draggable.
+
+### Limitation
+
+There are some in the highlight method based on Xterm control sequence, if two or more keyword matches one text, the color may be vary.
 
 ### Warning
 
@@ -38,6 +47,7 @@ To install, use Tabby builtin plugin manager.
 
 ## Changelog
 
+- 1.0.8: Support keywords priority adjustment.
 - 1.0.7: Support background and foreground highlight switch separately.
 - 1.0.6: Add error logs.
 - 1.0.5: Support case sensitive switch.

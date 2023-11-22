@@ -4,6 +4,13 @@ import { ConfigService, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import { debounce } from "utils-decorators";
 import { HighlightKeyword } from "./configProvider";
+import {
+  CdkDragDrop,
+  CdkDropList,
+  CdkDrag,
+  moveItemInArray,
+  CdkDragHandle,
+} from "@angular/cdk/drag-drop";
 
 /** @hidden */
 @Component({
@@ -56,6 +63,15 @@ export class HighlightSettingsTabComponent {
   }
 
   validate(item: HighlightKeyword) {}
+
+  drop(event: CdkDragDrop<HighlightKeyword[]>) {
+    moveItemInArray(
+      this.config.store.highlightPlugin.highlightKeywords,
+      event.previousIndex,
+      event.currentIndex
+    );
+    this.apply();
+  }
 
   // 为了防止频繁保存可能导致的潜在的风险（其实没有），加入了防抖
   @debounce(500)

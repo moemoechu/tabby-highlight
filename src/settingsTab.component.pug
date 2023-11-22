@@ -25,7 +25,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 button.btn.btn-primary((click)='addKeyword();')
                     i.fas.fa-solid.fa-plus
                     span(translate) Add
-                .list-group.mt-3.mb-3
+                .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
                     .list-group-item.active.d-flex.align-items-center()
                         span.text-center(translate, style='width: 44px; flex: none;') ON
                         span.text-center.ms-1(translate, style='width: 30px; flex: none;') RegExp
@@ -34,8 +34,9 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                         span.text-center.ms-1(translate, style='width: 80px; flex: none;') #FG
                         span.text-center.ms-1(translate, style='width: 38px; flex: none;') DEL
                     ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
-                        .list-group-item.d-flex.align-items-center()
+                        .list-group-item.d-flex.align-items-center(cdkDrag)
                             toggle(
+                                cdkDragHandle
                                 style='width: 60px; flex: none;',
                                 [(ngModel)]='item.enabled',
                                 (ngModelChange)='apply();',
