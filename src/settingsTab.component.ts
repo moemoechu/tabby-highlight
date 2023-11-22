@@ -14,7 +14,7 @@ import { HighlightKeyword } from "./configProvider";
 export class HighlightSettingsTabComponent {
   alertMessage: string;
   alertType: "info" | "success" | "danger";
-  verifyStatus: boolean[];
+  verifyStatus: [boolean, string][];
   constructor(
     public config: ConfigService,
     private electron: ElectronService,
@@ -67,16 +67,18 @@ export class HighlightSettingsTabComponent {
     const { highlightKeywords } = this.config.store.highlightPlugin;
     for (const keyword of highlightKeywords) {
       let status = true;
+      let errInfo = "";
       const { isRegExp, text } = keyword;
       if (isRegExp) {
         try {
           const regexp = new RegExp(text, "g");
         } catch (e) {
           errorRegexp.push([text, e.message]);
+          errInfo = e.message;
           status = false;
         }
       }
-      this.verifyStatus.push(status);
+      this.verifyStatus.push([status, errInfo]);
     }
     if (errorRegexp.length > 0) {
       this.alertMessage =

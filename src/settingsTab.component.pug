@@ -64,7 +64,11 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         [(ngModel)]='item.text',
                                         (ngModelChange)='apply();',
                                     )
-                                    .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(*ngIf="!verifyStatus[i]")
+                                    .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
+                                        *ngIf='!verifyStatus[i][0]',
+                                        placement='end',
+                                        [ngbTooltip]='verifyStatus[i][1]',
+                                    )
                                         i.fa-solid.fa-circle-exclamation
                                 checkbox.ms-1(
                                     [(ngModel)]='item.background',
