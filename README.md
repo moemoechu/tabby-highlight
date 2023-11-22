@@ -25,9 +25,9 @@ To install, use Tabby builtin plugin manager.
 
 Drag the ON switch will make the keyword draggable.
 
-### Limitation
+### Priority
 
-There are some in the highlight method based on Xterm control sequence, if two or more keyword matches one text, the color may be vary.
+Keyword on top get high priority.
 
 ### Warning
 
@@ -47,6 +47,7 @@ There are some in the highlight method based on Xterm control sequence, if two o
 
 ## Changelog
 
+- 1.0.9: Refectory highlight method, fix nest keyword match, possible downgrade performance(> <).
 - 1.0.8: Support keywords priority adjustment.
 - 1.0.7: Support background and foreground highlight switch separately.
 - 1.0.6: Add error logs.
