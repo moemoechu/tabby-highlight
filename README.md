@@ -47,7 +47,7 @@ Keyword on top get high priority.
 
 ## Changelog
 
-- 1.0.9: Refectory highlight method, fix nest keyword match, possible downgrade performance(> <).
+- 1.1.0: Refectory highlight method, fix nest keyword match, possible downgrade performance(> <).
 - 1.0.8: Support keywords priority adjustment.
 - 1.0.7: Support background and foreground highlight switch separately.
 - 1.0.6: Add error logs.
