@@ -22,6 +22,6 @@ import { HighlightSettingsTabProvider } from "./settingsTabProvider";
   entryComponents: [HighlightSettingsTabComponent],
   declarations: [HighlightSettingsTabComponent],
 })
-export default class BackgroundModule {
+export default class HighlightModule {
   constructor(public config: ConfigService, private highlight: HighlightService) {}
 }
