@@ -40,8 +40,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
     const oscSequences = dataString.match(oscSequencePattern);
 
     // 临时替换控制序列和OSC序列
-    let tempString = dataString.replace(controlSequencePattern, controlSequenceReplace);
-    tempString = tempString.replace(oscSequencePattern, oscSequenceReplace);
+    const tempString = dataString
+      .replace(controlSequencePattern, controlSequenceReplace)
+      .replace(oscSequencePattern, oscSequenceReplace);
 
     const occurrences: { start: number; end: number; fg?: number; bg?: number }[] = [];
     for (const keyword of highlightKeywords) {
@@ -80,6 +81,12 @@ export default class HighlightMiddleware extends SessionMiddleware {
       }
     }
 
+    // 如果没有匹配则直接返回，也许能提升一丢丢性能也不一定
+    if (occurrences.length === 0) {
+      return super.feedFromSession(data);
+    }
+
+    // 改为按字符匹配的逻辑，可以解决嵌套问题，但……也许有性能问题也不一定(> <)，先就酱吧
     let newDataString = "";
     for (let i = 0; i < tempString.length; i++) {
       let char = tempString[i];
@@ -116,8 +123,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
       }
     }
 
-    data = Buffer.from(newDataString);
-    super.feedFromSession(data);
+    const newData = Buffer.from(newDataString);
+    super.feedFromSession(newData);
   }
 
   close(): void {
