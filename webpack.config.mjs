@@ -1,6 +1,9 @@
-const path = require("path");
+import * as path from "path";
+import * as url from "url";
 
-module.exports = {
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+
+export default () => ({
   target: "node",
   entry: "src/index.ts",
   devtool: "source-map",
@@ -38,4 +41,4 @@ module.exports = {
     ],
   },
   externals: ["fs", "ngx-toastr", /^rxjs/, /^@angular/, /^@ng-bootstrap/, /^tabby-/],
-};
+});
