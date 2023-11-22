@@ -20,6 +20,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Only apply to RegExp": "仅适用于正则表达式",
       "[Highlight] Something wrong in creating RegExp, please view logs at DevTool":
         "[高亮] 创建正则表达式时出现错误，请查看开发者工具的日志",
+      "The following regexp is not valid:\n": "下面的正则表达式有问题：\n",
+      "Everything looks good.": "一切正常。",
     },
   ],
 ];

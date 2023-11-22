@@ -22,6 +22,15 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                         [(ngModel)]='config.store.highlightPlugin.highlightCaseSensitive',
                         (ngModelChange)='apply();',
                     )
+                .alert.d-flex.align-items-center(
+                    [class.alert-success]='alertType === "success"',
+                    [class.alert-danger]='alertType === "danger"',
+                )
+                    .me-auto
+                        span(
+                            translate,
+                            [innerText]='alertMessage',
+                        )
                 button.btn.btn-primary((click)='addKeyword();')
                     i.fas.fa-solid.fa-plus
                     span(translate) Add

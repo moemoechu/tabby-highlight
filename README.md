@@ -13,7 +13,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [ ] Support underline style.
 - [ ] Support true color.
 - [x] RegExp keywords ready.
-- [ ] RegExp verification.
+- [x] RegExp verification.
 - [x] Priority adjustment.
 - [ ] Per keyword case sensitive switch.
 - [ ] Profile import and export.
@@ -50,8 +50,13 @@ Keyword on top get high priority.
 
 ![Terminal2](screenshots/terminal2.png)
 
+### Regexp Verify
+
+![Alt text](screenshots/regexp_verify.png)
+
 ## Changelog
 
+- 1.2.0: Support Regexp verify.
 - 1.1.0: Refectory highlight method, fix nest keyword match, possible downgrade performance(> <).
 - 1.0.8: Support keywords priority adjustment.
 - 1.0.7: Support background and foreground highlight switch separately.

@@ -1,16 +1,10 @@
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { ConfigService, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import { debounce } from "utils-decorators";
 import { HighlightKeyword } from "./configProvider";
-import {
-  CdkDragDrop,
-  CdkDropList,
-  CdkDrag,
-  moveItemInArray,
-  CdkDragHandle,
-} from "@angular/cdk/drag-drop";
 
 /** @hidden */
 @Component({
@@ -18,19 +12,25 @@ import {
   styles: [``],
 })
 export class HighlightSettingsTabComponent {
+  alertMessage: string;
+  alertType: "info" | "success" | "danger";
   constructor(
     public config: ConfigService,
     private electron: ElectronService,
     private hostWindow: ElectronHostWindow,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) {}
+  ) {
+    // this.alertType = "success";
+    // this.alertMessage = "Everything looks good.";
+    this.verify();
+  }
 
   async pickFile(): Promise<void> {
     const paths = (
       await this.electron.dialog.showOpenDialog(this.hostWindow.getWindow(), {
         filters: [
-          { name: "Images", extensions: ["jpg", "png", "gif"] },
+          { name: "Profile", extensions: ["thp", "json"] },
           { name: "All Files", extensions: ["*"] },
         ],
         properties: ["openFile", "showHiddenFiles"],
@@ -62,7 +62,29 @@ export class HighlightSettingsTabComponent {
     this.apply();
   }
 
-  validate(item: HighlightKeyword) {}
+  verify() {
+    const errorRegexp: [string, string][] = [];
+    for (const keyword of this.config.store.highlightPlugin
+      .highlightKeywords as HighlightKeyword[]) {
+      const { isRegExp, text } = keyword;
+      if (isRegExp) {
+        try {
+          const regexp = new RegExp(text, "g");
+        } catch (e) {
+          errorRegexp.push([text, e.message]);
+        }
+      }
+    }
+    if (errorRegexp.length > 0) {
+      this.alertMessage =
+        this.translate.instant("The following regexp is not valid:\n") +
+        errorRegexp.map((value) => `${value[0]}: ${value[1]}`).join("\n");
+      this.alertType = "danger";
+    } else {
+      this.alertMessage = "Everything looks good.";
+      this.alertType = "success";
+    }
+  }
 
   drop(event: CdkDragDrop<HighlightKeyword[]>) {
     moveItemInArray(
@@ -77,6 +99,7 @@ export class HighlightSettingsTabComponent {
   @debounce(500)
   apply() {
     this.config.save();
+    this.verify();
     // this.background.applyCss();
     this.toastr.info(this.translate.instant("Highlight applied!"));
   }
