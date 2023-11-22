@@ -56,18 +56,18 @@ export default class HighlightMiddleware extends SessionMiddleware {
         backgroundColor = 1,
         bold = false,
       } = keyword;
+
+      // 未启用的关键字直接跳过喵
       if (!enabled) {
         continue;
       }
 
-      // const matches = [];
+      const regexpFlag = `g${highlightCaseSensitive ? "" : "i"}`;
 
+      // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
       const pattern = isRegExp
-        ? new RegExp(`(${text})`, `g${highlightCaseSensitive ? "" : "i"}`)
-        : new RegExp(
-            text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-            `g${highlightCaseSensitive ? "" : "i"}`
-          );
+        ? new RegExp(`(${text})`, regexpFlag)
+        : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
 
       const matches = tempString.matchAll(pattern);
 
@@ -86,7 +86,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       return super.feedFromSession(data);
     }
 
-    // 改为按字符匹配的逻辑，可以解决嵌套问题，但……也许有性能问题也不一定(> <)，先就酱吧
+    // 改为按字符匹配的逻辑，可以解决嵌套问题喵，但……也许有性能问题也不一定(> <)，先就酱喵
     let newDataString = "";
     for (let i = 0; i < tempString.length; i++) {
       let char = tempString[i];
