@@ -21,8 +21,6 @@ export class HighlightSettingsTabComponent {
     private toastr: ToastrService,
     private translate: TranslateService
   ) {
-    // this.alertType = "success";
-    // this.alertMessage = "Everything looks good.";
     this.verify();
   }
 

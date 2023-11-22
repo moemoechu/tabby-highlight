@@ -17,7 +17,6 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 .form-line
                     .header
                         .title(translate) Case sensitive
-                        .description(translate) Only apply to RegExp
                     toggle(
                         [(ngModel)]='config.store.highlightPlugin.highlightCaseSensitive',
                         (ngModelChange)='apply();',
