@@ -56,13 +56,16 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                     [(ngModel)]='item.isRegExp',
                                     (ngModelChange)='apply();',
                                 )
-                                input.form-control(
-                                    type='text',
-                                    [style.color]='item.foreground ? config.store.terminal.colorScheme.colors[item.foregroundColor ?? 1] : config.store.terminal.colorScheme.colors[0]',
-                                    [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : "transparent"',
-                                    [(ngModel)]='item.text',
-                                    (ngModelChange)='apply();',
-                                )
+                                .content-box.d-flex.align-items-center.w-100.position-relative
+                                    input.form-control(
+                                        type='text',
+                                        [style.color]='item.foreground ? config.store.terminal.colorScheme.colors[item.foregroundColor ?? 1] : config.store.terminal.colorScheme.colors[0]',
+                                        [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : "transparent"',
+                                        [(ngModel)]='item.text',
+                                        (ngModelChange)='apply();',
+                                    )
+                                    .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(*ngIf="!verifyStatus[i]")
+                                        i.fa-solid.fa-circle-exclamation
                                 checkbox.ms-1(
                                     [(ngModel)]='item.background',
                                     (ngModelChange)='apply();',
