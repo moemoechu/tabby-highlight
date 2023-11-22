@@ -64,11 +64,17 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
       const regexpFlag = `g${highlightCaseSensitive ? "" : "i"}`;
 
-      // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
-      const pattern = isRegExp
-        ? new RegExp(`(${text})`, regexpFlag)
-        : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
-
+      let pattern: RegExp;
+      try {
+        // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
+        pattern = isRegExp
+          ? new RegExp(`(${text})`, regexpFlag)
+          : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
+      } catch (e) {
+        // 象征性的捕获并忽略一下错误喵
+        this.toast("[Highlight] Something wrong in creating RegExp, please view logs at DevTool");
+        this.logger.error(e.message);
+      }
       const matches = tempString.matchAll(pattern);
 
       for (const match of matches) {
