@@ -23,7 +23,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
   feedFromSession(data: Buffer): void {
     const { highlightCaseSensitive, highlightKeywords } = this.config;
-    let dataString = data.toString();
+    const dataString = data.toString();
 
     // 匹配控制序列的正则表达式模式
     const controlSequencePattern = /\x1b\[[0-9;]*[a-zA-Z]/g;
