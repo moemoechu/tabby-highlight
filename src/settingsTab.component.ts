@@ -12,6 +12,36 @@ import { HighlightKeyword } from "./configProvider";
   styles: [``],
 })
 export class HighlightSettingsTabComponent {
+  styles = [
+    {
+      name: "#BG",
+      enabledModel: "background",
+      valueType: "number",
+      valueModel: "backgroundColor",
+      min: 0,
+      max: 15,
+    },
+    {
+      name: "#FG",
+      enabledModel: "foreground",
+      valueType: "number",
+      valueModel: "foregroundColor",
+      min: 0,
+      max: 15,
+    },
+    {
+      name: "Bold",
+      enabledModel: "bold",
+    },
+    {
+      name: "Italic",
+      enabledModel: "italic",
+    },
+    {
+      name: "Underline",
+      enabledModel: "underline",
+    },
+  ];
   alertMessage: string;
   alertType: "info" | "success" | "danger";
   verifyStatus: [boolean, string][];

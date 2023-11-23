@@ -21,6 +21,10 @@ export const translations: [string, HighlightPluginTranslations][] = [
         "[高亮] 创建正则表达式时出现错误，请查看开发者工具的日志",
       "The following regexp is not valid:\n": "下面的正则表达式有问题：\n",
       "Everything looks good.": "一切正常。",
+      "Style": "样式",
+      "Bold": "粗体",
+      "Italic": "斜体",
+      "Underline": "下划线",
     },
   ],
 ];

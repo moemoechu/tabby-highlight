@@ -34,15 +34,14 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     i.fas.fa-solid.fa-plus
                     span(translate) Add
                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
-                    .list-group-item.active.d-flex.align-items-center()
+                    .list-group-item.active.d-flex.align-items-center.list-group-item-action()
                         span.text-center(translate, style='width: 44px; flex: none;') ON
                         span.text-center.ms-1(translate, style='width: 30px; flex: none;') RegExp
                         span.text-center(translate, style='width: 100%;') Keyword
-                        span.text-center.ms-1(translate, style='width: 86.6px; flex: none;') #BG
-                        span.text-center.ms-1(translate, style='width: 86.6px; flex: none;') #FG
+                        span.text-center.ms-1(translate, style='width: 60px; flex: none;') Style
                         span.text-center.ms-1(translate, style='width: 38px; flex: none;') DEL
                     ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
-                        .list-group-item.d-flex.align-items-center(cdkDrag)
+                        .list-group-item.d-flex.align-items-center.list-group-item-action(cdkDrag)
                             toggle(
                                 cdkDragHandle
                                 style='width: 60px; flex: none;',
@@ -63,7 +62,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : "transparent"',
                                         [style.font-weight]='item.bold ? "bold" : ""',
                                         [style.font-style]='item.italic ? "italic" : ""',
-                                        [style.font-decoration]='item.underline ? "underline" : ""',
+                                        [style.text-decoration]='item.underline ? "underline" : ""',
                                         [(ngModel)]='item.text',
                                         (ngModelChange)='apply();',
                                     )
@@ -73,30 +72,87 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         [ngbTooltip]='verifyStatus[i][1]',
                                     )
                                         i.fa-solid.fa-circle-exclamation
-                                checkbox.ms-1(
-                                    [(ngModel)]='item.background',
-                                    (ngModelChange)='apply();',
-                                )
-                                input.form-control(
-                                    type='number',
-                                    min='0',
-                                    max='15',
-                                    style='width: 60px; flex: none;',
-                                    [(ngModel)]='item.backgroundColor',
-                                    (ngModelChange)='apply();',
-                                )
-                                checkbox.ms-1(
-                                    [(ngModel)]='item.foreground',
-                                    (ngModelChange)='apply();',
-                                )
-                                input.form-control(
-                                    type='number',
-                                    min='0',
-                                    max='15',
-                                    style='width: 60px; flex: none;',
-                                    [(ngModel)]='item.foregroundColor',
-                                    (ngModelChange)='apply();',
-                                )
+                            div(ngbDropdown, placement='bottom-right')
+                                button.btn.btn-outline-primary.ms-1(ngbDropdownToggle,(click)='$event.stopPropagation()')
+                                    i.fa-solid.fa-palette
+                                div(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.8);')
+                                    .container-fluid
+                                        ng-container(*ngFor='let style of styles;')
+                                            .row.mt-1
+                                                .col.d-flex.align-items-center
+                                                    span.ms-1(translate) {{style.name}}
+                                                .col-md-auto.d-flex.align-items-center(*ngIf='style.valueType')
+                                                    input.form-control(
+                                                        [type]='style.valueType',
+                                                        [min]='style.min',
+                                                        [max]='style.max',
+                                                        style='width: 60px; flex: none;',
+                                                        [(ngModel)]='item[style.valueModel]',
+                                                        (ngModelChange)='apply();',
+                                                    )
+                                                .col-md-auto.d-flex.align-items-center
+                                                    checkbox.ms-1(
+                                                        [(ngModel)]='item[style.enabledModel]',
+                                                        (ngModelChange)='apply();',
+                                                    )
+                                        //- .row.mt-1
+                                        //-     .col.d-flex.align-items-center
+                                        //-         span.ms-1(translate) #BG
+                                        //-     .col-md-auto.d-flex.align-items-center
+                                        //-         checkbox.ms-1(
+                                        //-             [(ngModel)]='item.background',
+                                        //-             (ngModelChange)='apply();',
+                                        //-         )
+                                        //-     .col-md-auto.d-flex.align-items-center
+                                        //-         input.form-control(
+                                        //-             type='number',
+                                        //-             min='0',
+                                        //-             max='15',
+                                        //-             style='width: 60px; flex: none;',
+                                        //-             [(ngModel)]='item.backgroundColor',
+                                        //-             (ngModelChange)='apply();',
+                                        //-         )
+                                        //- .row.mt-1
+                                        //-     .col.d-flex.align-items-center
+                                        //-         span.ms-1(translate) #FG
+                                        //-     .col-md-auto.d-flex.align-items-center
+                                        //-         checkbox.ms-1(
+                                        //-             [(ngModel)]='item.foreground',
+                                        //-             (ngModelChange)='apply();',
+                                        //-     )
+                                        //-     .col-md-auto.d-flex.align-items-center
+                                        //-         input.form-control(
+                                        //-             type='number',
+                                        //-             min='0',
+                                        //-             max='15',
+                                        //-             style='width: 60px; flex: none;',
+                                        //-             [(ngModel)]='item.foregroundColor',
+                                        //-             (ngModelChange)='apply();',
+                                        //-         )
+                            //- checkbox.ms-1(
+                            //-     [(ngModel)]='item.background',
+                            //-     (ngModelChange)='apply();',
+                            //- )
+                            //- input.form-control(
+                            //-     type='number',
+                            //-     min='0',
+                            //-     max='15',
+                            //-     style='width: 60px; flex: none;',
+                            //-     [(ngModel)]='item.backgroundColor',
+                            //-     (ngModelChange)='apply();',
+                            //- )
+                            //- checkbox.ms-1(
+                            //-     [(ngModel)]='item.foreground',
+                            //-     (ngModelChange)='apply();',
+                            //- )
+                            //- input.form-control(
+                            //-     type='number',
+                            //-     min='0',
+                            //-     max='15',
+                            //-     style='width: 60px; flex: none;',
+                            //-     [(ngModel)]='item.foregroundColor',
+                            //-     (ngModelChange)='apply();',
+                            //- )
                             button.btn.btn-outline-secondary.ms-1(
                                 style='width: 38px; flex: none;',
                                 (click)='removeKeyword(i);',
