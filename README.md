@@ -53,7 +53,8 @@ Keyword on top get high priority.
 
 ### Settings UI
 
-![Settings](screenshots/settings.png)
+![Settings1](screenshots/settings1.png)
+![Settings2](screenshots/settings2.png)
 
 ### Running
 
