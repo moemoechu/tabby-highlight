@@ -86,7 +86,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
           : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
       } catch (e) {
         // 象征性的捕获并忽略一下错误喵
-        this.toast("[Highlight] Something wrong in creating RegExp, please view logs at DevTool");
+        this.toast(
+          "[Highlight] Something wrong in creating RegExp, please check highlight settings"
+        );
         this.logger.error(e.message);
       }
       const matches = tempString.matchAll(pattern);

@@ -9,12 +9,19 @@ import { HighlightKeyword } from "./configProvider";
 /** @hidden */
 @Component({
   template: require("./settingsTab.component.pug"),
-  styles: [``],
+  styles: [
+    `
+      .list-group-item-highlight {
+        --bs-list-group-action-hover-bg: rgba(0, 0, 0, 0.55);
+        // backdrop-filter: blur(3px);
+      }
+    `,
+  ],
 })
 export class HighlightSettingsTabComponent {
   styles = [
     {
-      name: "#BG",
+      name: "Background",
       enabledModel: "background",
       valueType: "number",
       valueModel: "backgroundColor",
@@ -22,7 +29,7 @@ export class HighlightSettingsTabComponent {
       max: 15,
     },
     {
-      name: "#FG",
+      name: "Foreground",
       enabledModel: "foreground",
       valueType: "number",
       valueModel: "foregroundColor",

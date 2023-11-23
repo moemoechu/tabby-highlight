@@ -34,14 +34,14 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     i.fas.fa-solid.fa-plus
                     span(translate) Add
                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
-                    .list-group-item.active.d-flex.align-items-center.list-group-item-action()
+                    .list-group-item.active.d-flex.align-items-center()
                         span.text-center(translate, style='width: 44px; flex: none;') ON
                         span.text-center.ms-1(translate, style='width: 30px; flex: none;') RegExp
                         span.text-center(translate, style='width: 100%;') Keyword
                         span.text-center.ms-1(translate, style='width: 60px; flex: none;') Style
                         span.text-center.ms-1(translate, style='width: 38px; flex: none;') DEL
                     ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
-                        .list-group-item.d-flex.align-items-center.list-group-item-action(cdkDrag)
+                        .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
                             toggle(
                                 cdkDragHandle
                                 style='width: 60px; flex: none;',
@@ -58,6 +58,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                 .content-box.d-flex.align-items-center.w-100.position-relative
                                     input.form-control(
                                         type='text',
+                                        style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
                                         [style.color]='item.foreground ? config.store.terminal.colorScheme.colors[item.foregroundColor ?? 1] : config.store.terminal.colorScheme.colors[0]',
                                         [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : "transparent"',
                                         [style.font-weight]='item.bold ? "bold" : ""',
@@ -75,10 +76,10 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             div(ngbDropdown, placement='bottom-right')
                                 button.btn.btn-outline-primary.ms-1(ngbDropdownToggle,(click)='$event.stopPropagation()')
                                     i.fa-solid.fa-palette
-                                div(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.8);')
+                                div(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);')
                                     .container-fluid
                                         ng-container(*ngFor='let style of styles;')
-                                            .row.mt-1
+                                            .row.mt-1(style='min-height: 40px;')
                                                 .col.d-flex.align-items-center
                                                     span.ms-1(translate) {{style.name}}
                                                 .col-md-auto.d-flex.align-items-center(*ngIf='style.valueType')
@@ -86,7 +87,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                                         [type]='style.valueType',
                                                         [min]='style.min',
                                                         [max]='style.max',
-                                                        style='width: 70px; flex: none;',
+                                                        style='width: 70px; flex: none; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
                                                         [(ngModel)]='item[style.valueModel]',
                                                         (ngModelChange)='apply();',
                                                     )
