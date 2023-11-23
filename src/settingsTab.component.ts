@@ -62,6 +62,7 @@ export class HighlightSettingsTabComponent {
     private translate: TranslateService
   ) {
     this.verify();
+    // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
   }
 

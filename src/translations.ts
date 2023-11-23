@@ -26,6 +26,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Italic": "斜体",
       "Underline": "下划线",
       "Case": "大小写",
+      "Drag the ON button may reorder the keyword.": "拖动开关可以对关键字排序。",
     },
   ],
 ];
