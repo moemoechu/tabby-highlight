@@ -37,7 +37,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
     const oscSequenceReplace = "__OOOSSSCCC_SSSEEEQQQ__";
     const oscSequenceReplaceLength = oscSequenceReplace.length;
 
-    const endSeq = "\x1b[0m";
+    // const endSeq = "\x1b[0m";
 
     // 从输入字符串中提取控制序列和OSC序列
     const controlSequences = dataString.match(controlSequencePattern);
@@ -87,14 +87,15 @@ export default class HighlightMiddleware extends SessionMiddleware {
       try {
         // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
         pattern = isRegExp
-          ? new RegExp(`(${text})`, regexpFlag)
+          ? new RegExp(`${text}`, regexpFlag)
           : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
       } catch (e) {
         // 象征性的捕获并忽略一下错误喵
         this.toast(
-          "[Highlight] Something wrong in creating RegExp, please check highlight settings"
+          "[Highlight] Something wrong when creating RegExp, please check highlight settings"
         );
         this.logger.error(e.message);
+        return super.feedFromSession(data);
       }
       const matches = tempString.matchAll(pattern);
 
@@ -138,27 +139,34 @@ export default class HighlightMiddleware extends SessionMiddleware {
       for (const occurrence of occurrences) {
         const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
         if (i >= start && i <= end) {
-          const seq: string[] = [];
+          const beginSeq: string[] = [];
+          const endSeq: string[] = [];
 
           if (fg) {
-            seq.push(`38;5;${fg}`);
+            beginSeq.push(`38;5;${fg}`);
+            endSeq.push(`39`);
           }
           if (bg) {
-            seq.push(`48;5;${bg}`);
+            beginSeq.push(`48;5;${bg}`);
+            endSeq.push(`49`);
           }
           if (bold) {
-            seq.push(`1`);
+            beginSeq.push(`1`);
+            endSeq.push(`22`);
           }
           if (italic) {
-            seq.push(`3`);
+            beginSeq.push(`3`);
+            endSeq.push(`23`);
           }
           if (underline) {
-            seq.push(`4`);
+            beginSeq.push(`4`);
+            endSeq.push(`24`);
           }
           if (dim) {
-            seq.push(`2`);
+            beginSeq.push(`2`);
+            endSeq.push(`22`);
           }
-          char = `\x1b[${seq.join(";")}m${char}${endSeq}`;
+          char = `\x1b[${beginSeq.join(";")}m${char}\x1b[${endSeq.join(";")}m`;
           break;
         }
       }

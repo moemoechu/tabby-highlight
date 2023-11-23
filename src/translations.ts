@@ -17,7 +17,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "DEL": "删除",
       "RegExp": "正则",
       "Case sensitive": "区分大小写",
-      "[Highlight] Something wrong in creating RegExp, please check highlight settings":
+      "[Highlight] Something wrong when creating RegExp, please check highlight settings":
         "[高亮] 创建正则表达式时出现错误，请检查高亮配置",
       "The following regexp is not valid:\n": "下面的正则表达式有问题：\n",
       "Everything looks good.": "一切正常。",
