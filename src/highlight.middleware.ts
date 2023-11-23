@@ -44,7 +44,17 @@ export default class HighlightMiddleware extends SessionMiddleware {
       .replace(controlSequencePattern, controlSequenceReplace)
       .replace(oscSequencePattern, oscSequenceReplace);
 
-    const occurrences: { start: number; end: number; fg?: number; bg?: number }[] = [];
+    // 预先实现一下变粗变斜等特效喵，但先不提供，谁让咱比较懒喵~
+    const occurrences: {
+      start: number;
+      end: number;
+      fg?: number;
+      bg?: number;
+      bold?: boolean;
+      italic?: boolean;
+      underline?: boolean;
+    }[] = [];
+
     for (const keyword of highlightKeywords) {
       const {
         text,
@@ -83,6 +93,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
           end: match.index + match[0].length - 1,
           fg: foreground ? foregroundColor : undefined,
           bg: background ? backgroundColor : undefined,
+          bold: undefined,
+          italic: undefined,
+          underline: undefined,
         });
       }
     }
@@ -97,7 +110,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
     for (let i = 0; i < tempString.length; i++) {
       let char = tempString[i];
       for (const occurrence of occurrences) {
-        const { start, end, bg, fg } = occurrence;
+        const { start, end, bg, fg, bold, italic, underline } = occurrence;
         if (i >= start && i <= end) {
           const seq: string[] = [];
           if (fg) {
@@ -106,9 +119,15 @@ export default class HighlightMiddleware extends SessionMiddleware {
           if (bg) {
             seq.push(`48;5;${bg}`);
           }
-          // if (bold) {
-          //   seq.push(`5`);
-          // }
+          if (bold) {
+            seq.push(`1`);
+          }
+          if (italic) {
+            seq.push(`3`);
+          }
+          if (underline) {
+            seq.push(`4`);
+          }
           char = `\x1b[${seq.join(";")}m${char}${endSeq}`;
           break;
         }
