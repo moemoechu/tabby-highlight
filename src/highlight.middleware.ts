@@ -53,6 +53,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       bold?: boolean;
       italic?: boolean;
       underline?: boolean;
+      dim?: boolean;
     }[] = [];
 
     for (const keyword of highlightKeywords) {
@@ -65,6 +66,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
         background = false,
         backgroundColor = 1,
         bold = false,
+        italic = false,
+        underline = false,
+        dim = false,
       } = keyword;
 
       // 未启用的关键字直接跳过喵
@@ -93,9 +97,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
           end: match.index + match[0].length - 1,
           fg: foreground ? foregroundColor : undefined,
           bg: background ? backgroundColor : undefined,
-          bold: undefined,
-          italic: undefined,
-          underline: undefined,
+          bold,
+          italic,
+          underline,
+          dim,
         });
       }
     }
@@ -110,7 +115,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
     for (let i = 0; i < tempString.length; i++) {
       let char = tempString[i];
       for (const occurrence of occurrences) {
-        const { start, end, bg, fg, bold, italic, underline } = occurrence;
+        const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
         if (i >= start && i <= end) {
           const seq: string[] = [];
           if (fg) {
@@ -127,6 +132,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
           }
           if (underline) {
             seq.push(`4`);
+          }
+          if (dim) {
+            seq.push(`2`);
           }
           char = `\x1b[${seq.join(";")}m${char}${endSeq}`;
           break;

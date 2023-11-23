@@ -8,7 +8,10 @@ export type HighlightKeyword = {
   foregroundColor: number;
   background: boolean;
   backgroundColor: number;
-  bold: boolean;
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+  dim?: boolean;
 };
 
 export type HighlightPluginConfig = {
