@@ -66,6 +66,7 @@ Keyword on top get high priority.
 
 ## Changelog
 
+- 1.2.2: Refactor style setting UI.
 - 1.2.1: Support more style (bold, italic, underline).
 - 1.2.0: Support Regexp verify.
 - 1.1.0: Refactor highlight method, fix nest keyword match, possible downgrade performance(> <).

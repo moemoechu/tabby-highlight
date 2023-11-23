@@ -76,7 +76,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             div(ngbDropdown, placement='bottom-right')
                                 button.btn.btn-outline-primary.ms-1(ngbDropdownToggle,(click)='$event.stopPropagation()')
                                     i.fa-solid.fa-palette
-                                div(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);')
+                                div.border.border-black(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);')
                                     .container-fluid
                                         ng-container(*ngFor='let style of styles;')
                                             .row.mt-1(style='min-height: 40px;')
