@@ -118,6 +118,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
         const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
         if (i >= start && i <= end) {
           const seq: string[] = [];
+
+          // 虽然完全实现了各个特殊风格，但……UI好像挤不下了喵，先藏着喵
           if (fg) {
             seq.push(`38;5;${fg}`);
           }
