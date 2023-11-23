@@ -1,0 +1,13 @@
+{
+  "arrayString": ["aaa", "bbb", "ccc"],
+  "arrayNumber": [12, 34, 56],
+  "arrayMixed": [12, "34", 56],
+  "string": "ssssss",
+  "number": 42,
+  "colors": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"],
+  "logLevels": ["VERBOSE", "DEBUG", "INFO", "WARN", "ERROR"],
+  "@type": "cat girl",
+  "name": "moemoechu",
+  "age": 14,
+  "hobby": "nyan~"
+}
