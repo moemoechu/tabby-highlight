@@ -60,8 +60,8 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                     input.form-control(
                                         type='text',
                                         style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
-                                        [style.color]='item.foreground ? config.store.terminal.colorScheme.colors[item.foregroundColor ?? 1] : config.store.terminal.colorScheme.colors[0]',
-                                        [style.background-color]='item.background ? config.store.terminal.colorScheme.colors[item.backgroundColor ?? 1] : "transparent"',
+                                        [style.color]='item.foreground ? getAnsiColorById(item.foregroundColor ?? 1) : getAnsiColorById(0)',
+                                        [style.background-color]='item.background ? getAnsiColorById(item.backgroundColor ?? 1) : "transparent"',
                                         [style.font-weight]='item.bold ? "bold" : ""',
                                         [style.font-style]='item.italic ? "italic" : ""',
                                         [style.text-decoration]='item.underline ? "underline" : ""',

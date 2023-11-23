@@ -52,6 +52,8 @@ export class HighlightSettingsTabComponent {
   alertMessage: string;
   alertType: "info" | "success" | "danger";
   verifyStatus: [boolean, string][];
+
+  currentTheme: string;
   constructor(
     public config: ConfigService,
     private electron: ElectronService,
@@ -60,6 +62,7 @@ export class HighlightSettingsTabComponent {
     private translate: TranslateService
   ) {
     this.verify();
+    this.currentTheme = this.config.store.appearance.colorSchemeMode;
   }
 
   async pickFile(): Promise<void> {
@@ -135,6 +138,12 @@ export class HighlightSettingsTabComponent {
       event.currentIndex
     );
     this.apply();
+  }
+
+  getAnsiColorById(id: number) {
+    const schema = this.currentTheme === "light" ? "lightColorScheme" : "colorScheme";
+    const colorSchema = this.config.store.terminal[schema].colors;
+    return colorSchema[id];
   }
 
   // 为了防止频繁保存可能导致的潜在的风险（其实没有），加入了防抖

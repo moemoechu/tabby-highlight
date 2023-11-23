@@ -22,9 +22,9 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] RegExp verification.
 - [ ] Programable keyword match.
 - [x] Priority adjustment.
-- [ ] Per keyword case sensitive switch.
+- [x] Per keyword case sensitive switch.
 - [ ] Profile import and export.
-- [ ] Compatible with white themes.
+- [x] Compatible with white themes.
 
 ### Others
 
@@ -67,6 +67,8 @@ Keyword on top get high priority.
 
 ## Changelog
 
+- 1.2.4: Compatible with white themes.
+- 1.2.3: Support per keyword case sensitive switch.
 - 1.2.2: Refactor style setting UI.
 - 1.2.1: Support more style (bold, italic, underline).
 - 1.2.0: Support Regexp verify.
