@@ -24,14 +24,18 @@ export default class HighlightMiddleware extends SessionMiddleware {
   feedFromSession(data: Buffer): void {
     const { highlightKeywords } = this.config;
     const dataString = data.toString();
+    // console.log("begin");
+    // console.log([dataString]);
 
     // 匹配控制序列的正则表达式模式
     const controlSequencePattern = /\x1b\[[0-9;]*[a-zA-Z]/g;
     const controlSequenceReplace = "__CCCOOONNN_SSSEEEQQQ__";
+    const controlSequenceReplaceLength = controlSequenceReplace.length;
 
     // 匹配OSC序列的正则表达式模式
     const oscSequencePattern = /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/g;
     const oscSequenceReplace = "__OOOSSSCCC_SSSEEEQQQ__";
+    const oscSequenceReplaceLength = oscSequenceReplace.length;
 
     const endSeq = "\x1b[0m";
 
@@ -44,6 +48,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       .replace(controlSequencePattern, controlSequenceReplace)
       .replace(oscSequencePattern, oscSequenceReplace);
 
+    // console.log([tempString]);
     const occurrences: {
       start: number;
       end: number;
@@ -116,6 +121,20 @@ export default class HighlightMiddleware extends SessionMiddleware {
     let newDataString = "";
     for (let i = 0; i < tempString.length; i++) {
       let char = tempString[i];
+
+      // 喵喵喵，解决讨厌的乱码问题喵
+      if (char === "_") {
+        if (tempString.slice(i, i + controlSequenceReplaceLength) === controlSequenceReplace) {
+          i += controlSequenceReplaceLength - 1;
+          newDataString += controlSequenceReplace;
+          continue;
+        } else if (tempString.slice(i, i + oscSequenceReplaceLength) === oscSequenceReplace) {
+          i += oscSequenceReplaceLength - 1;
+          newDataString += oscSequenceReplace;
+          continue;
+        }
+      }
+
       for (const occurrence of occurrences) {
         const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
         if (i >= start && i <= end) {
@@ -147,6 +166,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       newDataString += char;
     }
 
+    // console.log([newDataString]);
     // 还原控制序列和OSC序列
     if (controlSequences) {
       for (let i = 0; i < controlSequences.length; i++) {
@@ -159,6 +179,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
       }
     }
 
+    // console.log([newDataString]);
+    // console.log("end");
     const newData = Buffer.from(newDataString);
     super.feedFromSession(newData);
   }
