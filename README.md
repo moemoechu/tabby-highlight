@@ -20,7 +20,8 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 - [x] RegExp keywords ready.
 - [x] RegExp verification.
-- [ ] Programable keyword match.
+- [ ] Select the specified RegExp match group.
+- [ ] Programable(javascript) keyword match.
 - [x] Priority adjustment.
 - [x] Per keyword case sensitive switch.
 - [ ] Profile import and export.
