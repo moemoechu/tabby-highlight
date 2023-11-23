@@ -22,7 +22,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
   }
 
   feedFromSession(data: Buffer): void {
-    const { highlightCaseSensitive, highlightKeywords } = this.config;
+    const { highlightKeywords } = this.config;
     const dataString = data.toString();
 
     // 匹配控制序列的正则表达式模式
@@ -44,7 +44,6 @@ export default class HighlightMiddleware extends SessionMiddleware {
       .replace(controlSequencePattern, controlSequenceReplace)
       .replace(oscSequencePattern, oscSequenceReplace);
 
-    // 预先实现一下变粗变斜等特效喵，但先不提供，谁让咱比较懒喵~
     const occurrences: {
       start: number;
       end: number;
@@ -61,6 +60,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
         text,
         enabled,
         isRegExp = false,
+        isCaseSensitive = false,
         foreground = false,
         foregroundColor = 0,
         background = false,
@@ -76,7 +76,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
         continue;
       }
 
-      const regexpFlag = `g${highlightCaseSensitive ? "" : "i"}`;
+      const regexpFlag = `g${isCaseSensitive ? "" : "i"}`;
 
       let pattern: RegExp;
       try {
@@ -121,7 +121,6 @@ export default class HighlightMiddleware extends SessionMiddleware {
         if (i >= start && i <= end) {
           const seq: string[] = [];
 
-          // 虽然完全实现了各个特殊风格，但……UI好像挤不下了喵，先藏着喵
           if (fg) {
             seq.push(`38;5;${fg}`);
           }

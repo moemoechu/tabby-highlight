@@ -12,15 +12,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     [(ngModel)]='config.store.highlightPlugin.highlightEnabled',
                     (ngModelChange)='apply();',
                 )
-
             .content-box.w-100(*ngIf='config.store.highlightPlugin.highlightEnabled === true')
-                .form-line
-                    .header
-                        .title(translate) Case sensitive
-                    toggle(
-                        [(ngModel)]='config.store.highlightPlugin.highlightCaseSensitive',
-                        (ngModelChange)='apply();',
-                    )
                 .alert.d-flex.align-items-center(
                     [class.alert-success]='alertType === "success"',
                     [class.alert-danger]='alertType === "danger"',
@@ -35,11 +27,16 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     span(translate) Add
                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
                     .list-group-item.active.d-flex.align-items-center()
-                        span.text-center(translate, style='width: 44px; flex: none;') ON
-                        span.text-center.ms-1(translate, style='width: 30px; flex: none;') RegExp
+                        span.text-center(translate, style='width: 44px; flex: none;')
+                            i.fa-solid.fa-toggle-on
+                        span.text-center.ms-1(translate, style='width: 30px; flex: none;')
+                            i.fa-solid.fa-hashtag
+                        span.text-center.ms-1(translate, style='width: 30px; flex: none;') Aa
                         span.text-center(translate, style='width: 100%;') Keyword
-                        span.text-center.ms-1(translate, style='width: 60px; flex: none;') Style
-                        span.text-center.ms-1(translate, style='width: 38px; flex: none;') DEL
+                        span.text-center.ms-1(translate, style='width: 60px; flex: none;')
+                            i.fa-solid.fa-palette
+                        span.text-center.ms-1(translate, style='width: 38px; flex: none;')
+                            i.fas.fa-solid.fa-trash
                     ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
                         .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
                             toggle(
@@ -53,6 +50,10 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             )
                                 checkbox.ms-1(
                                     [(ngModel)]='item.isRegExp',
+                                    (ngModelChange)='apply();',
+                                )
+                                checkbox.ms-1(
+                                    [(ngModel)]='item.isCaseSensitive',
                                     (ngModelChange)='apply();',
                                 )
                                 .content-box.d-flex.align-items-center.w-100.position-relative
@@ -96,64 +97,6 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                                         [(ngModel)]='item[style.enabledModel]',
                                                         (ngModelChange)='apply();',
                                                     )
-                                        //- .row.mt-1
-                                        //-     .col.d-flex.align-items-center
-                                        //-         span.ms-1(translate) #BG
-                                        //-     .col-md-auto.d-flex.align-items-center
-                                        //-         checkbox.ms-1(
-                                        //-             [(ngModel)]='item.background',
-                                        //-             (ngModelChange)='apply();',
-                                        //-         )
-                                        //-     .col-md-auto.d-flex.align-items-center
-                                        //-         input.form-control(
-                                        //-             type='number',
-                                        //-             min='0',
-                                        //-             max='15',
-                                        //-             style='width: 60px; flex: none;',
-                                        //-             [(ngModel)]='item.backgroundColor',
-                                        //-             (ngModelChange)='apply();',
-                                        //-         )
-                                        //- .row.mt-1
-                                        //-     .col.d-flex.align-items-center
-                                        //-         span.ms-1(translate) #FG
-                                        //-     .col-md-auto.d-flex.align-items-center
-                                        //-         checkbox.ms-1(
-                                        //-             [(ngModel)]='item.foreground',
-                                        //-             (ngModelChange)='apply();',
-                                        //-     )
-                                        //-     .col-md-auto.d-flex.align-items-center
-                                        //-         input.form-control(
-                                        //-             type='number',
-                                        //-             min='0',
-                                        //-             max='15',
-                                        //-             style='width: 60px; flex: none;',
-                                        //-             [(ngModel)]='item.foregroundColor',
-                                        //-             (ngModelChange)='apply();',
-                                        //-         )
-                            //- checkbox.ms-1(
-                            //-     [(ngModel)]='item.background',
-                            //-     (ngModelChange)='apply();',
-                            //- )
-                            //- input.form-control(
-                            //-     type='number',
-                            //-     min='0',
-                            //-     max='15',
-                            //-     style='width: 60px; flex: none;',
-                            //-     [(ngModel)]='item.backgroundColor',
-                            //-     (ngModelChange)='apply();',
-                            //- )
-                            //- checkbox.ms-1(
-                            //-     [(ngModel)]='item.foreground',
-                            //-     (ngModelChange)='apply();',
-                            //- )
-                            //- input.form-control(
-                            //-     type='number',
-                            //-     min='0',
-                            //-     max='15',
-                            //-     style='width: 60px; flex: none;',
-                            //-     [(ngModel)]='item.foregroundColor',
-                            //-     (ngModelChange)='apply();',
-                            //- )
                             button.btn.btn-outline-secondary.ms-1(
                                 style='width: 38px; flex: none;',
                                 (click)='removeKeyword(i);',
@@ -162,5 +105,6 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
 
             .alert.alert-info.d-flex.align-items-center
                 .me-auto
+                    span(translate) Drag the ON button may reorder the
                     span(translate) Change any setting of highlight only apply in new sessions.
 div([ngbNavOutlet]='nav')

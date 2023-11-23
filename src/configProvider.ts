@@ -4,6 +4,7 @@ export type HighlightKeyword = {
   text: string;
   enabled: boolean;
   isRegExp: boolean;
+  isCaseSensitive?: boolean;
   foreground: boolean;
   foregroundColor: number;
   background: boolean;
@@ -16,7 +17,7 @@ export type HighlightKeyword = {
 
 export type HighlightPluginConfig = {
   highlightEnabled: boolean;
-  highlightCaseSensitive: boolean;
+  // highlightCaseSensitive: boolean;
   highlightMode: "xterm-control-sequence";
   highlightKeywords: HighlightKeyword[];
 };
@@ -26,7 +27,7 @@ export class HighlightConfigProvider extends ConfigProvider {
   defaults: { highlightPlugin: HighlightPluginConfig } = {
     highlightPlugin: {
       highlightEnabled: false,
-      highlightCaseSensitive: true,
+      // highlightCaseSensitive: true,
       highlightMode: "xterm-control-sequence",
       highlightKeywords: [
         {

@@ -25,6 +25,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Bold": "粗体",
       "Italic": "斜体",
       "Underline": "下划线",
+      "Case": "大小写",
     },
   ],
 ];

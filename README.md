@@ -24,6 +24,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Priority adjustment.
 - [ ] Per keyword case sensitive switch.
 - [ ] Profile import and export.
+- [ ] Compatible with white themes.
 
 ### Others
 
