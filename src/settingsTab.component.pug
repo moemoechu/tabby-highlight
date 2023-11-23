@@ -27,15 +27,14 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     span(translate) Add
                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
                     .list-group-item.active.d-flex.align-items-center()
-                        span.text-center(translate, style='width: 44px; flex: none;')
+                        span(translate, style='margin-left:10px; width: 46px; flex: none;')
                             i.fa-solid.fa-toggle-on
-                        span.text-center.ms-1(translate, style='width: 30px; flex: none;')
-                            i.fa-solid.fa-hashtag
-                        span.text-center.ms-1(translate, style='width: 30px; flex: none;') Aa
+                        span(translate, style='width: 30px; flex: none;') (.*)
+                        span(translate, style='width: 30px; flex: none;') Aa
                         span.text-center(translate, style='width: 100%;') Keyword
-                        span.text-center.ms-1(translate, style='width: 60px; flex: none;')
+                        span.text-end(translate, style='margin-right: 13px; width: 60px; flex: none;')
                             i.fa-solid.fa-palette
-                        span.text-center.ms-1(translate, style='width: 38px; flex: none;')
+                        span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
                             i.fas.fa-solid.fa-trash
                     ng-container(*ngFor='let item of config.store.highlightPlugin.highlightKeywords; let i = index;')
                         .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
