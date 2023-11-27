@@ -95,8 +95,7 @@ export class HighlightSettingsTabComponent {
       ],
       properties: ["openFile", "showHiddenFiles"],
     });
-    console.log(result);
-    if (!result.canceled) {
+    if (!result?.canceled) {
       const file = fs.writeFile(result.filePath, data, (err) => {});
     }
   }
