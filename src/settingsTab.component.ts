@@ -48,6 +48,10 @@ export class HighlightSettingsTabComponent {
       name: "Underline",
       enabledModel: "underline",
     },
+    {
+      name: "Dim",
+      enabledModel: "dim",
+    },
   ];
   alertMessage: string;
   alertType: "info" | "success" | "danger";
