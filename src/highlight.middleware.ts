@@ -22,9 +22,13 @@ export default class HighlightMiddleware extends SessionMiddleware {
   }
 
   feedFromSession(data: Buffer): void {
-    const { highlightKeywords } = this.config;
     const dataString = data.toString();
 
+    if (dataString.length === 0) {
+      return super.feedFromSession(data);
+    }
+
+    const { highlightKeywords } = this.config;
     const occurrences: {
       start: number;
       end: number;
