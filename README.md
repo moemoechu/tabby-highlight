@@ -46,9 +46,9 @@ Drag the ON switch will make the keyword draggable.
 
 Keyword on top get high priority.
 
-### Warning
+### **Warning**
 
-**Currently the RegExp is not doing verification at setting, invalid RegExp will cause error in DevTools.**
+**Use carefully with RegExp, complex RegExp will cause performance issue and may make the terminal output in chaos.**
 
 ## Screenshot
 
