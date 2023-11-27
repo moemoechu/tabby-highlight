@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { ConfigService, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
-import { debounce } from "utils-decorators";
+// import { debounce } from "utils-decorators";
 import { HighlightKeyword } from "./configProvider";
 
 /** @hidden */

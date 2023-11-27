@@ -48,7 +48,7 @@
     "tabby-terminal": "latest",
     "ts-loader": "^9",
     "typescript": "^5",
-    "utils-decorators": "^2.0.7",
+    "utils-decorators": "^2",
     "webpack": "^5",
     "webpack-cli": "^5"
   }
