@@ -51,6 +51,8 @@ Keyword on top get high priority.
 
 **Use carefully with RegExp, complex RegExp will cause performance issue and may make the terminal output in chaos.**
 
+**Be careful when importing external setting files. This plugin does not do vulnerability scanning.**
+
 ## Screenshot
 
 ### Settings UI
