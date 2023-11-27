@@ -28,10 +28,10 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                         span(translate) Add
                     .flex-grow-1
                     button.btn.btn-primary((click)='import();')
-                        i.fas.fa-solid.fa-plus
+                        i.fas.fa-solid.fa-file-import
                         span(translate) Import
                     button.btn.btn-primary.ms-2((click)='export();')
-                        i.fas.fa-solid.fa-plus
+                        i.fas.fa-solid.fa-file-export
                         span(translate) Export
                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
                     .list-group-item.active.d-flex.align-items-center()
