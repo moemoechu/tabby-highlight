@@ -22,9 +22,17 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                             translate,
                             [innerText]='alertMessage',
                         )
-                button.btn.btn-primary((click)='addKeyword();')
-                    i.fas.fa-solid.fa-plus
-                    span(translate) Add
+                .d-flex.w-100
+                    button.btn.btn-primary((click)='addKeyword();')
+                        i.fas.fa-solid.fa-plus
+                        span(translate) Add
+                    .flex-grow-1
+                    button.btn.btn-primary((click)='import();')
+                        i.fas.fa-solid.fa-plus
+                        span(translate) Import
+                    button.btn.btn-primary.ms-2((click)='export();')
+                        i.fas.fa-solid.fa-plus
+                        span(translate) Export
                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
                     .list-group-item.active.d-flex.align-items-center()
                         span(translate, style='margin-left:10px; width: 46px; flex: none;')

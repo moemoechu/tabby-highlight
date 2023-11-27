@@ -24,7 +24,8 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [ ] Programable(javascript) keyword match.
 - [x] Priority adjustment.
 - [x] Per keyword case sensitive switch.
-- [ ] Profile import and export.
+- [ ] Profile manager.
+- [x] Keywords import and export.
 - [x] Compatible with white themes.
 
 ### Others
@@ -69,6 +70,7 @@ Keyword on top get high priority.
 
 ## Changelog
 
+- 1.3.0: Add highlight keywords import and export.
 - 1.2.5: Refactor match method, now the highlight will work well even if set a keyword regexp **.**(single dot).
 - 1.2.4: Compatible with white themes.
 - 1.2.3: Support per keyword case sensitive switch.

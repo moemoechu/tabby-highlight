@@ -5,6 +5,7 @@ import { ConfigService, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 // import { debounce } from "utils-decorators";
 import { HighlightKeyword } from "./configProvider";
+import fs from "fs";
 
 /** @hidden */
 @Component({
@@ -70,20 +71,43 @@ export class HighlightSettingsTabComponent {
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
   }
 
-  async pickFile(): Promise<void> {
-    const paths = (
-      await this.electron.dialog.showOpenDialog(this.hostWindow.getWindow(), {
-        filters: [
-          { name: "Profile", extensions: ["thp", "json"] },
-          { name: "All Files", extensions: ["*"] },
-        ],
-        properties: ["openFile", "showHiddenFiles"],
-      })
-    ).filePaths;
-    if (paths[0]) {
-      this.config.store.backgroundPlugin.backgroundPath = paths[0];
+  pickFile() {
+    const paths = this.electron.dialog.showOpenDialogSync(this.hostWindow.getWindow(), {
+      filters: [
+        { name: "Profile", extensions: ["thp", "json"] },
+        { name: "All Files", extensions: ["*"] },
+      ],
+      properties: ["openFile", "showHiddenFiles"],
+    });
+    if (paths && paths[0]) {
+      const data = fs.readFileSync(paths[0]);
+      const keywordsJSON = data.toString();
+      this.config.store.highlightPlugin.highlightKeywords = JSON.parse(keywordsJSON);
       this.apply();
     }
+  }
+
+  async saveFile(data: any) {
+    const result = await this.electron.dialog.showSaveDialog(this.hostWindow.getWindow(), {
+      filters: [
+        { name: "Profile", extensions: ["thp", "json"] },
+        { name: "All Files", extensions: ["*"] },
+      ],
+      properties: ["openFile", "showHiddenFiles"],
+    });
+    console.log(result);
+    if (!result.canceled) {
+      const file = fs.writeFile(result.filePath, data, (err) => {});
+    }
+  }
+
+  import() {
+    this.pickFile();
+  }
+
+  export() {
+    const keywordsData = JSON.stringify(this.config.store.highlightPlugin.highlightKeywords);
+    this.saveFile(keywordsData);
   }
 
   addKeyword() {

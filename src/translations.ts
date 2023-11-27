@@ -27,6 +27,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Underline": "下划线",
       "Dim": "变暗",
       "Case": "大小写",
+      "Import": "导入",
       "Drag the ON button may reorder the keyword.": "拖动开关可以对关键字排序。",
     },
   ],
