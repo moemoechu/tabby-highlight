@@ -69,6 +69,7 @@ Keyword on top get high priority.
 
 ## Changelog
 
+- 1.2.5: Refactor match method, now the highlight will work well even if set a keyword regexp **.**(single dot).
 - 1.2.4: Compatible with white themes.
 - 1.2.3: Support per keyword case sensitive switch.
 - 1.2.2: Refactor style setting UI.
