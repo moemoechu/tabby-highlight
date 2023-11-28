@@ -18,7 +18,8 @@ h3(translate) Highlight
         ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
             li(ngbNavItem, [ngbNavItem]="profileIndex")
                 a.nav-link(ngbNavLink, (dblclick)='changeProfileName(profileIndex);') {{profile.name}}
-                    span.btn-close.ms-2.fw-light((click)='delProfile($event, profileIndex);')
+                    span.close.ms-2((click)='delProfile($event, profileIndex);')
+                        i.fa-regular.fa-circle-xmark
                 ng-template(ngbNavContent)
                     .d-flex.w-100
                         button.btn.btn-primary((click)='addKeyword();')
@@ -108,7 +109,7 @@ h3(translate) Highlight
                                 )
                                     i.fas.fa-solid.fa-trash
         li.nav-item(role='presentation')
-            button.nav-link(type='button',(click)="addProfile($event)")
+            button.add-button.btn.btn-outline-secondary((click)='addProfile($event)')
                 i.fa-regular.fa-square-plus
     div([ngbNavOutlet]='nav')
     .alert.alert-info.d-flex.align-items-center

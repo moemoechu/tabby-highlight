@@ -17,12 +17,18 @@ import { HighlightKeyword, HighlightPluginConfig } from "./config.provider";
         // backdrop-filter: blur(3px);
       }
       .close {
-        font-size: 1.4rem;
+        // font-size: 1.4rem;
         opacity: 0.1;
         transition: opacity 0.3s;
       }
       .nav-link:hover > .close {
         opacity: 0.8;
+      }
+      .add-button {
+        opacity: 0.4;
+      }
+      .add-button:hover {
+        opacity: 0.9;
       }
     `,
   ],
