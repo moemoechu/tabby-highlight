@@ -24,7 +24,7 @@ export type HighlightPluginConfig = {
   highlightMode: "xterm-control-sequence";
   highlightCurrentProfile: number;
   highlightProfiles: HighlightProfile[];
-  keywords?: HighlightKeyword[];
+  highlightKeywords?: HighlightKeyword[];
 };
 
 /** @hidden */
@@ -34,6 +34,7 @@ export class HighlightConfigProvider extends ConfigProvider {
       highlightEnabled: false,
       highlightMode: "xterm-control-sequence",
       highlightCurrentProfile: 0,
+      highlightKeywords: null,
       highlightProfiles: [
         {
           name: "Default",
@@ -76,7 +77,6 @@ export class HighlightConfigProvider extends ConfigProvider {
             },
           ],
         },
-        { name: "test1", keywords: [] },
       ],
     },
   };

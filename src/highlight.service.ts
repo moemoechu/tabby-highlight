@@ -23,5 +23,17 @@ export class HighlightService {
     });
   }
 
-  upgrade() {}
+  upgrade() {
+    if (this.config.store.highlightPlugin.highlightKeywords) {
+      this.config.store.highlightPlugin.highlightProfiles = [
+        {
+          name: "Default",
+          keywords: this.config.store.highlightPlugin.highlightKeywords,
+        },
+      ];
+      this.config.store.highlightPlugin.highlightKeywords = undefined;
+      this.config.save();
+      this.logger.info("upgrade finished.");
+    }
+  }
 }
