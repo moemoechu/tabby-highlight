@@ -1,351 +1,354 @@
-[
-  {
-    "text": ".",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": false,
-    "foregroundColor": "0",
-    "background": true,
-    "backgroundColor": 1,
-    "bold": false
-  },
-  {
-    "text": "BOLD",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": "0",
-    "background": true,
-    "backgroundColor": "2",
-    "bold": true
-  },
-  {
-    "text": "ITALIC",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": false,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "2",
-    "bold": false,
-    "italic": true
-  },
-  {
-    "text": "UNDERLINE",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": false,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "2",
-    "bold": false,
-    "underline": true
-  },
-  {
-    "text": "DIM",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": false,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "2",
-    "bold": false,
-    "dim": true
-  },
-  {
-    "text": "WHITE",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "7",
-    "bold": false
-  },
-  {
-    "text": "CYAN",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "6",
-    "bold": false
-  },
-  {
-    "text": "MAGENTA",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "5",
-    "bold": false
-  },
-  {
-    "text": "BLUE",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "4",
-    "bold": false
-  },
-  {
-    "text": "YELLOW",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "3",
-    "bold": false
-  },
-  {
-    "text": "GREEN",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "2",
-    "bold": false
-  },
-  {
-    "text": "RED",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 1,
-    "bold": false
-  },
-  {
-    "text": "loglevel",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "4",
-    "bold": false
-  },
-  {
-    "text": "CAT GIRL",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": "0",
-    "background": true,
-    "backgroundColor": "5",
-    "bold": true,
-    "underline": true,
-    "undefined": false,
-    "italic": true,
-    "isCaseSensitive": false
-  },
-  {
-    "text": "true|false",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "6",
-    "bold": false
-  },
-  {
-    "text": "(?<=\": )-?\\d+(?:\\.\\d+)?(?=[,\\}\\r\\n])",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "4",
-    "bold": false
-  },
-  {
-    "text": "DEBUG",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "5",
-    "bold": false
-  },
-  {
-    "text": "VERBOSE",
-    "enabled": true,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "4",
-    "bold": false
-  },
-  {
-    "text": "WARN(?:ING)*",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 3,
-    "bold": false
-  },
-  {
-    "text": "ERROR",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 1,
-    "bold": false
-  },
-  {
-    "text": "INFO|NOTE",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 6,
-    "bold": false
-  },
-  {
-    "text": "\".*?\"",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "2",
-    "bold": false
-  },
-  {
-    "text": "\".*?\":+",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "2",
-    "bold": false
-  },
-  {
-    "text": "(?<=\": )-?\\[.*?\\](?=[,\\}\\r\\n])",
-    "enabled": true,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 1,
-    "bold": false
-  },
-  {
-    "text": "cute.*over",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 4,
-    "bold": false,
-    "italic": true,
-    "underline": false
-  },
-  {
-    "text": "twintails cute cat",
-    "enabled": false,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 2,
-    "bold": false
-  },
-  {
-    "text": "[^A-Za-z_&-](last (failed )?login:|launching|checking|loading|creating|building|important|booting|starting|notice|informational|informationen|informazioni|informa玢o|oplysninger|informations?|info|informaci髇|informasi|note|\\(ii\\)|\\(\\!\\!\\))[^A-Za-z_-]",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 6,
-    "bold": false
-  },
-  {
-    "text": "[^0-9A-Za-z_&-](localhost|([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])\\.[0-9]+\\.[0-9]+\\.[0-9]+|null|none)[^0-9A-Za-z_-]",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 5,
-    "bold": false
-  },
-  {
-    "text": "[^A-Za-z_&-](\\[\\-w[A-Za-z-]+\\]|caught signal [0-9]+|cannot|(connection (to (remote host|[a-z0-9.]+) )?)?(closed|terminated|stopped|not responding)|exited|no more [A-Za-z] available|unexpected|(command |binary |file )?not found|ooo?o?o?ps|out of (space|memory)|low (memory|disk)|unknown|disabled|disconnected|deprecated|refused|disconnect(ion)?|advertencia|avvertimento|attention|warnings?|achtung|exclamation|alerts?|warnungs?|advarsel|pedwarn|aviso|varoitus|upozorenje|peringatan|uyari|varning|avertissement|\\(ww\\)|\\(\\?\\?\\)|could not|unable to)[^A-Za-z_-]",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 3,
-    "bold": false
-  },
-  {
-    "text": "([^A-Za-z_&-](accepted|allowed|enabled|connected|erfolgreich|exitoso|successo|sucedido|framg錸gsrik|successfully|successful|succeeded|success)[^A-Za-z_-]|[=>\"':.,;({\\[][ ]*(true|yes|ok)[ ]*[\\]=>\"':.,;)} ])",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 2,
-    "bold": false
-  },
-  {
-    "text": "([^A-Za-z_&-]((bad|wrong|incorrect|improper|invalid|unsupported|bad)( file| memory)? (descriptor|alloc(ation)?|addr(ess)?|owner(ship)?|arg(ument)?|param(eter)?|setting|length|filename)|not properly|improperly|(operation |connection |authentication |access |permission )?(denied|disallowed|not allowed|refused|problem|failed|failure|not permitted)|no [A-Za-z]+( [A-Za-z]+)? found|invalid|unsupported|not supported|seg(mentation )?fault|corruption|corrupted|corrupt|overflow|underrun|not ok|unimplemented|unsuccessfull|not implemented|permerrors?|fehlers?|errore|errors?|erreurs?|fejl|virhe|gre歬a|erro|fel|\\(ee\\)|\\(ni\\))[^A-Za-z_-]|[=>\"':.,;({\\[][ ]*(false|no|ko)[ ]*[\\]=>\"':.,;)} ])",
-    "enabled": false,
-    "isRegExp": true,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 1,
-    "bold": false
-  },
-  {
-    "text": "错误",
-    "enabled": false,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 1,
-    "bold": false
-  },
-  {
-    "text": "警告",
-    "enabled": false,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": 3,
-    "bold": false
-  },
-  {
-    "text": "信息",
-    "enabled": false,
-    "isRegExp": false,
-    "foreground": true,
-    "foregroundColor": 0,
-    "background": true,
-    "backgroundColor": "6",
-    "bold": false
-  }
-]
+{
+  "name": "默认配置",
+  "keywords": [
+    {
+      "text": ".",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": false,
+      "foregroundColor": "0",
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false
+    },
+    {
+      "text": "BOLD",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": "0",
+      "background": true,
+      "backgroundColor": "2",
+      "bold": true
+    },
+    {
+      "text": "ITALIC",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": false,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false,
+      "italic": true
+    },
+    {
+      "text": "UNDERLINE",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": false,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false,
+      "underline": true
+    },
+    {
+      "text": "DIM",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": false,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false,
+      "dim": true
+    },
+    {
+      "text": "WHITE",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "7",
+      "bold": false
+    },
+    {
+      "text": "CYAN",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "6",
+      "bold": false
+    },
+    {
+      "text": "MAGENTA",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "5",
+      "bold": false
+    },
+    {
+      "text": "BLUE",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "4",
+      "bold": false
+    },
+    {
+      "text": "YELLOW",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "3",
+      "bold": false
+    },
+    {
+      "text": "GREEN",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false
+    },
+    {
+      "text": "RED",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false
+    },
+    {
+      "text": "loglevel",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "4",
+      "bold": false
+    },
+    {
+      "text": "CAT GIRL",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": "0",
+      "background": true,
+      "backgroundColor": "5",
+      "bold": true,
+      "underline": true,
+      "undefined": false,
+      "italic": true,
+      "isCaseSensitive": false
+    },
+    {
+      "text": "true|false",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "6",
+      "bold": false
+    },
+    {
+      "text": "(?<=\": )-?\\d+(?:\\.\\d+)?(?=[,\\}\\r\\n])",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "4",
+      "bold": false
+    },
+    {
+      "text": "DEBUG",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "5",
+      "bold": false
+    },
+    {
+      "text": "VERBOSE",
+      "enabled": true,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "4",
+      "bold": false
+    },
+    {
+      "text": "WARN(?:ING)*",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 3,
+      "bold": false
+    },
+    {
+      "text": "ERROR",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false
+    },
+    {
+      "text": "INFO|NOTE",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 6,
+      "bold": false
+    },
+    {
+      "text": "\".*?\"",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false
+    },
+    {
+      "text": "\".*?\":+",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false
+    },
+    {
+      "text": "(?<=\": )-?\\[.*?\\](?=[,\\}\\r\\n])",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false
+    },
+    {
+      "text": "cute.*over",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 4,
+      "bold": false,
+      "italic": true,
+      "underline": false
+    },
+    {
+      "text": "twintails cute cat",
+      "enabled": false,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 2,
+      "bold": false
+    },
+    {
+      "text": "[^A-Za-z_&-](last (failed )?login:|launching|checking|loading|creating|building|important|booting|starting|notice|informational|informationen|informazioni|informa玢o|oplysninger|informations?|info|informaci髇|informasi|note|\\(ii\\)|\\(\\!\\!\\))[^A-Za-z_-]",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 6,
+      "bold": false
+    },
+    {
+      "text": "[^0-9A-Za-z_&-](localhost|([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])\\.[0-9]+\\.[0-9]+\\.[0-9]+|null|none)[^0-9A-Za-z_-]",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 5,
+      "bold": false
+    },
+    {
+      "text": "[^A-Za-z_&-](\\[\\-w[A-Za-z-]+\\]|caught signal [0-9]+|cannot|(connection (to (remote host|[a-z0-9.]+) )?)?(closed|terminated|stopped|not responding)|exited|no more [A-Za-z] available|unexpected|(command |binary |file )?not found|ooo?o?o?ps|out of (space|memory)|low (memory|disk)|unknown|disabled|disconnected|deprecated|refused|disconnect(ion)?|advertencia|avvertimento|attention|warnings?|achtung|exclamation|alerts?|warnungs?|advarsel|pedwarn|aviso|varoitus|upozorenje|peringatan|uyari|varning|avertissement|\\(ww\\)|\\(\\?\\?\\)|could not|unable to)[^A-Za-z_-]",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 3,
+      "bold": false
+    },
+    {
+      "text": "([^A-Za-z_&-](accepted|allowed|enabled|connected|erfolgreich|exitoso|successo|sucedido|framg錸gsrik|successfully|successful|succeeded|success)[^A-Za-z_-]|[=>\"':.,;({\\[][ ]*(true|yes|ok)[ ]*[\\]=>\"':.,;)} ])",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 2,
+      "bold": false
+    },
+    {
+      "text": "([^A-Za-z_&-]((bad|wrong|incorrect|improper|invalid|unsupported|bad)( file| memory)? (descriptor|alloc(ation)?|addr(ess)?|owner(ship)?|arg(ument)?|param(eter)?|setting|length|filename)|not properly|improperly|(operation |connection |authentication |access |permission )?(denied|disallowed|not allowed|refused|problem|failed|failure|not permitted)|no [A-Za-z]+( [A-Za-z]+)? found|invalid|unsupported|not supported|seg(mentation )?fault|corruption|corrupted|corrupt|overflow|underrun|not ok|unimplemented|unsuccessfull|not implemented|permerrors?|fehlers?|errore|errors?|erreurs?|fejl|virhe|gre歬a|erro|fel|\\(ee\\)|\\(ni\\))[^A-Za-z_-]|[=>\"':.,;({\\[][ ]*(false|no|ko)[ ]*[\\]=>\"':.,;)} ])",
+      "enabled": false,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false
+    },
+    {
+      "text": "错误",
+      "enabled": false,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false
+    },
+    {
+      "text": "警告",
+      "enabled": false,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 3,
+      "bold": false
+    },
+    {
+      "text": "信息",
+      "enabled": false,
+      "isRegExp": false,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "6",
+      "bold": false
+    }
+  ]
+}
