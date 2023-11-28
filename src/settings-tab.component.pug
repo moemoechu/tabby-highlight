@@ -1,6 +1,5 @@
 h3(translate) Highlight
 
-
 .form-line
     .header
         .title(translate) Enable highlight
@@ -10,15 +9,6 @@ h3(translate) Highlight
         (ngModelChange)='apply();',
     )
 .content-box.w-100(*ngIf='pluginConfig.highlightEnabled === true')
-    //- .alert.d-flex.align-items-center(
-    //-     [class.alert-success]='alertType === "success"',
-    //-     [class.alert-danger]='alertType === "danger"',
-    //- )
-    //-     .me-auto
-    //-         span(
-    //-             translate,
-    //-             [innerText]='alertMessage',
-    //-         )
     ul.nav-tabs(
         ngbNav, 
         #nav='ngbNav', 

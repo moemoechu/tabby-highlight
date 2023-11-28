@@ -1,12 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-import { ConfigService, TranslateService, PromptModalComponent } from "tabby-core";
-import { ElectronHostWindow, ElectronService } from "tabby-electron";
-// import { debounce } from "utils-decorators";
-import { HighlightKeyword, HighlightPluginConfig } from "./config.provider";
+import { NgbModal, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import fs from "fs";
-import { NgbNavChangeEvent, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import { ConfigService, PromptModalComponent, TranslateService } from "tabby-core";
+import { ElectronHostWindow, ElectronService } from "tabby-electron";
+import { HighlightKeyword, HighlightPluginConfig } from "./config.provider";
 
 /** @hidden */
 @Component({
