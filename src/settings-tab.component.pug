@@ -27,7 +27,7 @@ h3(translate) Highlight
     )
         ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
             li(ngbNavItem, [ngbNavItem]="profileIndex")
-                a.nav-link(ngbNavLink) {{profile.name}}
+                a.nav-link(ngbNavLink, (dblclick)='changeProfileName(profileIndex);') {{profile.name}}
                     span.btn-close.ms-2.fw-light((click)='delProfile($event, profileIndex);')
                 ng-template(ngbNavContent)
                     .d-flex.w-100

@@ -29,6 +29,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Case": "大小写",
       "Import": "导入",
       "Drag the ON button may reorder the keyword.": "拖动开关可以对关键字排序。",
+      "Profile name": "配置名称",
     },
   ],
 ];

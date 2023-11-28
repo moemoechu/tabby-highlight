@@ -1,12 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { ConfigService, TranslateService } from "tabby-core";
+import { ConfigService, TranslateService, PromptModalComponent } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 // import { debounce } from "utils-decorators";
 import { HighlightKeyword, HighlightPluginConfig } from "./config.provider";
 import fs from "fs";
-import { NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbNavChangeEvent, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 /** @hidden */
 @Component({
@@ -74,7 +74,8 @@ export class HighlightSettingsTabComponent {
     private electron: ElectronService,
     private hostWindow: ElectronHostWindow,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private ngbModal: NgbModal
   ) {
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
@@ -195,7 +196,9 @@ export class HighlightSettingsTabComponent {
       this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
         (item, index) => index !== toRemove
       );
-      if (this.pluginConfig.highlightCurrentProfile >= toRemove) {
+      if (
+        this.pluginConfig.highlightCurrentProfile === this.pluginConfig.highlightProfiles.length
+      ) {
         this.pluginConfig.highlightCurrentProfile -= 1;
       }
       this.apply();
@@ -207,5 +210,19 @@ export class HighlightSettingsTabComponent {
   onProfileChange(changeEvent: NgbNavChangeEvent) {
     this.pluginConfig.highlightCurrentProfile = changeEvent.nextId;
     this.apply();
+  }
+
+  async changeProfileName(profileIndex: number) {
+    const modal = this.ngbModal.open(PromptModalComponent);
+    modal.componentInstance.prompt = this.translate.instant("Profile name");
+    modal.componentInstance.value = this.pluginConfig.highlightProfiles[profileIndex].name;
+    modal.componentInstance.password = false;
+    try {
+      const result = await modal.result.catch(() => null);
+      if (result?.value) {
+        this.pluginConfig.highlightProfiles[profileIndex].name = result.value;
+        this.apply();
+      }
+    } catch {}
   }
 }
