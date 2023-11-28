@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SettingsTabProvider } from "tabby-settings";
-import { HighlightSettingsTabComponent } from "./settingsTab.component";
+import { HighlightSettingsTabComponent } from "./settings-tab.component";
 
 /** @hidden */
 @Injectable()

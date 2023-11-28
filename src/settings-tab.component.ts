@@ -4,12 +4,12 @@ import { ToastrService } from "ngx-toastr";
 import { ConfigService, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 // import { debounce } from "utils-decorators";
-import { HighlightKeyword } from "./configProvider";
+import { HighlightKeyword } from "./config.provider";
 import fs from "fs";
 
 /** @hidden */
 @Component({
-  template: require("./settingsTab.component.pug"),
+  template: require("./settings-tab.component.pug"),
   styles: [
     `
       .list-group-item-highlight {

@@ -6,11 +6,11 @@ import TabbyCoreModule, { ConfigProvider, ConfigService } from "tabby-core";
 import { SettingsTabProvider } from "tabby-settings";
 import { TerminalDecorator } from "tabby-terminal";
 
-import { HighlightConfigProvider } from "./configProvider";
+import { HighlightConfigProvider } from "./config.provider";
 import { HighlightDecorator } from "./highlight.decorator";
 import { HighlightService } from "./highlight.service";
-import { HighlightSettingsTabComponent } from "./settingsTab.component";
-import { HighlightSettingsTabProvider } from "./settingsTabProvider";
+import { HighlightSettingsTabComponent } from "./settings-tab.component";
+import { HighlightSettingsTabProvider } from "./settings-tab.provider";
 
 @NgModule({
   imports: [CommonModule, FormsModule, TabbyCoreModule, NgbModule],

@@ -1,6 +1,6 @@
 import { Logger } from "tabby-core";
 import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
-import { HighlightPluginConfig } from "./configProvider";
+import { HighlightPluginConfig } from "./config.provider";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;
