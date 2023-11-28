@@ -177,8 +177,6 @@ export class HighlightSettingsTabComponent {
 
   dropProfile(event: CdkDragDrop<HighlightProfile[]>) {
     moveItemInArray(this.pluginConfig.highlightProfiles, event.previousIndex, event.currentIndex);
-    // moveItemInArray(this.verifyStatus, event.previousIndex, event.currentIndex);
-    // console.log(this.verifyStatus)
     if (this.pluginConfig.highlightCurrentProfile === event.previousIndex) {
       this.pluginConfig.highlightCurrentProfile = event.currentIndex;
     } else if (
