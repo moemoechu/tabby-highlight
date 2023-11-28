@@ -28,28 +28,28 @@ export default class HighlightMiddleware extends SessionMiddleware {
       return super.feedFromSession(data);
     }
 
-    const { highlightKeywords } = this.config;
+    const { keywords } = this.config.highlightProfiles[this.config.highlightCurrentProfile];
     const occurrences: {
       start: number;
       end: number;
-      fg?: number;
-      bg?: number;
+      fg?: string;
+      bg?: string;
       bold?: boolean;
       italic?: boolean;
       underline?: boolean;
       dim?: boolean;
     }[] = [];
 
-    for (const keyword of highlightKeywords) {
+    for (const keyword of keywords) {
       const {
         text,
         enabled,
         isRegExp = false,
         isCaseSensitive = false,
         foreground = false,
-        foregroundColor = 0,
+        foregroundColor = "0",
         background = false,
-        backgroundColor = 1,
+        backgroundColor = "1",
         bold = false,
         italic = false,
         underline = false,

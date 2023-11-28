@@ -19,6 +19,9 @@ export class HighlightService {
         const [lang, trans] = translation;
         this.translate.setTranslation(lang, trans, true);
       }
+      this.upgrade();
     });
   }
+
+  upgrade() {}
 }

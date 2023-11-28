@@ -4,8 +4,9 @@ import { ToastrService } from "ngx-toastr";
 import { ConfigService, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 // import { debounce } from "utils-decorators";
-import { HighlightKeyword } from "./config.provider";
+import { HighlightKeyword, HighlightPluginConfig } from "./config.provider";
 import fs from "fs";
+import { NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 
 /** @hidden */
 @Component({
@@ -15,6 +16,14 @@ import fs from "fs";
       .list-group-item-highlight {
         --bs-list-group-action-hover-bg: rgba(0, 0, 0, 0.55);
         // backdrop-filter: blur(3px);
+      }
+      .close {
+        font-size: 1.4rem;
+        opacity: 0.1;
+        transition: opacity 0.3s;
+      }
+      .nav-link:hover > .close {
+        opacity: 0.8;
       }
     `,
   ],
@@ -56,9 +65,10 @@ export class HighlightSettingsTabComponent {
   ];
   alertMessage: string;
   alertType: "info" | "success" | "danger";
-  verifyStatus: [boolean, string][];
+  verifyStatus: [boolean, string][][];
 
   currentTheme: string;
+  pluginConfig: HighlightPluginConfig;
   constructor(
     public config: ConfigService,
     private electron: ElectronService,
@@ -66,12 +76,14 @@ export class HighlightSettingsTabComponent {
     private toastr: ToastrService,
     private translate: TranslateService
   ) {
-    this.verify();
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
+    this.pluginConfig = this.config.store.highlightPlugin;
+
+    this.verify();
   }
 
-  pickFile() {
+  import() {
     const paths = this.electron.dialog.showOpenDialogSync(this.hostWindow.getWindow(), {
       filters: [
         { name: "Profile", extensions: ["thp", "json"] },
@@ -82,12 +94,16 @@ export class HighlightSettingsTabComponent {
     if (paths && paths[0]) {
       const data = fs.readFileSync(paths[0]);
       const keywordsJSON = data.toString();
-      this.config.store.highlightPlugin.highlightKeywords = JSON.parse(keywordsJSON);
+      this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile] =
+        JSON.parse(keywordsJSON);
       this.apply();
     }
   }
 
-  async saveFile(data: any) {
+  async export() {
+    const keywordsData = JSON.stringify(
+      this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile]
+    );
     const result = await this.electron.dialog.showSaveDialog(this.hostWindow.getWindow(), {
       filters: [
         { name: "Profile", extensions: ["thp", "json"] },
@@ -96,75 +112,56 @@ export class HighlightSettingsTabComponent {
       properties: ["openFile", "showHiddenFiles"],
     });
     if (!result?.canceled) {
-      const file = fs.writeFile(result.filePath, data, (err) => {});
+      const file = fs.writeFile(result.filePath, keywordsData, (err) => {});
     }
-  }
-
-  import() {
-    this.pickFile();
-  }
-
-  export() {
-    const keywordsData = JSON.stringify(this.config.store.highlightPlugin.highlightKeywords);
-    this.saveFile(keywordsData);
   }
 
   addKeyword() {
     const newKeyword: HighlightKeyword = {
       text: "INFO",
       enabled: false,
-      isRegExp: false,
-      foreground: true,
-      foregroundColor: 0,
       background: true,
-      backgroundColor: 1,
-      bold: false,
+      backgroundColor: "1",
     };
-    this.config.store.highlightPlugin.highlightKeywords.unshift(newKeyword);
+    this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords.unshift(
+      newKeyword
+    );
     this.apply();
   }
 
   removeKeyword(i: number) {
-    this.config.store.highlightPlugin.highlightKeywords.splice(i, 1);
+    this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords.splice(
+      i,
+      1
+    );
     this.apply();
   }
 
   verify() {
     this.verifyStatus = [];
-    const errorRegexp: [string, string][] = [];
-    const { highlightKeywords } = this.config.store.highlightPlugin;
-    for (const keyword of highlightKeywords) {
-      let status = true;
-      let errInfo = "";
-      const { isRegExp, text } = keyword;
-      if (isRegExp) {
-        try {
-          const regexp = new RegExp(text, "g");
-        } catch (e) {
-          errorRegexp.push([text, e.message]);
-          errInfo = e.message;
-          status = false;
+    for (const profile of this.pluginConfig.highlightProfiles) {
+      const { keywords } = profile;
+      const profileStatus = [];
+      for (const keyword of keywords) {
+        let status = true;
+        let errInfo = "";
+        const { isRegExp, text } = keyword;
+        if (isRegExp) {
+          try {
+            const regexp = new RegExp(text, "g");
+          } catch (e) {
+            errInfo = e.message;
+            status = false;
+          }
         }
+        profileStatus.push([status, errInfo]);
       }
-      this.verifyStatus.push([status, errInfo]);
-    }
-    if (errorRegexp.length > 0) {
-      this.alertMessage =
-        this.translate.instant("The following regexp is not valid:\n") +
-        errorRegexp.map((value) => `${value[0]}: ${value[1]}`).join("\n");
-      this.alertType = "danger";
-    } else {
-      this.alertMessage = "Everything looks good.";
-      this.alertType = "success";
+      this.verifyStatus.push(profileStatus);
     }
   }
 
   drop(event: CdkDragDrop<HighlightKeyword[]>) {
-    moveItemInArray(
-      this.config.store.highlightPlugin.highlightKeywords,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.pluginConfig.keywords, event.previousIndex, event.currentIndex);
     this.apply();
   }
 
@@ -177,5 +174,34 @@ export class HighlightSettingsTabComponent {
   apply() {
     this.config.save();
     this.verify();
+  }
+
+  addProfile(event: MouseEvent) {
+    event.preventDefault();
+    this.pluginConfig.highlightProfiles.push({
+      name: `Profile ${this.pluginConfig.highlightProfiles.length}`,
+      keywords: [],
+    });
+    this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles.length - 1;
+    this.apply();
+  }
+
+  delProfile(event: MouseEvent, toRemove: number) {
+    if (this.pluginConfig.highlightProfiles.length > 1) {
+      this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
+        (item, index) => index !== toRemove
+      );
+      if (this.pluginConfig.highlightCurrentProfile >= toRemove) {
+        this.pluginConfig.highlightCurrentProfile -= 1;
+      }
+      this.apply();
+    }
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  onProfileChange(changeEvent: NgbNavChangeEvent) {
+    this.pluginConfig.highlightCurrentProfile = changeEvent.nextId;
+    this.apply();
   }
 }
