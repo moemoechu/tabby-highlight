@@ -161,7 +161,11 @@ export class HighlightSettingsTabComponent {
   }
 
   drop(event: CdkDragDrop<HighlightKeyword[]>) {
-    moveItemInArray(this.pluginConfig.keywords, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords,
+      event.previousIndex,
+      event.currentIndex
+    );
     this.apply();
   }
 
