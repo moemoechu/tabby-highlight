@@ -5,7 +5,7 @@ import fs from "fs";
 import { ToastrService } from "ngx-toastr";
 import { ConfigService, PromptModalComponent, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
-import { HighlightKeyword, HighlightPluginConfig } from "./config.provider";
+import { HighlightKeyword, HighlightPluginConfig, HighlightProfile } from "./config.provider";
 
 /** @hidden */
 @Component({
@@ -166,12 +166,27 @@ export class HighlightSettingsTabComponent {
     }
   }
 
-  drop(event: CdkDragDrop<HighlightKeyword[]>) {
+  dropKeyword(event: CdkDragDrop<HighlightKeyword[]>) {
     moveItemInArray(
       this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords,
       event.previousIndex,
       event.currentIndex
     );
+    this.apply();
+  }
+
+  dropProfile(event: CdkDragDrop<HighlightProfile[]>) {
+    moveItemInArray(this.pluginConfig.highlightProfiles, event.previousIndex, event.currentIndex);
+    // moveItemInArray(this.verifyStatus, event.previousIndex, event.currentIndex);
+    // console.log(this.verifyStatus)
+    if (this.pluginConfig.highlightCurrentProfile === event.previousIndex) {
+      this.pluginConfig.highlightCurrentProfile = event.currentIndex;
+    } else if (
+      event.previousIndex > this.pluginConfig.highlightCurrentProfile &&
+      event.currentIndex <= this.pluginConfig.highlightCurrentProfile
+    ) {
+      this.pluginConfig.highlightCurrentProfile += 1;
+    }
     this.apply();
   }
 

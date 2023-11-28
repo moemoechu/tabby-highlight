@@ -13,10 +13,13 @@ h3(translate) Highlight
         ngbNav, 
         #nav='ngbNav', 
         [(activeId)]='pluginConfig.highlightCurrentProfile',
-        (navChange)='onProfileChange($event);'
+        (navChange)='onProfileChange($event);',
+        cdkDropList,
+        cdkDropListOrientation='horizontal',
+        (cdkDropListDropped)='dropProfile($event)',
     )
         ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
-            li(ngbNavItem, [ngbNavItem]="profileIndex")
+            li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
                 a.nav-link(ngbNavLink, (dblclick)='changeProfileName(profileIndex);') {{profile.name}}
                     span.close.ms-2((click)='delProfile($event, profileIndex);')
                         i.fa-regular.fa-circle-xmark
@@ -32,7 +35,7 @@ h3(translate) Highlight
                         button.btn.btn-primary.ms-2((click)='export();')
                             i.fas.fa-solid.fa-file-export
                             span(translate) Export
-                    .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='drop($event)')
+                    .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropKeyword($event)')
                         .list-group-item.active.d-flex.align-items-center()
                             span(translate, style='margin-left:10px; width: 46px; flex: none;')
                                 i.fa-solid.fa-toggle-on
@@ -75,9 +78,9 @@ h3(translate) Highlight
                                             (ngModelChange)='apply();',
                                         )
                                         .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
-                                            *ngIf='!verifyStatus[profileIndex][i][0]',
+                                            *ngIf='!verifyStatus[profileIndex]?.[i]?.[0]',
                                             placement='end',
-                                            [ngbTooltip]='verifyStatus[profileIndex][i][1]',
+                                            [ngbTooltip]='verifyStatus[profileIndex]?.[i]?.[1]',
                                         )
                                             i.fa-solid.fa-circle-exclamation
                                 div(ngbDropdown, placement='bottom-right')
