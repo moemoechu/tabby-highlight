@@ -21,6 +21,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.toast = toast;
   }
 
+  // 注意：本插件没有做过性能测试喵，不知道多少关键字是极限喵
+  // PS：其实跑过cacafire，别问喵，问就是卡死了喵
   feedFromSession(data: Buffer): void {
     const dataString = data.toString();
 
@@ -105,6 +107,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
     for (let i = 0; i < dataString.length; i++) {
       // 改来改去越来越复杂喵，性能蹭蹭下降喵，建议去用隔壁ElecTerm，自带高亮喵~
       const subString = dataString.slice(i);
+
+      // 其实本来可以把所有的控制字符都strip掉喵，但谁让咱比较好心，还是挨个进行了处理喵
       const csiSequenceMatch = subString.match(/\x1b\[[0-9;?]*[a-zA-Z]/);
       if (csiSequenceMatch) {
         if (csiSequenceMatch.index === 0) {
