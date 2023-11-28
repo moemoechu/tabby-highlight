@@ -30,6 +30,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Import": "导入",
       "Drag the ON button may reorder the keyword.": "拖动开关可以对关键字排序。",
       "Profile name": "配置名称",
+      "Active tab is the current applied highlight profile.": "活动标签页是当前生效的高亮配置。",
+      "Double click tab can change profile name.": "双击标签页头可以更改配置名称。",
     },
   ],
 ];
