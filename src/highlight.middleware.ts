@@ -100,6 +100,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
     // 改为按字符匹配的逻辑，可以解决嵌套问题喵，但……也许有性能问题也不一定(> <)，先就酱喵
     let newDataString = "";
+    let char = "";
+
     for (let i = 0; i < dataString.length; i++) {
       // 改来改去越来越复杂喵，性能蹭蹭下降喵，建议去用隔壁ElecTerm，自带高亮喵~
       const subString = dataString.slice(i);
@@ -122,7 +124,12 @@ export default class HighlightMiddleware extends SessionMiddleware {
         }
       }
 
-      let char = subString[0];
+      char = subString[0];
+      const charCode = char.charCodeAt(0);
+      if (charCode >= 0xd800 && charCode <= 0xdfff) {
+        char += subString[1];
+        i++;
+      }
       for (const occurrence of occurrences) {
         const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
         if (i >= start && i <= end) {
