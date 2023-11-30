@@ -7,21 +7,21 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 ### Highlight Method
 
 - [x] Highlight keyword based on Xterm control sequence.
-- [ ] Highlight keyword based on xterm.js decorator.
+- [ ] ~~Highlight keyword based on xterm.js decorator.(太麻烦了，不做了)~~
 
 ### Highlight Parameter
 
 - [x] Support highlight background and foreground color.
 - [x] Support background and foreground highlight switch separately.
 - [x] Support more style (bold, italic, underline).
-- [ ] Support true color.
+- [ ] ~~Support true color.(没什么必要，不做了)~~
 
 ### Advanced Feature
 
 - [x] RegExp keywords ready.
 - [x] RegExp verification.
-- [ ] Select the specified RegExp match group.
-- [ ] Programable(javascript) keyword match.
+- [ ] ~~Select the specified RegExp match group.(没什么必要，不做了)~~
+- [ ] ~~Programable(javascript) keyword match.(感觉会有安全问题，不做了)~~
 - [x] Priority adjustment.
 - [x] Per keyword case sensitive switch.
 - [x] Profile manager.
