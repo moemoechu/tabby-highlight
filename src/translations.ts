@@ -32,6 +32,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Profile name": "配置名称",
       "Active tab is the current applied highlight profile.": "活动标签页是当前生效的高亮配置。",
       "Double click tab can change profile name.": "双击标签页头可以更改配置名称。",
+      "Keyword on top get high priority.": "最上面的关键字优先级最高。",
     },
   ],
 ];
