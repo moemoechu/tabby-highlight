@@ -6,6 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { ConfigService, PromptModalComponent, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import { HighlightKeyword, HighlightPluginConfig, HighlightProfile } from "./config.provider";
+import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
 
 /** @hidden */
 @Component({
@@ -209,17 +210,27 @@ export class HighlightSettingsTabComponent {
     this.apply();
   }
 
-  delProfile(event: MouseEvent, toRemove: number) {
+  async delProfile(event: MouseEvent, toRemove: number) {
     if (this.pluginConfig.highlightProfiles.length > 1) {
-      this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
-        (item, index) => index !== toRemove
-      );
-      if (
-        this.pluginConfig.highlightCurrentProfile === this.pluginConfig.highlightProfiles.length
-      ) {
-        this.pluginConfig.highlightCurrentProfile -= 1;
-      }
-      this.apply();
+      const modal = this.ngbModal.open(ProfileDeleteModalComponent);
+      modal.componentInstance.prompt = `${this.translate.instant("Delete")} ${
+        this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].name
+      }${this.translate.instant("?")}`;
+
+      try {
+        const result = await modal.result.catch(() => null);
+        if (result === true) {
+          this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
+            (item, index) => index !== toRemove
+          );
+          if (
+            this.pluginConfig.highlightCurrentProfile === this.pluginConfig.highlightProfiles.length
+          ) {
+            this.pluginConfig.highlightCurrentProfile -= 1;
+          }
+          this.apply();
+        }
+      } catch {}
     }
     event.preventDefault();
     event.stopImmediatePropagation();
