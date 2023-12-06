@@ -27,7 +27,8 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Profile manager.
 - [x] Keywords import and export.
 - [x] Compatible with white themes.
-- [ ] Keywords replace(i.e Error:xxx -> 杂鱼♥出错啦：xxx)
+- [ ] Tab context menu fast switch highlight profile.
+- [ ] Keywords replace(i.e Error:xxx -> 杂鱼 ♥ 出错啦：xxx)
 
 ### Others
 
