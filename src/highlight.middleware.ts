@@ -1,24 +1,28 @@
-import { Logger } from "tabby-core";
+import { Injector } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { LogService, Logger, TranslateService } from "tabby-core";
 import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
+import { debounce } from "utils-decorators";
 import { HighlightPluginConfig } from "./config.provider";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;
   config: HighlightPluginConfig;
   logger: Logger;
-  toast: Function;
+  toastr: ToastrService;
+  translate: TranslateService;
 
   constructor(
+    injector: Injector,
     tab: BaseTerminalTabComponent<any>,
-    config: HighlightPluginConfig,
-    logger?: Logger,
-    toast?: Function
+    config: HighlightPluginConfig
   ) {
     super();
     this.tab = tab;
     this.config = config;
-    this.logger = logger;
-    this.toast = toast;
+    this.logger = injector.get(LogService).create(`tabby-highlight`);
+    this.toastr = injector.get(ToastrService);
+    this.translate = injector.get(TranslateService);
   }
 
   // 注意：本插件没有做过性能测试喵，不知道多少关键字是极限喵
@@ -178,5 +182,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
   close(): void {
     super.close();
+  }
+
+  @debounce(500)
+  toast(message: string) {
+    this.toastr.info(this.translate.instant(message));
   }
 }

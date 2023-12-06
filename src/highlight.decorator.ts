@@ -1,22 +1,12 @@
-import { Injectable } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
-import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
+import { Injectable, Injector } from "@angular/core";
+import { ConfigService } from "tabby-core";
 import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
-import { debounce } from "utils-decorators";
 import HighlightMiddleware from "./highlight.middleware";
 
 @Injectable()
 export class HighlightDecorator extends TerminalDecorator {
-  private logger: Logger;
-  constructor(
-    private config: ConfigService,
-    private logService: LogService,
-    private toastr: ToastrService,
-    private translate: TranslateService
-  ) {
+  constructor(private config: ConfigService, protected injector: Injector) {
     super();
-
-    this.logger = this.logService.create("tabby-highlight");
   }
 
   attach(tab: BaseTerminalTabComponent<any>): void {
@@ -39,16 +29,10 @@ export class HighlightDecorator extends TerminalDecorator {
 
   private attachToSession(session: BaseSession, tab: BaseTerminalTabComponent<any>) {
     const middleware = new HighlightMiddleware(
+      this.injector,
       tab,
-      this.config.store.highlightPlugin,
-      this.logger,
-      this.toast.bind(this)
+      this.config.store.highlightPlugin
     );
     session.middleware.push(middleware);
-  }
-
-  @debounce(500)
-  toast(message: string) {
-    this.toastr.info(this.translate.instant(message));
   }
 }
