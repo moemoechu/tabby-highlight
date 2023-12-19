@@ -33,6 +33,7 @@
     "@angular/forms": "^15",
     "@angular/platform-browser": "^15",
     "@ng-bootstrap/ng-bootstrap": "^14",
+    "@types/uuid": "^9.0.7",
     "@types/webpack-env": "^1",
     "apply-loader": "^2",
     "css-loader": "^6",
@@ -49,6 +50,7 @@
     "ts-loader": "^9",
     "typescript": "^5",
     "utils-decorators": "^2",
+    "uuid": "^9.0.1",
     "webpack": "^5",
     "webpack-cli": "^5"
   }

@@ -1,125 +1,134 @@
 h3(translate) Highlight
+ul.nav-tabs(ngbNav, #nav='ngbNav')
+    li(ngbNavItem)
+        a(ngbNavLink, translate) Highlight
+        ng-template(ngbNavContent)
+            .form-line
+                .header
+                    .title(translate) Enable highlight
+                    .description(translate) Highlight master switch
+                toggle(
+                    [(ngModel)]='pluginConfig.highlightEnabled',
+                    (ngModelChange)='apply();',
+                )
+            .content-box.w-100(*ngIf='pluginConfig.highlightEnabled === true')
+                ul.nav-tabs(
+                    ngbNav, 
+                    #nav='ngbNav', 
+                    [(activeId)]='currentProfile',
+                    (navChange)='onProfileChange($event);',
+                    cdkDropList,
+                    cdkDropListOrientation='horizontal',
+                    (cdkDropListDropped)='dropProfile($event)',
+                )
+                    ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
+                        li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
+                            a.nav-link(ngbNavLink, (dblclick)='changeProfileName(profileIndex);') {{profile.name}}
+                                span.close.ms-2((click)='delProfile($event, profileIndex);')
+                                    i.fa-regular.fa-circle-xmark
+                            ng-template(ngbNavContent)
+                                .d-flex.w-100
+                                    button.btn.btn-primary((click)='addKeyword();')
+                                        i.fas.fa-solid.fa-plus
+                                        span(translate) Add
+                                    .flex-grow-1
+                                    button.btn.btn-primary((click)='import();')
+                                        i.fas.fa-solid.fa-file-import
+                                        span(translate) Import
+                                    button.btn.btn-primary.ms-2((click)='export();')
+                                        i.fas.fa-solid.fa-file-export
+                                        span(translate) Export
+                                .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropKeyword($event)')
+                                    .list-group-item.active.d-flex.align-items-center()
+                                        span(translate, style='margin-left:10px; width: 46px; flex: none;')
+                                            i.fa-solid.fa-toggle-on
+                                        span(translate, style='width: 30px; flex: none;') (.*)
+                                        span(translate, style='width: 30px; flex: none;') Aa
+                                        span.text-center(translate, style='width: 100%;') Keyword
+                                        span.text-end(translate, style='margin-right: 13px; width: 60px; flex: none;')
+                                            i.fa-solid.fa-palette
+                                        span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+                                            i.fas.fa-solid.fa-trash
+                                    ng-container(*ngFor='let item of profile.keywords; let i = index;')
+                                        .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
+                                            toggle(
+                                                cdkDragHandle
+                                                style='width: 60px; flex: none;',
+                                                [(ngModel)]='item.enabled',
+                                                (ngModelChange)='apply();',
+                                            )
+                                            .content-box.d-flex.align-items-center.w-100(
+                                                [style.opacity]='item.enabled ? 1 : 0.5',
+                                            )
+                                                checkbox.ms-1(
+                                                    [(ngModel)]='item.isRegExp',
+                                                    (ngModelChange)='apply();',
+                                                )
+                                                checkbox.ms-1(
+                                                    [(ngModel)]='item.isCaseSensitive',
+                                                    (ngModelChange)='apply();',
+                                                )
+                                                .content-box.d-flex.align-items-center.w-100.position-relative
+                                                    input.form-control(
+                                                        type='text',
+                                                        style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
+                                                        [style.color]='getAnsiColorById(item.foreground ? item.foregroundColor ?? 1 : 0)',
+                                                        [style.background-color]='item.background ? getAnsiColorById(item.backgroundColor ?? 1) : "transparent"',
+                                                        [style.font-weight]='item.bold ? "bold" : ""',
+                                                        [style.font-style]='item.italic ? "italic" : ""',
+                                                        [style.text-decoration]='item.underline ? "underline" : ""',
+                                                        [(ngModel)]='item.text',
+                                                        (ngModelChange)='apply();',
+                                                    )
+                                                    .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
+                                                        *ngIf='!verifyStatus[profileIndex]?.[i]?.[0]',
+                                                        placement='end',
+                                                        [ngbTooltip]='verifyStatus[profileIndex]?.[i]?.[1]',
+                                                    )
+                                                        i.fa-solid.fa-circle-exclamation
+                                            div(ngbDropdown, placement='bottom-right')
+                                                button.btn.btn-outline-primary.ms-1(ngbDropdownToggle,(click)='$event.stopPropagation()')
+                                                    i.fa-solid.fa-palette
+                                                div.border.border-black(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);')
+                                                    .container-fluid
+                                                        ng-container(*ngFor='let style of styles;')
+                                                            .row.mt-1(style='min-height: 40px;')
+                                                                .col.d-flex.align-items-center
+                                                                    span.ms-1(translate) {{style.name}}
+                                                                .col-md-auto.d-flex.align-items-center(*ngIf='style.valueType')
+                                                                    input.form-control(
+                                                                        [type]='style.valueType',
+                                                                        [min]='style.min',
+                                                                        [max]='style.max',
+                                                                        style='width: 70px; flex: none; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
+                                                                        [(ngModel)]='item[style.valueModel]',
+                                                                        (ngModelChange)='apply();',
+                                                                    )
+                                                                .col-md-auto.d-flex.align-items-center
+                                                                    checkbox.ms-1(
+                                                                        [(ngModel)]='item[style.enabledModel]',
+                                                                        (ngModelChange)='apply();',
+                                                                    )
+                                            button.btn.btn-outline-secondary.ms-1(
+                                                style='width: 38px; flex: none;',
+                                                (click)='removeKeyword(i);',
+                                            )
+                                                i.fas.fa-solid.fa-trash
+                    li.nav-item(role='presentation')
+                        button.add-button.btn.btn-outline-secondary((click)='addProfile($event)')
+                            i.fa-regular.fa-square-plus
+                div([ngbNavOutlet]='nav')
+                .alert.alert-info.d-flex.align-items-center
+                    .me-auto
+                        span
+                            p(translate) Drag the ON button may reorder the keyword.
+                            p(translate) Keyword on top get high priority.
+                            p(translate) Active tab is the current applied highlight profile.
+                            p(translate) Double click tab can change profile name.
+                            p(translate) Change any setting of highlight only apply in new sessions.
 
-.form-line
-    .header
-        .title(translate) Enable highlight
-        .description(translate) Highlight master switch
-    toggle(
-        [(ngModel)]='pluginConfig.highlightEnabled',
-        (ngModelChange)='apply();',
-    )
-.content-box.w-100(*ngIf='pluginConfig.highlightEnabled === true')
-    ul.nav-tabs(
-        ngbNav, 
-        #nav='ngbNav', 
-        [(activeId)]='pluginConfig.highlightCurrentProfile',
-        (navChange)='onProfileChange($event);',
-        cdkDropList,
-        cdkDropListOrientation='horizontal',
-        (cdkDropListDropped)='dropProfile($event)',
-    )
-        ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
-            li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
-                a.nav-link(ngbNavLink, (dblclick)='changeProfileName(profileIndex);') {{profile.name}}
-                    span.close.ms-2((click)='delProfile($event, profileIndex);')
-                        i.fa-regular.fa-circle-xmark
-                ng-template(ngbNavContent)
-                    .d-flex.w-100
-                        button.btn.btn-primary((click)='addKeyword();')
-                            i.fas.fa-solid.fa-plus
-                            span(translate) Add
-                        .flex-grow-1
-                        button.btn.btn-primary((click)='import();')
-                            i.fas.fa-solid.fa-file-import
-                            span(translate) Import
-                        button.btn.btn-primary.ms-2((click)='export();')
-                            i.fas.fa-solid.fa-file-export
-                            span(translate) Export
-                    .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropKeyword($event)')
-                        .list-group-item.active.d-flex.align-items-center()
-                            span(translate, style='margin-left:10px; width: 46px; flex: none;')
-                                i.fa-solid.fa-toggle-on
-                            span(translate, style='width: 30px; flex: none;') (.*)
-                            span(translate, style='width: 30px; flex: none;') Aa
-                            span.text-center(translate, style='width: 100%;') Keyword
-                            span.text-end(translate, style='margin-right: 13px; width: 60px; flex: none;')
-                                i.fa-solid.fa-palette
-                            span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
-                                i.fas.fa-solid.fa-trash
-                        ng-container(*ngFor='let item of profile.keywords; let i = index;')
-                            .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
-                                toggle(
-                                    cdkDragHandle
-                                    style='width: 60px; flex: none;',
-                                    [(ngModel)]='item.enabled',
-                                    (ngModelChange)='apply();',
-                                )
-                                .content-box.d-flex.align-items-center.w-100(
-                                    [style.opacity]='item.enabled ? 1 : 0.5',
-                                )
-                                    checkbox.ms-1(
-                                        [(ngModel)]='item.isRegExp',
-                                        (ngModelChange)='apply();',
-                                    )
-                                    checkbox.ms-1(
-                                        [(ngModel)]='item.isCaseSensitive',
-                                        (ngModelChange)='apply();',
-                                    )
-                                    .content-box.d-flex.align-items-center.w-100.position-relative
-                                        input.form-control(
-                                            type='text',
-                                            style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
-                                            [style.color]='getAnsiColorById(item.foreground ? item.foregroundColor ?? 1 : 0)',
-                                            [style.background-color]='item.background ? getAnsiColorById(item.backgroundColor ?? 1) : "transparent"',
-                                            [style.font-weight]='item.bold ? "bold" : ""',
-                                            [style.font-style]='item.italic ? "italic" : ""',
-                                            [style.text-decoration]='item.underline ? "underline" : ""',
-                                            [(ngModel)]='item.text',
-                                            (ngModelChange)='apply();',
-                                        )
-                                        .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
-                                            *ngIf='!verifyStatus[profileIndex]?.[i]?.[0]',
-                                            placement='end',
-                                            [ngbTooltip]='verifyStatus[profileIndex]?.[i]?.[1]',
-                                        )
-                                            i.fa-solid.fa-circle-exclamation
-                                div(ngbDropdown, placement='bottom-right')
-                                    button.btn.btn-outline-primary.ms-1(ngbDropdownToggle,(click)='$event.stopPropagation()')
-                                        i.fa-solid.fa-palette
-                                    div.border.border-black(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);')
-                                        .container-fluid
-                                            ng-container(*ngFor='let style of styles;')
-                                                .row.mt-1(style='min-height: 40px;')
-                                                    .col.d-flex.align-items-center
-                                                        span.ms-1(translate) {{style.name}}
-                                                    .col-md-auto.d-flex.align-items-center(*ngIf='style.valueType')
-                                                        input.form-control(
-                                                            [type]='style.valueType',
-                                                            [min]='style.min',
-                                                            [max]='style.max',
-                                                            style='width: 70px; flex: none; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
-                                                            [(ngModel)]='item[style.valueModel]',
-                                                            (ngModelChange)='apply();',
-                                                        )
-                                                    .col-md-auto.d-flex.align-items-center
-                                                        checkbox.ms-1(
-                                                            [(ngModel)]='item[style.enabledModel]',
-                                                            (ngModelChange)='apply();',
-                                                        )
-                                button.btn.btn-outline-secondary.ms-1(
-                                    style='width: 38px; flex: none;',
-                                    (click)='removeKeyword(i);',
-                                )
-                                    i.fas.fa-solid.fa-trash
-        li.nav-item(role='presentation')
-            button.add-button.btn.btn-outline-secondary((click)='addProfile($event)')
-                i.fa-regular.fa-square-plus
-    div([ngbNavOutlet]='nav')
-    .alert.alert-info.d-flex.align-items-center
-        .me-auto
-            span
-                p(translate) Drag the ON button may reorder the keyword.
-                p(translate) Keyword on top get high priority.
-                p(translate) Active tab is the current applied highlight profile.
-                p(translate) Double click tab can change profile name.
-                p(translate) Change any setting of highlight only apply in new sessions.
+
+    li(ngbNavItem)
+        a(ngbNavLink, translate) Replace
+        ng-template(ngbNavContent)
+div([ngbNavOutlet]='nav')

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
 import { translations } from "./translations";
+import { v4 } from "uuid";
 
 @Injectable({ providedIn: "root" })
 export class HighlightService {
@@ -33,7 +34,25 @@ export class HighlightService {
       ];
       this.config.store.highlightPlugin.highlightKeywords = undefined;
       this.config.save();
-      this.logger.info("upgrade finished.");
+      this.logger.info("profile upgrade finished.");
+    }
+    let profileIdNeedUpgrade = false;
+    for (const profile of this.config.store.highlightPlugin.highlightProfiles) {
+      if (!profile.id) {
+        profileIdNeedUpgrade = true;
+        profile.id = v4();
+      }
+    }
+    if (typeof this.config.store.highlightPlugin.highlightCurrentProfile === "number") {
+      profileIdNeedUpgrade = true;
+      this.config.store.highlightPlugin.highlightCurrentProfile =
+        this.config.store.highlightPlugin.highlightProfiles[
+          this.config.store.highlightPlugin.highlightCurrentProfile
+        ].id;
+    }
+    if (profileIdNeedUpgrade) {
+      this.config.save();
+      this.logger.info("profile id upgrade finished.");
     }
   }
 }

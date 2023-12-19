@@ -1,6 +1,7 @@
 import { ConfigProvider } from "tabby-core";
 
 export type HighlightProfile = {
+  id: string;
   name: string;
   keywords: HighlightKeyword[];
 };
@@ -22,9 +23,12 @@ export type HighlightKeyword = {
 export type HighlightPluginConfig = {
   highlightEnabled: boolean;
   highlightMode: "xterm-control-sequence";
-  highlightCurrentProfile: number;
+  highlightCurrentProfile: string;
   highlightProfiles: HighlightProfile[];
-  highlightKeywords?: HighlightKeyword[];
+  highlightKeywords?: HighlightKeyword[]; //废弃喵
+  // highlightSessionProfileMap:string;
+  replaceCurrentProfile: number;
+  replaceProfiles: any;
 };
 
 /** @hidden */
@@ -33,10 +37,12 @@ export class HighlightConfigProvider extends ConfigProvider {
     highlightPlugin: {
       highlightEnabled: false,
       highlightMode: "xterm-control-sequence",
-      highlightCurrentProfile: 0,
-      highlightKeywords: null,
+      highlightCurrentProfile: "60606be0-c0ff-42bc-bf77-de8a2435447f",
+
+      highlightKeywords: null, //废弃喵
       highlightProfiles: [
         {
+          id: "60606be0-c0ff-42bc-bf77-de8a2435447f",
           name: "Default",
           keywords: [
             {
@@ -78,6 +84,8 @@ export class HighlightConfigProvider extends ConfigProvider {
           ],
         },
       ],
+      replaceCurrentProfile: 0,
+      replaceProfiles: [],
     },
   };
 }

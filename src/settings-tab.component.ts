@@ -7,6 +7,7 @@ import { ConfigService, PromptModalComponent, TranslateService } from "tabby-cor
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import { HighlightKeyword, HighlightPluginConfig, HighlightProfile } from "./config.provider";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
+import { v4 } from "uuid";
 
 /** @hidden */
 @Component({
@@ -75,6 +76,28 @@ export class HighlightSettingsTabComponent {
 
   currentTheme: string;
   pluginConfig: HighlightPluginConfig;
+
+  get currentProfile() {
+    // const result = this.getProfileByUUID(this.pluginConfig.highlightCurrentProfile);
+
+    let currentIndex = 0;
+    const result = this.pluginConfig.highlightProfiles.find((value, index) => {
+      currentIndex = index;
+      return value.id === this.pluginConfig.highlightCurrentProfile;
+    });
+    // if (result) {
+    //   profile = result;
+    // }
+    // return { index, profile };
+
+    return currentIndex;
+  }
+
+  set currentProfile(value) {
+    this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles[value].id;
+    this.apply();
+  }
+
   constructor(
     public config: ConfigService,
     private electron: ElectronService,
@@ -101,16 +124,13 @@ export class HighlightSettingsTabComponent {
     if (paths && paths[0]) {
       const data = fs.readFileSync(paths[0]);
       const keywordsJSON = data.toString();
-      this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile] =
-        JSON.parse(keywordsJSON);
+      this.pluginConfig.highlightProfiles[this.currentProfile] = JSON.parse(keywordsJSON);
       this.apply();
     }
   }
 
   async export() {
-    const keywordsData = JSON.stringify(
-      this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile]
-    );
+    const keywordsData = JSON.stringify(this.pluginConfig.highlightProfiles[this.currentProfile]);
     const result = await this.electron.dialog.showSaveDialog(this.hostWindow.getWindow(), {
       filters: [
         { name: "Profile", extensions: ["thp", "json"] },
@@ -130,17 +150,12 @@ export class HighlightSettingsTabComponent {
       background: true,
       backgroundColor: "1",
     };
-    this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords.unshift(
-      newKeyword
-    );
+    this.pluginConfig.highlightProfiles[this.currentProfile].keywords.unshift(newKeyword);
     this.apply();
   }
 
   removeKeyword(i: number) {
-    this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords.splice(
-      i,
-      1
-    );
+    this.pluginConfig.highlightProfiles[this.currentProfile].keywords.splice(i, 1);
     this.apply();
   }
 
@@ -169,7 +184,7 @@ export class HighlightSettingsTabComponent {
 
   dropKeyword(event: CdkDragDrop<HighlightKeyword[]>) {
     moveItemInArray(
-      this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].keywords,
+      this.pluginConfig.highlightProfiles[this.currentProfile].keywords,
       event.previousIndex,
       event.currentIndex
     );
@@ -178,14 +193,22 @@ export class HighlightSettingsTabComponent {
 
   dropProfile(event: CdkDragDrop<HighlightProfile[]>) {
     moveItemInArray(this.pluginConfig.highlightProfiles, event.previousIndex, event.currentIndex);
-    if (this.pluginConfig.highlightCurrentProfile === event.previousIndex) {
-      this.pluginConfig.highlightCurrentProfile = event.currentIndex;
-    } else if (
-      event.previousIndex > this.pluginConfig.highlightCurrentProfile &&
-      event.currentIndex <= this.pluginConfig.highlightCurrentProfile
-    ) {
-      this.pluginConfig.highlightCurrentProfile += 1;
-    }
+    // if (this.pluginConfig.highlightCurrentProfile === event.previousIndex) {
+    //   this.pluginConfig.highlightCurrentProfile = event.currentIndex;
+    // } else if (
+    //   event.previousIndex > this.pluginConfig.highlightCurrentProfile &&
+    //   event.currentIndex <= this.pluginConfig.highlightCurrentProfile
+    // ) {
+    //   this.pluginConfig.highlightCurrentProfile += 1;
+    // }
+    // if (this.currentProfile === event.previousIndex) {
+    //   this.currentProfile = event.currentIndex;
+    // } else if (
+    //   event.previousIndex > this.currentProfile &&
+    //   event.currentIndex <= this.currentProfile
+    // ) {
+    //   this.currentProfile += 1;
+    // }
     this.apply();
   }
 
@@ -203,10 +226,12 @@ export class HighlightSettingsTabComponent {
   addProfile(event: MouseEvent) {
     event.preventDefault();
     this.pluginConfig.highlightProfiles.push({
+      id: v4(),
       name: `Profile ${this.pluginConfig.highlightProfiles.length}`,
       keywords: [],
     });
-    this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles.length - 1;
+    // this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles.length - 1;
+    this.currentProfile = this.pluginConfig.highlightProfiles.length - 1;
     this.apply();
   }
 
@@ -214,7 +239,7 @@ export class HighlightSettingsTabComponent {
     if (this.pluginConfig.highlightProfiles.length > 1) {
       const modal = this.ngbModal.open(ProfileDeleteModalComponent);
       modal.componentInstance.prompt = `${this.translate.instant("Delete")} ${
-        this.pluginConfig.highlightProfiles[this.pluginConfig.highlightCurrentProfile].name
+        this.pluginConfig.highlightProfiles[this.currentProfile].name
       }${this.translate.instant("?")}`;
 
       try {
@@ -224,9 +249,10 @@ export class HighlightSettingsTabComponent {
             (item, index) => index !== toRemove
           );
           if (
-            this.pluginConfig.highlightCurrentProfile === this.pluginConfig.highlightProfiles.length
+            // this.pluginConfig.highlightCurrentProfile === this.pluginConfig.highlightProfiles.length
+            this.currentProfile === this.pluginConfig.highlightProfiles.length
           ) {
-            this.pluginConfig.highlightCurrentProfile -= 1;
+            this.currentProfile -= 1;
           }
           this.apply();
         }
@@ -237,7 +263,7 @@ export class HighlightSettingsTabComponent {
   }
 
   onProfileChange(changeEvent: NgbNavChangeEvent) {
-    this.pluginConfig.highlightCurrentProfile = changeEvent.nextId;
+    this.currentProfile = changeEvent.nextId;
     this.apply();
   }
 
@@ -254,4 +280,26 @@ export class HighlightSettingsTabComponent {
       }
     } catch {}
   }
+
+  // getProfileByUUID(uuid: string) {
+  //   let index = 0;
+  //   let profile = this.pluginConfig.highlightProfiles[0];
+  //   const result = this.pluginConfig.highlightProfiles.find((value, i) => {
+  //     index = i;
+  //     return value.id === uuid;
+  //   });
+  //   if (result) {
+  //     profile = result;
+  //   }
+  //   return { index, profile };
+  // }
+
+  // getProfileByIndex(i: number) {
+  //   let index = 0;
+  //   const result = this.pluginConfig.highlightCurrentProfile[index];
+  //   if (result) {
+  //     index = i;
+  //   }
+  //   return { index, profile: result };
+  // }
 }

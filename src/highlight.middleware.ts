@@ -34,7 +34,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
       return super.feedFromSession(data);
     }
 
-    const { keywords } = this.config.highlightProfiles[this.config.highlightCurrentProfile];
+    const { keywords } = this.config.highlightProfiles.find(
+      (value) => value.id === this.config.highlightCurrentProfile
+    );
     const occurrences: {
       start: number;
       end: number;
