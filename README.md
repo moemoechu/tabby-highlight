@@ -28,7 +28,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Keywords import and export.
 - [x] Compatible with white themes.
 - [ ] Tab context menu fast switch highlight profile.
-- [ ] Keywords replace(i.e Error:xxx -> 杂鱼 ♡ 出错啦：xxx)
+- [x] Keywords replace(i.e Error:xxx -> 出错啦：xxx)
 - [x] Per session/group/type highlight profile.
 
 ### Others
@@ -54,15 +54,15 @@ Keyword on top get high priority.
 
 The profile selection order is session > group > type > global.
 
+### Replace
+
+This feature is just for **FUN**, the replace rule only affect content displayed, does not change the real content.
+
 ### **Warning**
 
 **Use carefully with RegExp, complex RegExp will cause performance issue and may make the terminal output in chaos.**
 
 **Be careful when importing external setting files. This plugin does not do vulnerability scanning.**
-
-### Replace
-
-The replace rule only affect content displayed, does not change the real content.
 
 ## Screenshot
 

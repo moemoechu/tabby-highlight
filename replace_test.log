@@ -1,0 +1,3 @@
+In function 'main':
+error: undefined reference to 'undefined_function'
+warning: unused variable 'x'

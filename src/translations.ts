@@ -49,6 +49,10 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "No session type selected": "未选择会话类型",
       "The profile selection order is session > group > type > global.":
         "高亮配置选择顺序是：会话 > 会话分组 > 会话类型 > 全局",
+      "Enable replace": "启用替换",
+      "Replace master switch": "替换总开关",
+      "Search Pattern": "查找模式",
+      "Replace Pattern": "替换模式",
     },
   ],
 ];
