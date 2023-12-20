@@ -7,21 +7,21 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 ### Highlight Method
 
 - [x] Highlight keyword based on Xterm control sequence.
-- [ ] ~~Highlight keyword based on xterm.js decorator.(太麻烦了，不做了)~~
+- [ ] ~~Highlight keyword based on xterm.js decorator.~~
 
 ### Highlight Parameter
 
 - [x] Support highlight background and foreground color.
 - [x] Support background and foreground highlight switch separately.
 - [x] Support more style (bold, italic, underline).
-- [ ] ~~Support true color.(没什么必要，不做了)~~
+- [ ] ~~Support true color.~~
 
 ### Advanced Feature
 
 - [x] RegExp keywords ready.
 - [x] RegExp verification.
-- [ ] ~~Select the specified RegExp match group.(没什么必要，不做了)~~
-- [ ] ~~Programable(javascript) keyword match.(感觉会有安全问题，不做了)~~
+- [ ] ~~Select the specified RegExp match group.~~
+- [ ] ~~Programable(javascript) keyword match.(Not safe)~~
 - [x] Priority adjustment.
 - [x] Per keyword case sensitive switch.
 - [x] Profile manager.
@@ -64,20 +64,25 @@ The profile selection order is session > group > type > global.
 
 ## Screenshot
 
-### Settings UI
+### Keyword Setting
 
-![Settings1](screenshots/settings1.png)
-![Settings2](screenshots/settings2.png)
+![Keyword Setting](screenshots/setting_keyword.png)
 
-### Running
+### Per Profile Setting
 
-![Terminal1](screenshots/terminal1.png)
+![Per Profile Setting](screenshots/setting_per.png)
 
-![Terminal2](screenshots/terminal2.png)
+### Keyword Style Setting
+
+![Keyword Style Setting](screenshots/setting_style.png)
 
 ### Regexp Verify
 
-![Alt text](screenshots/regexp_verify.png)
+![Regexp Verify](screenshots/setting_verify.png)
+
+### Highlight Test
+
+![Highlight Test](screenshots/terminal_test.png)
 
 ## Changelog
 
