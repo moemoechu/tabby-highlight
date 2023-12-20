@@ -30,7 +30,6 @@ export class HighlightDecorator extends TerminalDecorator {
   }
 
   private attachToSession(session: BaseSession, tab: BaseTerminalTabComponent<any>) {
-    console.log(tab);
     const pluginConfig: HighlightPluginConfig = this.config.store.highlightPlugin;
     let profileId: string;
 

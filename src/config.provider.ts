@@ -33,7 +33,6 @@ export type HighlightPluginConfig = {
   highlightPerSessionTypeProfileMap: { typeId: string; profileId: string }[];
   highlightGlobalEnabled: boolean;
   highlightKeywords?: HighlightKeyword[]; //废弃喵
-  // highlightSessionProfileMap:string;
   replaceCurrentProfile: number;
   replaceProfiles: any;
 };

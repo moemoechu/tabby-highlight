@@ -86,17 +86,11 @@ export class HighlightSettingsTabComponent {
   uuidNIL = uuid.NIL;
 
   get currentProfile() {
-    // const result = this.getProfileByUUID(this.pluginConfig.highlightCurrentProfile);
-
     let currentIndex = 0;
     const result = this.pluginConfig.highlightProfiles.find((value, index) => {
       currentIndex = index;
       return value.id === this.pluginConfig.highlightCurrentProfile;
     });
-    // if (result) {
-    //   profile = result;
-    // }
-    // return { index, profile };
 
     return currentIndex;
   }
@@ -132,7 +126,9 @@ export class HighlightSettingsTabComponent {
     if (paths && paths[0]) {
       const data = fs.readFileSync(paths[0]);
       const keywordsJSON = data.toString();
-      this.pluginConfig.highlightProfiles[this.currentProfile] = JSON.parse(keywordsJSON);
+      const importedProfile: HighlightProfile = JSON.parse(keywordsJSON);
+      importedProfile.id = this.pluginConfig.highlightCurrentProfile;
+      this.pluginConfig.highlightProfiles[this.currentProfile] = importedProfile;
       this.apply();
     }
   }
@@ -201,22 +197,6 @@ export class HighlightSettingsTabComponent {
 
   dropProfile(event: CdkDragDrop<HighlightProfile[]>) {
     moveItemInArray(this.pluginConfig.highlightProfiles, event.previousIndex, event.currentIndex);
-    // if (this.pluginConfig.highlightCurrentProfile === event.previousIndex) {
-    //   this.pluginConfig.highlightCurrentProfile = event.currentIndex;
-    // } else if (
-    //   event.previousIndex > this.pluginConfig.highlightCurrentProfile &&
-    //   event.currentIndex <= this.pluginConfig.highlightCurrentProfile
-    // ) {
-    //   this.pluginConfig.highlightCurrentProfile += 1;
-    // }
-    // if (this.currentProfile === event.previousIndex) {
-    //   this.currentProfile = event.currentIndex;
-    // } else if (
-    //   event.previousIndex > this.currentProfile &&
-    //   event.currentIndex <= this.currentProfile
-    // ) {
-    //   this.currentProfile += 1;
-    // }
     this.apply();
   }
 
@@ -238,7 +218,6 @@ export class HighlightSettingsTabComponent {
       name: `Profile ${this.pluginConfig.highlightProfiles.length}`,
       keywords: [],
     });
-    // this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles.length - 1;
     this.currentProfile = this.pluginConfig.highlightProfiles.length - 1;
     this.apply();
   }
@@ -256,10 +235,7 @@ export class HighlightSettingsTabComponent {
           this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
             (item, index) => index !== toRemove
           );
-          if (
-            // this.pluginConfig.highlightCurrentProfile === this.pluginConfig.highlightProfiles.length
-            this.currentProfile === this.pluginConfig.highlightProfiles.length
-          ) {
+          if (this.currentProfile === this.pluginConfig.highlightProfiles.length) {
             this.currentProfile -= 1;
           }
           this.apply();
@@ -289,27 +265,6 @@ export class HighlightSettingsTabComponent {
     } catch {}
   }
 
-  // getProfileByUUID(uuid: string) {
-  //   let index = 0;
-  //   let profile = this.pluginConfig.highlightProfiles[0];
-  //   const result = this.pluginConfig.highlightProfiles.find((value, i) => {
-  //     index = i;
-  //     return value.id === uuid;
-  //   });
-  //   if (result) {
-  //     profile = result;
-  //   }
-  //   return { index, profile };
-  // }
-
-  // getProfileByIndex(i: number) {
-  //   let index = 0;
-  //   const result = this.pluginConfig.highlightCurrentProfile[index];
-  //   if (result) {
-  //     index = i;
-  //   }
-  //   return { index, profile: result };
-  // }
   addPerSessionProfile() {
     this.pluginConfig.highlightPerSessionProfileMap.push({
       sessionId: uuid.NIL,
