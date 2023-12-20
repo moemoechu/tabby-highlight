@@ -5,9 +5,9 @@ import fs from "fs";
 import { ToastrService } from "ngx-toastr";
 import { ConfigService, PromptModalComponent, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
+import * as uuid from "uuid";
 import { HighlightKeyword, HighlightPluginConfig, HighlightProfile } from "./config.provider";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
-import { v4 } from "uuid";
 
 /** @hidden */
 @Component({
@@ -70,12 +70,20 @@ export class HighlightSettingsTabComponent {
       enabledModel: "dim",
     },
   ];
+
+  sessionTypes: { id: string; name: string }[] = [
+    { id: "ssh", name: "SSH" },
+    { id: "telnet", name: "Telnet" },
+    { id: "serial", name: "Serial" },
+    { id: "local", name: "Local" },
+  ];
   alertMessage: string;
   alertType: "info" | "success" | "danger";
   verifyStatus: [boolean, string][][];
 
   currentTheme: string;
   pluginConfig: HighlightPluginConfig;
+  uuidNIL = uuid.NIL;
 
   get currentProfile() {
     // const result = this.getProfileByUUID(this.pluginConfig.highlightCurrentProfile);
@@ -226,7 +234,7 @@ export class HighlightSettingsTabComponent {
   addProfile(event: MouseEvent) {
     event.preventDefault();
     this.pluginConfig.highlightProfiles.push({
-      id: v4(),
+      id: uuid.v4(),
       name: `Profile ${this.pluginConfig.highlightProfiles.length}`,
       keywords: [],
     });
@@ -302,4 +310,42 @@ export class HighlightSettingsTabComponent {
   //   }
   //   return { index, profile: result };
   // }
+  addPerSessionProfile() {
+    this.pluginConfig.highlightPerSessionProfileMap.push({
+      sessionId: uuid.NIL,
+      profileId: uuid.NIL,
+    });
+    this.apply();
+  }
+
+  removePerSessionProfile(i: number) {
+    this.pluginConfig.highlightPerSessionProfileMap.splice(i, 1);
+    this.apply();
+  }
+
+  addPerSessionGroupProfile() {
+    this.pluginConfig.highlightPerSessionGroupProfileMap.push({
+      groupId: uuid.NIL,
+      profileId: uuid.NIL,
+    });
+    this.apply();
+  }
+
+  removePerSessionGroupProfile(i: number) {
+    this.pluginConfig.highlightPerSessionGroupProfileMap.splice(i, 1);
+    this.apply();
+  }
+
+  addPerSessionTypeProfile() {
+    this.pluginConfig.highlightPerSessionTypeProfileMap.push({
+      typeId: uuid.NIL,
+      profileId: uuid.NIL,
+    });
+    this.apply();
+  }
+
+  removePerSessionTypeProfile(i: number) {
+    this.pluginConfig.highlightPerSessionTypeProfileMap.splice(i, 1);
+    this.apply();
+  }
 }

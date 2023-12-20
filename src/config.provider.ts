@@ -25,6 +25,13 @@ export type HighlightPluginConfig = {
   highlightMode: "xterm-control-sequence";
   highlightCurrentProfile: string;
   highlightProfiles: HighlightProfile[];
+  highlightPerSessionEnabled: boolean;
+  highlightPerSessionProfileMap: { sessionId: string; profileId: string }[];
+  highlightPerSessionGroupEnabled: boolean;
+  highlightPerSessionGroupProfileMap: { groupId: string; profileId: string }[];
+  highlightPerSessionTypeEnabled: boolean;
+  highlightPerSessionTypeProfileMap: { typeId: string; profileId: string }[];
+  highlightGlobalEnabled: boolean;
   highlightKeywords?: HighlightKeyword[]; //废弃喵
   // highlightSessionProfileMap:string;
   replaceCurrentProfile: number;
@@ -38,7 +45,6 @@ export class HighlightConfigProvider extends ConfigProvider {
       highlightEnabled: false,
       highlightMode: "xterm-control-sequence",
       highlightCurrentProfile: "60606be0-c0ff-42bc-bf77-de8a2435447f",
-
       highlightKeywords: null, //废弃喵
       highlightProfiles: [
         {
@@ -84,6 +90,14 @@ export class HighlightConfigProvider extends ConfigProvider {
           ],
         },
       ],
+
+      highlightPerSessionEnabled: false,
+      highlightPerSessionProfileMap: [],
+      highlightPerSessionGroupEnabled: false,
+      highlightPerSessionGroupProfileMap: [],
+      highlightPerSessionTypeEnabled: false,
+      highlightPerSessionTypeProfileMap: [],
+      highlightGlobalEnabled: true,
       replaceCurrentProfile: 0,
       replaceProfiles: [],
     },

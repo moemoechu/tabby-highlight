@@ -29,8 +29,9 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Compatible with white themes.
 - [ ] Tab context menu fast switch highlight profile.
 - [ ] Keywords replace(i.e Error:xxx -> 杂鱼 ♥ 出错啦：xxx)
-- [ ] Per session highlight profile.
-- [ ] Per session group highlight profile.
+- [x] Per session highlight profile.
+- [x] Per session group highlight profile.
+- [x] Per session type highlight profile.
 
 ### Others
 
@@ -50,6 +51,10 @@ Drag the ON switch will make the keyword draggable.
 ### Priority
 
 Keyword on top get high priority.
+
+### Per session/group/type Profile
+
+The profile selection order is session > group > type > global.
 
 ### **Warning**
 
@@ -76,6 +81,7 @@ Keyword on top get high priority.
 
 ## Changelog
 
+- 1.5.0: Add Per session/group/type Profile
 - 1.4.0: Add profile manager.
 - 1.3.0: Add highlight keywords import and export.
 - 1.2.5: Refactor match method, now the highlight will work well even if set a keyword regexp **.**(single dot).

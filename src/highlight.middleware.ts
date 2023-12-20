@@ -3,23 +3,19 @@ import { ToastrService } from "ngx-toastr";
 import { LogService, Logger, TranslateService } from "tabby-core";
 import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
 import { debounce } from "utils-decorators";
-import { HighlightPluginConfig } from "./config.provider";
+import { HighlightProfile } from "./config.provider";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;
-  config: HighlightPluginConfig;
+  profile: HighlightProfile;
   logger: Logger;
   toastr: ToastrService;
   translate: TranslateService;
 
-  constructor(
-    injector: Injector,
-    tab: BaseTerminalTabComponent<any>,
-    config: HighlightPluginConfig
-  ) {
+  constructor(injector: Injector, tab: BaseTerminalTabComponent<any>, profile: HighlightProfile) {
     super();
     this.tab = tab;
-    this.config = config;
+    this.profile = profile;
     this.logger = injector.get(LogService).create(`tabby-highlight`);
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
@@ -34,9 +30,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       return super.feedFromSession(data);
     }
 
-    const { keywords } = this.config.highlightProfiles.find(
-      (value) => value.id === this.config.highlightCurrentProfile
-    );
+    const { keywords } = this.profile;
     const occurrences: {
       start: number;
       end: number;

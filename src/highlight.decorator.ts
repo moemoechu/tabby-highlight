@@ -2,6 +2,8 @@ import { Injectable, Injector } from "@angular/core";
 import { ConfigService } from "tabby-core";
 import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
 import HighlightMiddleware from "./highlight.middleware";
+import { HighlightPluginConfig, HighlightProfile } from "config.provider";
+import * as uuid from "uuid";
 
 @Injectable()
 export class HighlightDecorator extends TerminalDecorator {
@@ -28,11 +30,51 @@ export class HighlightDecorator extends TerminalDecorator {
   }
 
   private attachToSession(session: BaseSession, tab: BaseTerminalTabComponent<any>) {
-    const middleware = new HighlightMiddleware(
-      this.injector,
-      tab,
-      this.config.store.highlightPlugin
-    );
+    console.log(tab);
+    const pluginConfig: HighlightPluginConfig = this.config.store.highlightPlugin;
+    let profileId: string;
+
+    // 会话配置判定喵~
+    if (!profileId) {
+      profileId = pluginConfig.highlightPerSessionProfileMap.find(
+        (value) => value.sessionId === tab.profile.id
+      )?.profileId;
+    }
+
+    // 会话分组配置判定喵~
+    if (!profileId) {
+      profileId = pluginConfig.highlightPerSessionGroupProfileMap.find(
+        (value) => value.groupId === tab.profile.group
+      )?.profileId;
+    }
+
+    // 会话类型配置判定喵~
+    if (!profileId) {
+      profileId = pluginConfig.highlightPerSessionTypeProfileMap.find(
+        (value) => value.typeId === tab.profile.type
+      )?.profileId;
+    }
+
+    // 全局配置判定喵~
+    if (!profileId) {
+      if (pluginConfig.highlightGlobalEnabled) {
+        profileId = pluginConfig.highlightCurrentProfile;
+      }
+    }
+
+    // 不存在的配置ID喵（通常没有这种情况喵，但万一捏？）
+    // 当然，还有禁用的ID喵~
+    if (!profileId || profileId === uuid.NIL) {
+      return;
+    }
+
+    const profile = pluginConfig.highlightProfiles.find((value) => value.id === profileId);
+    // 不存在的配置喵（通常没有这种情况喵，但万一捏？）
+    if (!profile) {
+      return;
+    }
+
+    const middleware = new HighlightMiddleware(this.injector, tab, profile);
     session.middleware.push(middleware);
   }
 }
