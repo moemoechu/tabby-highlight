@@ -34,31 +34,29 @@ export class HighlightDecorator extends TerminalDecorator {
     let profileId: string;
 
     // 会话配置判定喵~
-    if (!profileId) {
+    if (!profileId && pluginConfig.highlightPerSessionEnabled) {
       profileId = pluginConfig.highlightPerSessionProfileMap.find(
         (value) => value.sessionId === tab.profile.id
       )?.profileId;
     }
 
     // 会话分组配置判定喵~
-    if (!profileId) {
+    if (!profileId && pluginConfig.highlightPerSessionGroupEnabled) {
       profileId = pluginConfig.highlightPerSessionGroupProfileMap.find(
         (value) => value.groupId === tab.profile.group
       )?.profileId;
     }
 
     // 会话类型配置判定喵~
-    if (!profileId) {
+    if (!profileId && pluginConfig.highlightPerSessionTypeEnabled) {
       profileId = pluginConfig.highlightPerSessionTypeProfileMap.find(
         (value) => value.typeId === tab.profile.type
       )?.profileId;
     }
 
     // 全局配置判定喵~
-    if (!profileId) {
-      if (pluginConfig.highlightGlobalEnabled) {
-        profileId = pluginConfig.highlightCurrentProfile;
-      }
+    if (!profileId && pluginConfig.highlightGlobalEnabled) {
+      profileId = pluginConfig.highlightCurrentProfile;
     }
 
     // 不存在的配置ID喵（通常没有这种情况喵，但万一捏？）
