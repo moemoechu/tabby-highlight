@@ -83,6 +83,10 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ![Regexp Verify](screenshots/setting_verify.png)
 
+### Context Menu
+
+![Context Menu](screenshots/terminal_context_menu.png)
+
 ### Highlight Test
 
 ![Highlight Test](screenshots/terminal_test.png)
@@ -97,9 +101,9 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ## Changelog
 
-- 1.7.0: Add tab context menu fast profile switch
+- 1.7.0: Add tab context menu for fast profile switch.
 - 1.6.0: Add replace.
-- 1.5.0: Add Per session/group/type Profile
+- 1.5.0: Add Per session/group/type Profile.
 - 1.4.0: Add profile manager.
 - 1.3.0: Add highlight keywords import and export.
 - 1.2.5: Refactor match method, now the highlight will work well even if set a keyword regexp **.**(single dot).
