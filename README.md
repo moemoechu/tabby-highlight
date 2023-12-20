@@ -86,8 +86,17 @@ This feature is just for **FUN**, the replace rule only affect content displayed
 
 ![Highlight Test](screenshots/terminal_test.png)
 
+### Replace Setting
+
+![Replace Setting](screenshots/setting_replace.png)
+
+### Replace Test
+
+![Replace Test](screenshots/terminal_test_replace.png)
+
 ## Changelog
 
+- 1.6.0: Add replace.
 - 1.5.0: Add Per session/group/type Profile
 - 1.4.0: Add profile manager.
 - 1.3.0: Add highlight keywords import and export.
