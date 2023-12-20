@@ -303,4 +303,30 @@ export class HighlightSettingsTabComponent {
     this.pluginConfig.highlightPerSessionTypeProfileMap.splice(i, 1);
     this.apply();
   }
+
+  getSessions(sessionId) {
+    return this.config.store.profiles.filter(
+      (all) =>
+        !this.pluginConfig.highlightPerSessionProfileMap.some(
+          (exist) => exist.sessionId === all.id
+        ) || all.id === sessionId
+    );
+  }
+
+  getSessionGroups(groupId) {
+    return this.config.store.groups.filter(
+      (all) =>
+        !this.pluginConfig.highlightPerSessionGroupProfileMap.some(
+          (exist) => exist.groupId === all.id
+        ) || all.id === groupId
+    );
+  }
+  getSessionTypes(typeId) {
+    return this.sessionTypes.filter(
+      (all) =>
+        !this.pluginConfig.highlightPerSessionTypeProfileMap.some(
+          (exist) => exist.typeId === all.id
+        ) || all.id === typeId
+    );
+  }
 }

@@ -38,7 +38,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         (ngModelChange)='apply();',
                                     )
                                         option([ngValue]='uuidNIL', translate) No session selected
-                                        option(*ngFor='let session of this.config.store.profiles', [ngValue]='session.id') {{session.name}}
+                                        option(*ngFor='let session of getSessions(item.sessionId)', [ngValue]='session.id') {{session.name}}
                                     select.form-control(
                                         [(ngModel)]='item.profileId',
                                         (ngModelChange)='apply();',
@@ -76,7 +76,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         (ngModelChange)='apply();',
                                     )
                                         option([ngValue]='uuidNIL', translate) No session group selected
-                                        option(*ngFor='let group of this.config.store.groups', [ngValue]='group.id') {{group.name}}
+                                        option(*ngFor='let group of getSessionGroups(item.groupId)', [ngValue]='group.id') {{group.name}}
                                     select.form-control(
                                         [(ngModel)]='item.profileId',
                                         (ngModelChange)='apply();',
@@ -114,7 +114,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         (ngModelChange)='apply();',
                                     )
                                         option([ngValue]='uuidNIL', translate) No session type selected
-                                        option(*ngFor='let type of sessionTypes', [ngValue]='type.id', translate) {{type.name}}
+                                        option(*ngFor='let type of getSessionTypes(item.typeId)', [ngValue]='type.id', translate) {{type.name}}
                                     select.form-control(
                                         [(ngModel)]='item.profileId',
                                         (ngModelChange)='apply();',
