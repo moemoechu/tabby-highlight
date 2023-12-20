@@ -7,22 +7,22 @@ import { HighlightProfile, ReplaceProfile } from "./config.provider";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;
-  highlightProfile: HighlightProfile;
-  replaceProfile: ReplaceProfile;
+  // highlightProfile: HighlightProfile;
+  // replaceProfile: ReplaceProfile;
   logger: Logger;
   toastr: ToastrService;
   translate: TranslateService;
 
   constructor(
     injector: Injector,
-    tab: BaseTerminalTabComponent<any>,
-    highlightProfile: HighlightProfile,
-    replaceProfile: ReplaceProfile
+    tab: BaseTerminalTabComponent<any>
+    // highlightProfile: HighlightProfile,
+    // replaceProfile: ReplaceProfile
   ) {
     super();
     this.tab = tab;
-    this.highlightProfile = highlightProfile;
-    this.replaceProfile = replaceProfile;
+    // this.highlightProfile = (tab as any).highlightProfile;
+    // this.replaceProfile = (tab as any).replaceProfile;
     this.logger = injector.get(LogService).create(`tabby-highlight`);
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
@@ -38,8 +38,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
     let dataString = data.toString();
     let passthroughFlag = true;
 
-    if (this.replaceProfile) {
-      const { patterns } = this.replaceProfile;
+    const { highlightProfile, replaceProfile } = this.tab as any;
+
+    if (replaceProfile) {
+      const { patterns } = replaceProfile as ReplaceProfile;
       for (const pattern of patterns) {
         const { enabled, isCaseSensitive, isRegExp, search, replace } = pattern;
         if (enabled) {
@@ -66,8 +68,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
       }
     }
 
-    if (this.highlightProfile) {
-      const { keywords } = this.highlightProfile;
+    if (highlightProfile) {
+      const { keywords } = highlightProfile as HighlightProfile;
       const occurrences: {
         start: number;
         end: number;

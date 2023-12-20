@@ -53,6 +53,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Replace master switch": "替换总开关",
       "Search Pattern": "查找模式",
       "Replace Pattern": "替换模式",
+      "[Highlight] Can not change session profile due to per session profile not enabled":
+        "[高亮] 无法在未启用单会话配置的情况下修改会话配置",
     },
   ],
 ];

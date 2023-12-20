@@ -86,11 +86,15 @@ export class HighlightDecorator extends TerminalDecorator {
       return;
     }
 
+    // 将配置狠狠地注入到标签页喵，方便使用右键菜单切换喵~
+    (tab as any).highlightProfile = highlightProfile;
+    (tab as any).replaceProfile = replaceProfile;
+
     const middleware = new HighlightMiddleware(
       this.injector,
-      tab,
-      highlightProfile,
-      replaceProfile
+      tab
+      // highlightProfile,
+      // replaceProfile
     );
     session.middleware.push(middleware);
   }

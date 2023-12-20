@@ -114,7 +114,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         (ngModelChange)='apply();',
                                     )
                                         option([ngValue]='uuidNIL', translate) No session type selected
-                                        option(*ngFor='let type of getSessionTypes(item.typeId)', [ngValue]='type.id', translate) {{type.name}}
+                                        option(*ngFor='let type of getSessionTypes(item.typeId)', [ngValue]='type', translate) {{type}}
                                     select.form-control(
                                         [(ngModel)]='item.profileId',
                                         (ngModelChange)='apply();',
@@ -274,7 +274,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 )
                     ng-container(*ngFor='let profile of pluginConfig.replaceProfiles; let profileIndex = index;')
                         li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
-                            a.nav-link(ngbNavLink, (dblclick)='changeReplaceProfileName(profileIndex);') {{profile.name}}
+                            a.nav-link(ngbNavLink, (dblclick)='changeReplaceProfileName(profileIndex);') {{profile.name.lenght}}
                                 span.close.ms-2((click)='delReplaceProfile($event, profileIndex);')
                                     i.fa-regular.fa-circle-xmark
                             ng-template(ngbNavContent)

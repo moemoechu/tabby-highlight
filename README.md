@@ -27,7 +27,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Profile manager.
 - [x] Keywords import and export.
 - [x] Compatible with white themes.
-- [ ] Tab context menu fast switch highlight profile.
+- [x] Tab context menu fast switch highlight profile.
 - [x] Keywords replace(i.e Error:xxx -> 出错啦：xxx)
 - [x] Per session/group/type highlight profile.
 
@@ -57,6 +57,7 @@ The profile selection order is session > group > type > global.
 ### Replace
 
 This feature is just for **FUN**, the replace rule only affect content displayed, does not change the real content.
+The input string will be proceed from the top pattern to the end pattern.
 
 ### **Warning**
 
@@ -96,6 +97,7 @@ This feature is just for **FUN**, the replace rule only affect content displayed
 
 ## Changelog
 
+- 1.7.0: Add tab context menu fast profile switch
 - 1.6.0: Add replace.
 - 1.5.0: Add Per session/group/type Profile
 - 1.4.0: Add profile manager.

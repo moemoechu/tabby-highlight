@@ -2,7 +2,11 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import TabbyCoreModule, { ConfigProvider, ConfigService } from "tabby-core";
+import TabbyCoreModule, {
+  ConfigProvider,
+  ConfigService,
+  TabContextMenuItemProvider,
+} from "tabby-core";
 import { SettingsTabProvider } from "tabby-settings";
 import { TerminalDecorator } from "tabby-terminal";
 
@@ -11,6 +15,7 @@ import { HighlightDecorator } from "./highlight.decorator";
 import { HighlightService } from "./highlight.service";
 import { HighlightSettingsTabComponent } from "./settings-tab.component";
 import { HighlightSettingsTabProvider } from "./settings-tab.provider";
+import { HighlightContextMenu } from "./context-menu.provider";
 
 @NgModule({
   imports: [CommonModule, FormsModule, TabbyCoreModule, NgbModule],
@@ -18,6 +23,7 @@ import { HighlightSettingsTabProvider } from "./settings-tab.provider";
     { provide: ConfigProvider, useClass: HighlightConfigProvider, multi: true },
     { provide: SettingsTabProvider, useClass: HighlightSettingsTabProvider, multi: true },
     { provide: TerminalDecorator, useClass: HighlightDecorator, multi: true },
+    { provide: TabContextMenuItemProvider, useClass: HighlightContextMenu, multi: true },
   ],
   entryComponents: [HighlightSettingsTabComponent],
   declarations: [HighlightSettingsTabComponent],

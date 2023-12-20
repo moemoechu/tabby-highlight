@@ -3,7 +3,16 @@ import { Component } from "@angular/core";
 import { NgbModal, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import fs from "fs";
 import { ToastrService } from "ngx-toastr";
-import { ConfigService, PromptModalComponent, TranslateService } from "tabby-core";
+import {
+  ConfigService,
+  PartialProfile,
+  PartialProfileGroup,
+  Profile,
+  ProfileGroup,
+  ProfilesService,
+  PromptModalComponent,
+  TranslateService,
+} from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import * as uuid from "uuid";
 import {
@@ -77,12 +86,7 @@ export class HighlightSettingsTabComponent {
     },
   ];
 
-  sessionTypes: { id: string; name: string }[] = [
-    { id: "ssh", name: "SSH" },
-    { id: "telnet", name: "Telnet" },
-    { id: "serial", name: "Serial" },
-    { id: "local", name: "Local" },
-  ];
+  sessionTypes: string[];
   alertMessage: string;
   alertType: "info" | "success" | "danger";
   verifyStatus: [boolean, string][][];
@@ -112,7 +116,8 @@ export class HighlightSettingsTabComponent {
     private hostWindow: ElectronHostWindow,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private ngbModal: NgbModal
+    private ngbModal: NgbModal,
+    private sessionsService: ProfilesService
   ) {
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
@@ -120,6 +125,15 @@ export class HighlightSettingsTabComponent {
 
     this.verify();
     this.replaceVerify();
+  }
+
+  sessions: PartialProfile<Profile>[];
+  sessionGroups: PartialProfileGroup<ProfileGroup>[];
+
+  async ngOnInit() {
+    this.sessions = await this.sessionsService.getProfiles();
+    this.sessionGroups = await this.sessionsService.getProfileGroups();
+    this.sessionTypes = [...new Set(this.sessions.map((item) => item.type))];
   }
 
   import() {
@@ -312,8 +326,11 @@ export class HighlightSettingsTabComponent {
     this.apply();
   }
 
-  getSessions(sessionId) {
-    return this.config.store.profiles.filter(
+  getSessions(sessionId: string) {
+    if (!this.sessions) {
+      return [];
+    }
+    return this.sessions.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionProfileMap.some(
           (exist) => exist.sessionId === all.id
@@ -322,7 +339,10 @@ export class HighlightSettingsTabComponent {
   }
 
   getSessionGroups(groupId) {
-    return this.config.store.groups.filter(
+    if (!this.sessionGroups) {
+      return [];
+    }
+    return this.sessionGroups.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionGroupProfileMap.some(
           (exist) => exist.groupId === all.id
@@ -330,11 +350,15 @@ export class HighlightSettingsTabComponent {
     );
   }
   getSessionTypes(typeId) {
+    if (!this.sessions) {
+      return [];
+    }
+
     return this.sessionTypes.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionTypeProfileMap.some(
-          (exist) => exist.typeId === all.id
-        ) || all.id === typeId
+          (exist) => exist.typeId === all
+        ) || all === typeId
     );
   }
 
