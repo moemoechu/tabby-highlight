@@ -20,6 +20,20 @@ export type HighlightKeyword = {
   dim?: boolean;
 };
 
+export type ReplaceProfile = {
+  id: string;
+  name: string;
+  patterns: ReplacePattern[];
+};
+
+export type ReplacePattern = {
+  enabled: boolean;
+  isRegExp?: boolean;
+  isCaseSensitive?: boolean;
+  search: string;
+  replace: string;
+};
+
 export type HighlightPluginConfig = {
   highlightEnabled: boolean;
   highlightMode: "xterm-control-sequence";
@@ -33,8 +47,9 @@ export type HighlightPluginConfig = {
   highlightPerSessionTypeProfileMap: { typeId: string; profileId: string }[];
   highlightGlobalEnabled: boolean;
   highlightKeywords?: HighlightKeyword[]; //废弃喵
-  replaceCurrentProfile: number;
-  replaceProfiles: any;
+  replaceEnabled: boolean;
+  replaceCurrentProfile: string;
+  replaceProfiles: ReplaceProfile[];
 };
 
 /** @hidden */
@@ -97,8 +112,18 @@ export class HighlightConfigProvider extends ConfigProvider {
       highlightPerSessionTypeEnabled: false,
       highlightPerSessionTypeProfileMap: [],
       highlightGlobalEnabled: true,
-      replaceCurrentProfile: 0,
-      replaceProfiles: [],
+      replaceEnabled: false,
+      replaceCurrentProfile: "986666dd-dac9-4c7a-a295-9b4aff66abdd",
+      replaceProfiles: [
+        {
+          id: "986666dd-dac9-4c7a-a295-9b4aff66abdd",
+          name: "Default",
+          patterns: [
+            { enabled: true, search: "ERROR", replace: "出错啦" },
+            { enabled: true, search: "WARN", replace: "警告警告" },
+          ],
+        },
+      ],
     },
   };
 }

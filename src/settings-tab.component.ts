@@ -6,7 +6,13 @@ import { ToastrService } from "ngx-toastr";
 import { ConfigService, PromptModalComponent, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import * as uuid from "uuid";
-import { HighlightKeyword, HighlightPluginConfig, HighlightProfile } from "./config.provider";
+import {
+  HighlightKeyword,
+  HighlightPluginConfig,
+  HighlightProfile,
+  ReplacePattern,
+  ReplaceProfile,
+} from "./config.provider";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
 
 /** @hidden */
@@ -113,6 +119,7 @@ export class HighlightSettingsTabComponent {
     this.pluginConfig = this.config.store.highlightPlugin;
 
     this.verify();
+    this.replaceVerify();
   }
 
   import() {
@@ -209,6 +216,7 @@ export class HighlightSettingsTabComponent {
   apply() {
     this.config.save();
     this.verify();
+    this.replaceVerify();
   }
 
   addProfile(event: MouseEvent) {
@@ -328,5 +336,129 @@ export class HighlightSettingsTabComponent {
           (exist) => exist.typeId === all.id
         ) || all.id === typeId
     );
+  }
+
+  // Replace
+
+  get currentReplaceProfile() {
+    let currentIndex = 0;
+    const result = this.pluginConfig.replaceProfiles.find((value, index) => {
+      currentIndex = index;
+      return value.id === this.pluginConfig.replaceCurrentProfile;
+    });
+
+    return currentIndex;
+  }
+
+  set currentReplaceProfile(value) {
+    this.pluginConfig.replaceCurrentProfile = this.pluginConfig.replaceProfiles[value].id;
+    this.apply();
+  }
+
+  replaceVerifyStatus: [boolean, string][][];
+
+  replaceVerify() {
+    this.replaceVerifyStatus = [];
+    for (const profile of this.pluginConfig.replaceProfiles) {
+      const { patterns } = profile;
+      const profileStatus = [];
+      for (const pattern of patterns) {
+        let status = true;
+        let errInfo = "";
+        const { isRegExp, search } = pattern;
+        if (isRegExp) {
+          try {
+            const regexp = new RegExp(search, "g");
+          } catch (e) {
+            errInfo = e.message;
+            status = false;
+          }
+        }
+        profileStatus.push([status, errInfo]);
+      }
+      this.replaceVerifyStatus.push(profileStatus);
+    }
+  }
+
+  onReplaceProfileChange(changeEvent: NgbNavChangeEvent) {
+    this.currentReplaceProfile = changeEvent.nextId;
+    this.apply();
+  }
+
+  dropReplaceProfile(event: CdkDragDrop<ReplaceProfile[]>) {
+    moveItemInArray(this.pluginConfig.replaceProfiles, event.previousIndex, event.currentIndex);
+    this.apply();
+  }
+
+  dropReplacePattern(event: CdkDragDrop<ReplacePattern[]>) {
+    moveItemInArray(
+      this.pluginConfig.replaceProfiles[this.currentReplaceProfile].patterns,
+      event.previousIndex,
+      event.currentIndex
+    );
+    this.apply();
+  }
+  async changeReplaceProfileName(profileIndex: number) {
+    const modal = this.ngbModal.open(PromptModalComponent);
+    modal.componentInstance.prompt = this.translate.instant("Profile name");
+    modal.componentInstance.value = this.pluginConfig.replaceProfiles[profileIndex].name;
+    modal.componentInstance.password = false;
+    try {
+      const result = await modal.result.catch(() => null);
+      if (result?.value) {
+        this.pluginConfig.replaceProfiles[profileIndex].name = result.value;
+        this.apply();
+      }
+    } catch {}
+  }
+
+  addReplaceProfile(event: MouseEvent) {
+    event.preventDefault();
+    this.pluginConfig.replaceProfiles.push({
+      id: uuid.v4(),
+      name: `Profile ${this.pluginConfig.replaceProfiles.length}`,
+      patterns: [],
+    });
+    this.currentReplaceProfile = this.pluginConfig.replaceProfiles.length - 1;
+    this.apply();
+  }
+
+  async delReplaceProfile(event: MouseEvent, toRemove: number) {
+    if (this.pluginConfig.replaceProfiles.length > 1) {
+      const modal = this.ngbModal.open(ProfileDeleteModalComponent);
+      modal.componentInstance.prompt = `${this.translate.instant("Delete")} ${
+        this.pluginConfig.replaceProfiles[this.currentReplaceProfile].name
+      }${this.translate.instant("?")}`;
+
+      try {
+        const result = await modal.result.catch(() => null);
+        if (result === true) {
+          this.pluginConfig.replaceProfiles = this.pluginConfig.replaceProfiles.filter(
+            (item, index) => index !== toRemove
+          );
+          if (this.currentReplaceProfile === this.pluginConfig.replaceProfiles.length) {
+            this.currentReplaceProfile -= 1;
+          }
+          this.apply();
+        }
+      } catch {}
+    }
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  addReplacePattern() {
+    const newPattern: ReplacePattern = {
+      enabled: false,
+      search: "INFO",
+      replace: "信息",
+    };
+    this.pluginConfig.replaceProfiles[this.currentReplaceProfile].patterns.unshift(newPattern);
+    this.apply();
+  }
+
+  removeReplacePattern(i: number) {
+    this.pluginConfig.replaceProfiles[this.currentReplaceProfile].patterns.splice(i, 1);
+    this.apply();
   }
 }

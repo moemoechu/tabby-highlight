@@ -254,4 +254,91 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
     li(ngbNavItem)
         a(ngbNavLink, translate) Replace
         ng-template(ngbNavContent)
+            .form-line
+                .header
+                    .title(translate) Enable replace
+                    .description(translate) Replace master switch
+                toggle(
+                    [(ngModel)]='pluginConfig.replaceEnabled',
+                    (ngModelChange)='apply();',
+                )
+            .content-box.w-100(*ngIf='pluginConfig.replaceEnabled === true')
+                ul.nav-tabs(
+                    ngbNav, 
+                    #nav='ngbNav', 
+                    [(activeId)]='currentReplaceProfile',
+                    (navChange)='onReplaceProfileChange($event);',
+                    cdkDropList,
+                    cdkDropListOrientation='horizontal',
+                    (cdkDropListDropped)='dropReplaceProfile($event)',
+                )
+                    ng-container(*ngFor='let profile of pluginConfig.replaceProfiles; let profileIndex = index;')
+                        li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
+                            a.nav-link(ngbNavLink, (dblclick)='changeReplaceProfileName(profileIndex);') {{profile.name}}
+                                span.close.ms-2((click)='delReplaceProfile($event, profileIndex);')
+                                    i.fa-regular.fa-circle-xmark
+                            ng-template(ngbNavContent)
+                                .d-flex.w-100
+                                    button.btn.btn-primary((click)='addReplacePattern();')
+                                        i.fas.fa-solid.fa-plus
+                                        span(translate) Add
+                                    .flex-grow-1
+                                .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropReplacePattern($event)')
+                                    .list-group-item.active.d-flex.align-items-center()
+                                        span(translate, style='margin-left:10px; width: 46px; flex: none;')
+                                            i.fa-solid.fa-toggle-on
+                                        span(translate, style='width: 30px; flex: none;') (.*)
+                                        span(translate, style='width: 30px; flex: none;') Aa
+                                        span.text-center(translate, style='width: 100%;') Search Pattern
+                                        span.text-center(translate, style='width: 100%;') Replace Pattern
+                                        span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+                                            i.fas.fa-solid.fa-trash
+                                    ng-container(*ngFor='let item of profile.patterns; let i = index;')
+                                        .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
+                                            toggle(
+                                                cdkDragHandle
+                                                style='width: 60px; flex: none;',
+                                                [(ngModel)]='item.enabled',
+                                                (ngModelChange)='apply();',
+                                            )
+                                            .content-box.d-flex.align-items-center.w-100(
+                                                [style.opacity]='item.enabled ? 1 : 0.5',
+                                            )
+                                                checkbox.ms-1(
+                                                    [(ngModel)]='item.isRegExp',
+                                                    (ngModelChange)='apply();',
+                                                )
+                                                checkbox.ms-1(
+                                                    [(ngModel)]='item.isCaseSensitive',
+                                                    (ngModelChange)='apply();',
+                                                )
+                                                .content-box.d-flex.align-items-center.w-100.position-relative
+                                                    input.form-control(
+                                                        type='text',
+                                                        style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
+                                                        [(ngModel)]='item.search',
+                                                        (ngModelChange)='apply();',
+                                                    )
+                                                    .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
+                                                        *ngIf='!replaceVerifyStatus[profileIndex]?.[i]?.[0]',
+                                                        placement='end',
+                                                        [ngbTooltip]='replaceVerifyStatus[profileIndex]?.[i]?.[1]',
+                                                    )
+                                                        i.fa-solid.fa-circle-exclamation
+                                                .content-box.d-flex.align-items-center.w-100.ms-1
+                                                    input.form-control(
+                                                        type='text',
+                                                        style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);',
+                                                        [(ngModel)]='item.replace',
+                                                        (ngModelChange)='apply();',
+                                                    )
+                                            button.btn.btn-outline-secondary.ms-1(
+                                                style='width: 38px; flex: none;',
+                                                (click)='removeReplacePattern(i);',
+                                            )
+                                                i.fas.fa-solid.fa-trash
+                    li.nav-item(role='presentation')
+                        button.add-button.btn.btn-outline-secondary((click)='addReplaceProfile($event)')
+                            i.fa-regular.fa-square-plus
+                div([ngbNavOutlet]='nav')
 div([ngbNavOutlet]='nav')
