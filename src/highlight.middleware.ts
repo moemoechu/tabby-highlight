@@ -7,22 +7,13 @@ import { HighlightProfile, ReplaceProfile } from "./config.provider";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;
-  // highlightProfile: HighlightProfile;
-  // replaceProfile: ReplaceProfile;
   logger: Logger;
   toastr: ToastrService;
   translate: TranslateService;
 
-  constructor(
-    injector: Injector,
-    tab: BaseTerminalTabComponent<any>
-    // highlightProfile: HighlightProfile,
-    // replaceProfile: ReplaceProfile
-  ) {
+  constructor(injector: Injector, tab: BaseTerminalTabComponent<any>) {
     super();
     this.tab = tab;
-    // this.highlightProfile = (tab as any).highlightProfile;
-    // this.replaceProfile = (tab as any).replaceProfile;
     this.logger = injector.get(LogService).create(`tabby-highlight`);
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
@@ -138,7 +129,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       if (occurrences.length > 0) {
         passthroughFlag = false;
         // 改为按字符匹配的逻辑，可以解决嵌套问题喵，但……也许有性能问题也不一定(> <)，先就酱喵
-        let newDataString = "";
+        let highlightDataString = "";
         let char = "";
 
         for (let i = 0; i < dataString.length; i++) {
@@ -150,7 +141,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           if (csiSequenceMatch) {
             if (csiSequenceMatch.index === 0) {
               i += csiSequenceMatch[0].length - 1;
-              newDataString += csiSequenceMatch[0];
+              highlightDataString += csiSequenceMatch[0];
               continue;
             }
           }
@@ -160,7 +151,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           if (oscSequenceMatch) {
             if (oscSequenceMatch.index === 0) {
               i += oscSequenceMatch[0].length - 1;
-              newDataString += oscSequenceMatch[0];
+              highlightDataString += oscSequenceMatch[0];
               continue;
             }
           }
@@ -206,12 +197,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
             }
           }
 
-          newDataString += char;
+          highlightDataString += char;
         }
 
-        dataString = newDataString;
-        // const newData = Buffer.from(newDataString);
-        // return super.feedFromSession(newData);
+        dataString = highlightDataString;
       }
     }
 

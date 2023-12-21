@@ -1,9 +1,8 @@
 import { Injectable, Injector } from "@angular/core";
+import { HighlightPluginConfig } from "config.provider";
 import { ConfigService } from "tabby-core";
 import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
 import HighlightMiddleware from "./highlight.middleware";
-import { HighlightPluginConfig, HighlightProfile } from "config.provider";
-import * as uuid from "uuid";
 
 @Injectable()
 export class HighlightDecorator extends TerminalDecorator {
@@ -12,10 +11,6 @@ export class HighlightDecorator extends TerminalDecorator {
   }
 
   attach(tab: BaseTerminalTabComponent<any>): void {
-    // const { highlightEnabled, replaceEnabled } = this.config.store.highlightPlugin;
-    // if (!highlightEnabled && !replaceEnabled) {
-    //   return;
-    // }
     if (tab.sessionChanged$) {
       // v136+
       tab.sessionChanged$.subscribe((session) => {
@@ -61,22 +56,16 @@ export class HighlightDecorator extends TerminalDecorator {
         highlightProfileId = pluginConfig.highlightCurrentProfile;
       }
     }
-    // 不存在的配置ID喵（通常没有这种情况喵，但万一捏？）
-    // 当然，还有禁用的ID喵~
-    // if (!profileId || profileId === uuid.NIL) {
-    //   return;
-    // }
 
     const highlightProfile = pluginConfig.highlightProfiles.find(
       (value) => value.id === highlightProfileId
     );
 
-    if (pluginConfig.replaceEnabled) {
-      // 全局配置判定喵~
-      if (!replaceProfileId && pluginConfig.replaceEnabled) {
-        replaceProfileId = pluginConfig.replaceCurrentProfile;
-      }
+    // 全局配置判定喵~
+    if (!replaceProfileId && pluginConfig.replaceEnabled) {
+      replaceProfileId = pluginConfig.replaceCurrentProfile;
     }
+
     const replaceProfile = pluginConfig.replaceProfiles.find(
       (value) => value.id === replaceProfileId
     );
@@ -90,12 +79,7 @@ export class HighlightDecorator extends TerminalDecorator {
     (tab as any).highlightProfile = highlightProfile;
     (tab as any).replaceProfile = replaceProfile;
 
-    const middleware = new HighlightMiddleware(
-      this.injector,
-      tab
-      // highlightProfile,
-      // replaceProfile
-    );
+    const middleware = new HighlightMiddleware(this.injector, tab);
     session.middleware.push(middleware);
   }
 }

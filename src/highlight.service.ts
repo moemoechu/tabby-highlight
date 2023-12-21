@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
-import { translations } from "./translations";
 import * as uuid from "uuid";
+import { translations } from "./translations";
 
 @Injectable({ providedIn: "root" })
 export class HighlightService {
