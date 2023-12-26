@@ -23,6 +23,7 @@ import {
   ReplaceProfile,
 } from "./config.provider";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
+import { HighlightService } from "highlight.service";
 
 /** @hidden */
 @Component({
@@ -94,21 +95,9 @@ export class HighlightSettingsTabComponent {
   currentTheme: string;
   pluginConfig: HighlightPluginConfig;
   uuidNIL = uuid.NIL;
-
-  get currentProfile() {
-    let currentIndex = 0;
-    const result = this.pluginConfig.highlightProfiles.find((value, index) => {
-      currentIndex = index;
-      return value.id === this.pluginConfig.highlightCurrentProfile;
-    });
-
-    return currentIndex;
-  }
-
-  set currentProfile(value) {
-    this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles[value].id;
-    this.apply();
-  }
+  // get highlightProfiles(): HighlightProfile[] {
+  //   return this.highlightService.getHighlightProfiles();
+  // }
 
   constructor(
     public config: ConfigService,
@@ -117,14 +106,13 @@ export class HighlightSettingsTabComponent {
     private toastr: ToastrService,
     private translate: TranslateService,
     private ngbModal: NgbModal,
-    private sessionsService: ProfilesService
+    private sessionsService: ProfilesService,
+    private highlightService: HighlightService
   ) {
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
     this.pluginConfig = this.config.store.highlightPlugin;
-
     this.verify();
-    this.replaceVerify();
   }
 
   sessions: PartialProfile<Profile>[];
@@ -135,56 +123,43 @@ export class HighlightSettingsTabComponent {
     this.sessionGroups = await this.sessionsService.getProfileGroups();
     this.sessionTypes = [...new Set(this.sessions.map((item) => item.type))];
   }
-
-  import() {
-    const paths = this.electron.dialog.showOpenDialogSync(this.hostWindow.getWindow(), {
-      filters: [
-        { name: "Profile", extensions: ["thp", "json"] },
-        { name: "All Files", extensions: ["*"] },
-      ],
-      properties: ["openFile", "showHiddenFiles"],
-    });
-    if (paths && paths[0]) {
-      const data = fs.readFileSync(paths[0]);
-      const keywordsJSON = data.toString();
-      const importedProfile: HighlightProfile = JSON.parse(keywordsJSON);
-      importedProfile.id = this.pluginConfig.highlightCurrentProfile;
-      this.pluginConfig.highlightProfiles[this.currentProfile] = importedProfile;
-      this.apply();
-    }
+  apply() {
+    // this.config.save();
+    this.highlightService.saveConfig();
+    this.verify();
   }
-
-  async export() {
-    const keywordsData = JSON.stringify(this.pluginConfig.highlightProfiles[this.currentProfile]);
-    const result = await this.electron.dialog.showSaveDialog(this.hostWindow.getWindow(), {
-      filters: [
-        { name: "Profile", extensions: ["thp", "json"] },
-        { name: "All Files", extensions: ["*"] },
-      ],
-      properties: ["openFile", "showHiddenFiles"],
-    });
-    if (!result?.canceled) {
-      const file = fs.writeFile(result.filePath, keywordsData, (err) => {});
-    }
-  }
-
-  addKeyword() {
-    const newKeyword: HighlightKeyword = {
-      text: "INFO",
-      enabled: false,
-      background: true,
-      backgroundColor: "1",
-    };
-    this.pluginConfig.highlightProfiles[this.currentProfile].keywords.unshift(newKeyword);
-    this.apply();
-  }
-
-  removeKeyword(i: number) {
-    this.pluginConfig.highlightProfiles[this.currentProfile].keywords.splice(i, 1);
-    this.apply();
-  }
-
   verify() {
+    this.highlightVerify();
+    this.replaceVerify();
+  }
+
+  get currentHighlightProfileIndex() {
+    // let currentIndex = 0;
+    // const result = this.pluginConfig.highlightProfiles.find((value, index) => {
+    //   currentIndex = index;
+    //   return value.id === this.pluginConfig.highlightCurrentProfile;
+    // });
+
+    // return currentIndex;
+    return this.highlightService.getCurrentHighlightProfileIndex();
+  }
+
+  set currentHighlightProfileIndex(value) {
+    // this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles[value].id;
+    // this.apply();
+    this.highlightService.setCurrentHighlightProfileByIndex(value);
+  }
+
+  importHighlightProfile(id?: string) {
+    this.highlightService.importHighlightProfile(id);
+    this.verify();
+  }
+
+  exportHighlightProfile(id?: string) {
+    this.highlightService.exportHighlightProfile(id);
+  }
+
+  highlightVerify() {
     this.verifyStatus = [];
     for (const profile of this.pluginConfig.highlightProfiles) {
       const { keywords } = profile;
@@ -209,7 +184,7 @@ export class HighlightSettingsTabComponent {
 
   dropKeyword(event: CdkDragDrop<HighlightKeyword[]>) {
     moveItemInArray(
-      this.pluginConfig.highlightProfiles[this.currentProfile].keywords,
+      this.highlightService.getCurrentHighlightProfile().keywords,
       event.previousIndex,
       event.currentIndex
     );
@@ -217,7 +192,11 @@ export class HighlightSettingsTabComponent {
   }
 
   dropProfile(event: CdkDragDrop<HighlightProfile[]>) {
-    moveItemInArray(this.pluginConfig.highlightProfiles, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.highlightService.getHighlightProfiles(),
+      event.previousIndex,
+      event.currentIndex
+    );
     this.apply();
   }
 
@@ -227,40 +206,24 @@ export class HighlightSettingsTabComponent {
     return colorSchema[id];
   }
 
-  apply() {
-    this.config.save();
-    this.verify();
-    this.replaceVerify();
-  }
-
-  addProfile(event: MouseEvent) {
+  addHighlightProfile(event: MouseEvent) {
     event.preventDefault();
-    this.pluginConfig.highlightProfiles.push({
-      id: uuid.v4(),
-      name: `Profile ${this.pluginConfig.highlightProfiles.length}`,
-      keywords: [],
-    });
-    this.currentProfile = this.pluginConfig.highlightProfiles.length - 1;
-    this.apply();
+    this.highlightService.addHighlightProfile();
+    this.verify();
   }
 
-  async delProfile(event: MouseEvent, toRemove: number) {
-    if (this.pluginConfig.highlightProfiles.length > 1) {
+  async delHighlightProfile(event: MouseEvent, profile: HighlightProfile) {
+    if (this.highlightService.getHighlightProfiles().length > 1) {
       const modal = this.ngbModal.open(ProfileDeleteModalComponent);
       modal.componentInstance.prompt = `${this.translate.instant("Delete")} ${
-        this.pluginConfig.highlightProfiles[this.currentProfile].name
+        profile.name
       }${this.translate.instant("?")}`;
 
       try {
         const result = await modal.result.catch(() => null);
         if (result === true) {
-          this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
-            (item, index) => index !== toRemove
-          );
-          if (this.currentProfile === this.pluginConfig.highlightProfiles.length) {
-            this.currentProfile -= 1;
-          }
-          this.apply();
+          this.highlightService.delHighlightProfile(profile);
+          this.verify();
         }
       } catch {}
     }
@@ -268,62 +231,62 @@ export class HighlightSettingsTabComponent {
     event.stopImmediatePropagation();
   }
 
-  onProfileChange(changeEvent: NgbNavChangeEvent) {
-    this.currentProfile = changeEvent.nextId;
-    this.apply();
+  addKeyword() {
+    this.highlightService.addHighlightKeyword();
+    this.verify();
   }
 
-  async changeProfileName(profileIndex: number) {
+  delKeyword(i: number) {
+    this.highlightService.delHighlightKeyword(i);
+    this.verify();
+  }
+
+  onHighlightProfileChange(changeEvent: NgbNavChangeEvent) {
+    this.currentHighlightProfileIndex = changeEvent.nextId;
+    this.verify();
+  }
+
+  async renameHighlightProfile(event: MouseEvent, profile: HighlightProfile) {
     const modal = this.ngbModal.open(PromptModalComponent);
+    // const profile = this.highlightService.getHighlightProfileById(id);
     modal.componentInstance.prompt = this.translate.instant("Profile name");
-    modal.componentInstance.value = this.pluginConfig.highlightProfiles[profileIndex].name;
+    modal.componentInstance.value = profile.name;
     modal.componentInstance.password = false;
     try {
       const result = await modal.result.catch(() => null);
       if (result?.value) {
-        this.pluginConfig.highlightProfiles[profileIndex].name = result.value;
+        // this.pluginConfig.highlightProfiles[id].name = result.value;
+        profile.name = result.value;
         this.apply();
       }
     } catch {}
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
   }
 
-  addPerSessionProfile() {
-    this.pluginConfig.highlightPerSessionProfileMap.push({
-      sessionId: uuid.NIL,
-      profileId: uuid.NIL,
-    });
-    this.apply();
+  addHighlightPerSessionProfileMap() {
+    this.highlightService.addHighlightPerSessionProfileMap();
   }
 
-  removePerSessionProfile(i: number) {
-    this.pluginConfig.highlightPerSessionProfileMap.splice(i, 1);
-    this.apply();
+  delPerSessionProfile(i: number) {
+    this.highlightService.delHighlightPerSessionProfileMapByIndex(i);
   }
 
-  addPerSessionGroupProfile() {
-    this.pluginConfig.highlightPerSessionGroupProfileMap.push({
-      groupId: uuid.NIL,
-      profileId: uuid.NIL,
-    });
-    this.apply();
+  addHighlightPerSessionGroupProfile() {
+    this.highlightService.addHighlightPerSessionGroupProfileMap();
   }
 
-  removePerSessionGroupProfile(i: number) {
-    this.pluginConfig.highlightPerSessionGroupProfileMap.splice(i, 1);
-    this.apply();
+  delPerSessionGroupProfile(i: number) {
+    this.highlightService.delHighlightPerSessionGroupProfileMapByIndex(i);
   }
 
-  addPerSessionTypeProfile() {
-    this.pluginConfig.highlightPerSessionTypeProfileMap.push({
-      typeId: uuid.NIL,
-      profileId: uuid.NIL,
-    });
-    this.apply();
+  addHighlightPerSessionTypeProfile() {
+    this.highlightService.addHighlightPerSessionTypeProfileMap();
   }
 
-  removePerSessionTypeProfile(i: number) {
-    this.pluginConfig.highlightPerSessionTypeProfileMap.splice(i, 1);
-    this.apply();
+  delPerSessionTypeProfile(i: number) {
+    this.highlightService.delHighlightPerSessionTypeProfileMapByIndex(i);
   }
 
   getSessions(sessionId: string) {
@@ -364,19 +327,22 @@ export class HighlightSettingsTabComponent {
 
   // Replace
 
-  get currentReplaceProfile() {
-    let currentIndex = 0;
-    const result = this.pluginConfig.replaceProfiles.find((value, index) => {
-      currentIndex = index;
-      return value.id === this.pluginConfig.replaceCurrentProfile;
-    });
+  get currentReplaceProfileIndex() {
+    // let currentIndex = 0;
+    // const result = this.pluginConfig.replaceProfiles.find((value, index) => {
+    //   currentIndex = index;
+    //   return value.id === this.pluginConfig.replaceCurrentProfile;
+    // });
 
-    return currentIndex;
+    // return currentIndex;
+    return this.highlightService.getCurrentReplaceProfileIndex();
   }
 
-  set currentReplaceProfile(value) {
-    this.pluginConfig.replaceCurrentProfile = this.pluginConfig.replaceProfiles[value].id;
-    this.apply();
+  set currentReplaceProfileIndex(value) {
+    // this.pluginConfig.replaceCurrentProfile = this.pluginConfig.replaceProfiles[value].id;
+    // this.apply();
+
+    this.highlightService.setCurrentReplaceProfileByIndex(value);
   }
 
   replaceVerifyStatus: [boolean, string][][];
@@ -405,7 +371,7 @@ export class HighlightSettingsTabComponent {
   }
 
   onReplaceProfileChange(changeEvent: NgbNavChangeEvent) {
-    this.currentReplaceProfile = changeEvent.nextId;
+    this.currentReplaceProfileIndex = changeEvent.nextId;
     this.apply();
   }
 
@@ -416,54 +382,44 @@ export class HighlightSettingsTabComponent {
 
   dropReplacePattern(event: CdkDragDrop<ReplacePattern[]>) {
     moveItemInArray(
-      this.pluginConfig.replaceProfiles[this.currentReplaceProfile].patterns,
+      this.pluginConfig.replaceProfiles[this.currentReplaceProfileIndex].patterns,
       event.previousIndex,
       event.currentIndex
     );
     this.apply();
   }
-  async changeReplaceProfileName(profileIndex: number) {
-    const modal = this.ngbModal.open(PromptModalComponent);
-    modal.componentInstance.prompt = this.translate.instant("Profile name");
-    modal.componentInstance.value = this.pluginConfig.replaceProfiles[profileIndex].name;
-    modal.componentInstance.password = false;
-    try {
-      const result = await modal.result.catch(() => null);
-      if (result?.value) {
-        this.pluginConfig.replaceProfiles[profileIndex].name = result.value;
-        this.apply();
-      }
-    } catch {}
-  }
 
   addReplaceProfile(event: MouseEvent) {
     event.preventDefault();
-    this.pluginConfig.replaceProfiles.push({
-      id: uuid.v4(),
-      name: `Profile ${this.pluginConfig.replaceProfiles.length}`,
-      patterns: [],
-    });
-    this.currentReplaceProfile = this.pluginConfig.replaceProfiles.length - 1;
-    this.apply();
+    // this.pluginConfig.replaceProfiles.push({
+    //   id: uuid.v4(),
+    //   name: `Profile ${this.pluginConfig.replaceProfiles.length}`,
+    //   patterns: [],
+    // });
+    // this.currentReplaceProfileIndex = this.pluginConfig.replaceProfiles.length - 1;
+    // this.apply();
+    this.highlightService.addReplaceProfile();
+    this.verify();
   }
 
-  async delReplaceProfile(event: MouseEvent, toRemove: number) {
-    if (this.pluginConfig.replaceProfiles.length > 1) {
+  async delReplaceProfile(event: MouseEvent, profile: ReplaceProfile) {
+    if (this.highlightService.getReplaceProfiles().length > 1) {
       const modal = this.ngbModal.open(ProfileDeleteModalComponent);
       modal.componentInstance.prompt = `${this.translate.instant("Delete")} ${
-        this.pluginConfig.replaceProfiles[this.currentReplaceProfile].name
+        profile.name
       }${this.translate.instant("?")}`;
 
       try {
         const result = await modal.result.catch(() => null);
         if (result === true) {
-          this.pluginConfig.replaceProfiles = this.pluginConfig.replaceProfiles.filter(
-            (item, index) => index !== toRemove
-          );
-          if (this.currentReplaceProfile === this.pluginConfig.replaceProfiles.length) {
-            this.currentReplaceProfile -= 1;
-          }
-          this.apply();
+          // this.pluginConfig.replaceProfiles = this.pluginConfig.replaceProfiles.filter(
+          //   (item, index) => index !== toRemove
+          // );
+          // if (this.currentReplaceProfileIndex === this.pluginConfig.replaceProfiles.length) {
+          //   this.currentReplaceProfileIndex -= 1;
+          // }
+          // this.apply();
+          this.highlightService.delReplaceProfile(profile);
         }
       } catch {}
     }
@@ -471,18 +427,36 @@ export class HighlightSettingsTabComponent {
     event.stopImmediatePropagation();
   }
 
-  addReplacePattern() {
-    const newPattern: ReplacePattern = {
-      enabled: false,
-      search: "INFO",
-      replace: "信息",
-    };
-    this.pluginConfig.replaceProfiles[this.currentReplaceProfile].patterns.unshift(newPattern);
-    this.apply();
+  async renameReplaceProfile(event: MouseEvent, profile: ReplaceProfile) {
+    const modal = this.ngbModal.open(PromptModalComponent);
+    modal.componentInstance.prompt = this.translate.instant("Profile name");
+    modal.componentInstance.value = profile.name;
+    modal.componentInstance.password = false;
+    try {
+      const result = await modal.result.catch(() => null);
+      if (result?.value) {
+        profile.name = result.value;
+        this.apply();
+      }
+    } catch {}
+    event.preventDefault();
+    event.stopImmediatePropagation();
   }
 
-  removeReplacePattern(i: number) {
-    this.pluginConfig.replaceProfiles[this.currentReplaceProfile].patterns.splice(i, 1);
-    this.apply();
+  addReplacePattern() {
+    // const newPattern: ReplacePattern = {
+    //   enabled: false,
+    //   search: "INFO",
+    //   replace: "信息",
+    // };
+    // this.pluginConfig.replaceProfiles[this.currentReplaceProfileIndex].patterns.unshift(newPattern);
+    // this.apply();
+    this.highlightService.addReplacePattern();
+    this.verify();
+  }
+
+  delReplacePattern(i: number) {
+    this.highlightService.delReplacePattern(i);
+    this.verify();
   }
 }

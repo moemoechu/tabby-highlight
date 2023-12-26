@@ -38,7 +38,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
         if (enabled) {
           passthroughFlag = false;
 
-          const regexpFlag = `g${isCaseSensitive ? "" : "i"}`;
+          const regexpFlag = isCaseSensitive ? "g" : "gi";
 
           let pattern: RegExp;
           try {
@@ -93,7 +93,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           continue;
         }
 
-        const regexpFlag = `g${isCaseSensitive ? "" : "i"}`;
+        const regexpFlag = isCaseSensitive ? "g" : "gi";
 
         let pattern: RegExp;
         try {

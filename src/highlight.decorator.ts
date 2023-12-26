@@ -1,12 +1,17 @@
 import { Injectable, Injector } from "@angular/core";
-import { HighlightPluginConfig } from "config.provider";
+import { HighlightPluginConfig, HighlightProfile, ReplaceProfile } from "./config.provider";
 import { ConfigService } from "tabby-core";
 import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
 import HighlightMiddleware from "./highlight.middleware";
+import { HighlightService } from "./highlight.service";
 
 @Injectable()
 export class HighlightDecorator extends TerminalDecorator {
-  constructor(private config: ConfigService, protected injector: Injector) {
+  constructor(
+    private highlightService: HighlightService,
+    private config: ConfigService,
+    protected injector: Injector
+  ) {
     super();
   }
 
@@ -28,47 +33,69 @@ export class HighlightDecorator extends TerminalDecorator {
     const pluginConfig: HighlightPluginConfig = this.config.store.highlightPlugin;
     let highlightProfileId: string;
     let replaceProfileId: string;
+    let highlightProfile: HighlightProfile;
 
     if (pluginConfig.highlightEnabled) {
       // 会话配置判定喵~
-      if (!highlightProfileId && pluginConfig.highlightPerSessionEnabled) {
-        highlightProfileId = pluginConfig.highlightPerSessionProfileMap.find(
-          (value) => value.sessionId === tab.profile.id
-        )?.profileId;
+      // if (!highlightProfileId && pluginConfig.highlightPerSessionEnabled) {
+      //   highlightProfileId = pluginConfig.highlightPerSessionProfileMap.find(
+      //     (value) => value.sessionId === tab.profile.id
+      //   )?.profileId;
+      // }
+      if (!highlightProfile && pluginConfig.highlightPerSessionEnabled) {
+        highlightProfile = this.highlightService.getHighlightProfileBySessionId(tab.profile.id);
       }
 
       // 会话分组配置判定喵~
-      if (!highlightProfileId && pluginConfig.highlightPerSessionGroupEnabled) {
-        highlightProfileId = pluginConfig.highlightPerSessionGroupProfileMap.find(
-          (value) => value.groupId === tab.profile.group
-        )?.profileId;
+      // if (!highlightProfileId && pluginConfig.highlightPerSessionGroupEnabled) {
+      //   highlightProfileId = pluginConfig.highlightPerSessionGroupProfileMap.find(
+      //     (value) => value.groupId === tab.profile.group
+      //   )?.profileId;
+      // }
+      if (!highlightProfile && pluginConfig.highlightPerSessionGroupEnabled) {
+        highlightProfile = this.highlightService.getHighlightProfileBySessionGroupId(
+          tab.profile.group
+        );
       }
 
       // 会话类型配置判定喵~
-      if (!highlightProfileId && pluginConfig.highlightPerSessionTypeEnabled) {
-        highlightProfileId = pluginConfig.highlightPerSessionTypeProfileMap.find(
-          (value) => value.typeId === tab.profile.type
-        )?.profileId;
+      // if (!highlightProfileId && pluginConfig.highlightPerSessionTypeEnabled) {
+      //   highlightProfileId = pluginConfig.highlightPerSessionTypeProfileMap.find(
+      //     (value) => value.typeId === tab.profile.type
+      //   )?.profileId;
+      // }
+      if (!highlightProfile && pluginConfig.highlightPerSessionTypeEnabled) {
+        highlightProfile = this.highlightService.getHighlightProfileBySessionTypeId(
+          tab.profile.type
+        );
       }
 
       // 全局配置判定喵~
-      if (!highlightProfileId && pluginConfig.highlightGlobalEnabled) {
-        highlightProfileId = pluginConfig.highlightCurrentProfile;
+      // if (!highlightProfileId && pluginConfig.highlightGlobalEnabled) {
+      //   highlightProfileId = pluginConfig.highlightCurrentProfile;
+      // }
+      if (!highlightProfile && pluginConfig.highlightGlobalEnabled) {
+        highlightProfile = this.highlightService.getCurrentHighlightProfile();
       }
     }
 
-    const highlightProfile = pluginConfig.highlightProfiles.find(
-      (value) => value.id === highlightProfileId
-    );
+    // const highlightProfile = pluginConfig.highlightProfiles.find(
+    //   (value) => value.id === highlightProfileId
+    // );
 
-    // 全局配置判定喵~
-    if (!replaceProfileId && pluginConfig.replaceEnabled) {
-      replaceProfileId = pluginConfig.replaceCurrentProfile;
+    let replaceProfile: ReplaceProfile;
+    if (pluginConfig.replaceEnabled) {
+      // 全局配置判定喵~
+      // if (!replaceProfileId) {
+      //   replaceProfileId = pluginConfig.replaceCurrentProfile;
+      // }
+      if (!replaceProfile) {
+        replaceProfile = this.highlightService.getCurrentReplaceProfile();
+      }
     }
-
-    const replaceProfile = pluginConfig.replaceProfiles.find(
-      (value) => value.id === replaceProfileId
-    );
+    // const replaceProfile = pluginConfig.replaceProfiles.find(
+    //   (value) => value.id === replaceProfileId
+    // );
 
     // 不存在的配置喵（通常没有这种情况喵，但万一捏？）
     if (!highlightProfile && !replaceProfile) {

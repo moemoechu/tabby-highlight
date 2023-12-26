@@ -12,12 +12,14 @@ import {
 import { BaseTerminalTabComponent, ConnectableTerminalTabComponent } from "tabby-terminal";
 import { ToastrService } from "ngx-toastr";
 import * as uuid from "uuid";
+import { HighlightService } from "./highlight.service";
 
 @Injectable()
 export class HighlightContextMenu extends TabContextMenuItemProvider {
   weight = 1;
 
   constructor(
+    private highlightService: HighlightService,
     public config: ConfigService,
     private logService: LogService,
     private toastr: ToastrService,
@@ -36,38 +38,38 @@ export class HighlightContextMenu extends TabContextMenuItemProvider {
       {
         label: this.translate.instant("Highlight"),
         type: "submenu",
-        submenu: [{ id: uuid.NIL, name: this.translate.instant("Disable Highlight") }]
-          .concat(pluginConfig.highlightProfiles)
-          .map((value) => ({
-            type: "radio",
-            label: value.name,
-            checked: (tab as any).highlightProfile?.id === value.id,
-            click: () => {
-              if (!pluginConfig.highlightPerSessionEnabled) {
-                this.toastr.warning(
-                  this.translate.instant(
-                    "[Highlight] Can not change session profile due to per session profile not enabled"
-                  )
-                );
-                return;
-              }
-              const profileMap = pluginConfig.highlightPerSessionProfileMap.find(
-                (mapValue) => mapValue.sessionId === tab.profile.id
+        submenu: this.highlightService.getHighlightProfiles(true).map((value) => ({
+          type: "radio",
+          label: value.name,
+          checked: (tab as any).highlightProfile?.id === value.id,
+          click: () => {
+            if (!pluginConfig.highlightPerSessionEnabled) {
+              this.toastr.warning(
+                this.translate.instant(
+                  "[Highlight] Can not change session profile due to per session profile not enabled"
+                )
               );
-              if (profileMap) {
-                profileMap.profileId = value.id;
-              } else {
-                pluginConfig.highlightPerSessionProfileMap.push({
-                  sessionId: tab.profile.id,
-                  profileId: value.id,
-                });
-              }
-              (tab as any).highlightProfile = pluginConfig.highlightProfiles.find(
-                (profileValue) => profileValue.id === value.id
-              );
-              this.config.save();
-            },
-          })),
+              return;
+            }
+            // const profileMap = pluginConfig.highlightPerSessionProfileMap.find(
+            //   (mapValue) => mapValue.sessionId === tab.profile.id
+            // );
+            // if (profileMap) {
+            //   profileMap.profileId = value.id;
+            // } else {
+            //   pluginConfig.highlightPerSessionProfileMap.push({
+            //     sessionId: tab.profile.id,
+            //     profileId: value.id,
+            //   });
+            // }
+            this.highlightService.setHighlightPerSessionProfileMap(tab.profile.id, value.id);
+            // (tab as any).highlightProfile = pluginConfig.highlightProfiles.find(
+            //   (profileValue) => profileValue.id === value.id
+            // );
+            (tab as any).highlightProfile = this.highlightService.getHighlightProfileById(value.id);
+            this.config.save();
+          },
+        })),
       },
     ];
   }

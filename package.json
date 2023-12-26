@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "type": "commonjs",
   "license": "MIT",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "repository": {
     "url": "git+https://github.com/moemoechu/tabby-highlight.git"
   },

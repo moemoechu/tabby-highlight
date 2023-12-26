@@ -101,6 +101,7 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ## Changelog
 
+- 2.0.0: Completely refactor.
 - 1.7.0: Add tab context menu for fast profile switch.
 - 1.6.0: Add replace.
 - 1.5.0: Add Per session/group/type Profile.

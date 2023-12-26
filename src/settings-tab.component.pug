@@ -21,7 +21,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     )
                 .content-box.w-100(*ngIf='pluginConfig.highlightPerSessionEnabled === true')
                     .d-flex.w-100
-                        button.btn.btn-primary((click)='addPerSessionProfile();')
+                        button.btn.btn-primary((click)='addHighlightPerSessionProfileMap();')
                             i.fas.fa-solid.fa-plus
                             span(translate) Add
                     .list-group.mt-3.mb-3
@@ -47,7 +47,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         option(*ngFor='let profile of pluginConfig.highlightProfiles', [ngValue]='profile.id') {{profile.name}}
                                 button.btn.btn-outline-secondary.ms-1(
                                                 style='width: 38px; flex: none;',
-                                                (click)='removePerSessionProfile(i);',
+                                                (click)='delPerSessionProfile(i);',
                                             )
                                                 i.fas.fa-solid.fa-trash
                 .form-line
@@ -59,7 +59,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     )
                 .content-box.w-100(*ngIf='pluginConfig.highlightPerSessionGroupEnabled === true')
                     .d-flex.w-100
-                        button.btn.btn-primary((click)='addPerSessionGroupProfile();')
+                        button.btn.btn-primary((click)='addHighlightPerSessionGroupProfile();')
                             i.fas.fa-solid.fa-plus
                             span(translate) Add
                     .list-group.mt-3.mb-3
@@ -85,7 +85,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         option(*ngFor='let profile of pluginConfig.highlightProfiles', [ngValue]='profile.id') {{profile.name}}
                                 button.btn.btn-outline-secondary.ms-1(
                                                 style='width: 38px; flex: none;',
-                                                (click)='removePerSessionGroupProfile(i);',
+                                                (click)='delPerSessionGroupProfile(i);',
                                             )
                                                 i.fas.fa-solid.fa-trash
                 .form-line
@@ -97,7 +97,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     )
                 .content-box.w-100(*ngIf='pluginConfig.highlightPerSessionTypeEnabled === true')
                     .d-flex.w-100
-                        button.btn.btn-primary((click)='addPerSessionTypeProfile();')
+                        button.btn.btn-primary((click)='addHighlightPerSessionTypeProfile();')
                             i.fas.fa-solid.fa-plus
                             span(translate) Add
                     .list-group.mt-3.mb-3
@@ -123,7 +123,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         option(*ngFor='let profile of pluginConfig.highlightProfiles', [ngValue]='profile.id') {{profile.name}}
                                 button.btn.btn-outline-secondary.ms-1(
                                                 style='width: 38px; flex: none;',
-                                                (click)='removePerSessionTypeProfile(i);',
+                                                (click)='delPerSessionTypeProfile(i);',
                                             )
                                                 i.fas.fa-solid.fa-trash
                 .form-line
@@ -137,16 +137,16 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 ul.nav-tabs(
                     ngbNav, 
                     #nav='ngbNav', 
-                    [(activeId)]='currentProfile',
-                    (navChange)='onProfileChange($event);',
+                    [(activeId)]='currentHighlightProfileIndex',
+                    (navChange)='onHighlightProfileChange($event);',
                     cdkDropList,
                     cdkDropListOrientation='horizontal',
                     (cdkDropListDropped)='dropProfile($event)',
                 )
                     ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
                         li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
-                            a.nav-link(ngbNavLink, (dblclick)='changeProfileName(profileIndex);') {{profile.name}}
-                                span.close.ms-2((click)='delProfile($event, profileIndex);')
+                            a.nav-link(ngbNavLink, (dblclick)='renameHighlightProfile($event, profile);') {{profile.name}}
+                                span.close.ms-2((click)='delHighlightProfile($event, profile);')
                                     i.fa-regular.fa-circle-xmark
                             ng-template(ngbNavContent)
                                 .d-flex.w-100
@@ -154,10 +154,10 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         i.fas.fa-solid.fa-plus
                                         span(translate) Add
                                     .flex-grow-1
-                                    button.btn.btn-primary((click)='import();')
+                                    button.btn.btn-primary((click)='importHighlightProfile();')
                                         i.fas.fa-solid.fa-file-import
                                         span(translate) Import
-                                    button.btn.btn-primary.ms-2((click)='export();')
+                                    button.btn.btn-primary.ms-2((click)='exportHighlightProfile();')
                                         i.fas.fa-solid.fa-file-export
                                         span(translate) Export
                                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropKeyword($event)')
@@ -233,11 +233,11 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                                                     )
                                             button.btn.btn-outline-secondary.ms-1(
                                                 style='width: 38px; flex: none;',
-                                                (click)='removeKeyword(i);',
+                                                (click)='delKeyword(i);',
                                             )
                                                 i.fas.fa-solid.fa-trash
                     li.nav-item(role='presentation')
-                        button.add-button.btn.btn-outline-secondary((click)='addProfile($event)')
+                        button.add-button.btn.btn-outline-secondary((click)='addHighlightProfile($event)')
                             i.fa-regular.fa-square-plus
                 div([ngbNavOutlet]='nav')
                 .alert.alert-info.d-flex.align-items-center
@@ -266,7 +266,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 ul.nav-tabs(
                     ngbNav, 
                     #nav='ngbNav', 
-                    [(activeId)]='currentReplaceProfile',
+                    [(activeId)]='currentReplaceProfileIndex',
                     (navChange)='onReplaceProfileChange($event);',
                     cdkDropList,
                     cdkDropListOrientation='horizontal',
@@ -274,8 +274,8 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                 )
                     ng-container(*ngFor='let profile of pluginConfig.replaceProfiles; let profileIndex = index;')
                         li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
-                            a.nav-link(ngbNavLink, (dblclick)='changeReplaceProfileName(profileIndex);') {{profile.name.lenght}}
-                                span.close.ms-2((click)='delReplaceProfile($event, profileIndex);')
+                            a.nav-link(ngbNavLink, (dblclick)='renameReplaceProfile($event, profile);') {{profile.name}}
+                                span.close.ms-2((click)='delReplaceProfile($event, profile);')
                                     i.fa-regular.fa-circle-xmark
                             ng-template(ngbNavContent)
                                 .d-flex.w-100
@@ -334,7 +334,7 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                                     )
                                             button.btn.btn-outline-secondary.ms-1(
                                                 style='width: 38px; flex: none;',
-                                                (click)='removeReplacePattern(i);',
+                                                (click)='delReplacePattern(i);',
                                             )
                                                 i.fas.fa-solid.fa-trash
                     li.nav-item(role='presentation')
