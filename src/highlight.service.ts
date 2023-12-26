@@ -1,22 +1,7 @@
 import { Injectable } from "@angular/core";
-import { translations } from "./translations";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { Component } from "@angular/core";
-import { NgbModal, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import fs from "fs";
 import { ToastrService } from "ngx-toastr";
-import {
-  ConfigService,
-  LogService,
-  Logger,
-  PartialProfile,
-  PartialProfileGroup,
-  Profile,
-  ProfileGroup,
-  ProfilesService,
-  PromptModalComponent,
-  TranslateService,
-} from "tabby-core";
+import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
 import * as uuid from "uuid";
 import {
@@ -25,8 +10,8 @@ import {
   HighlightProfile,
   ReplacePattern,
   ReplaceProfile,
-} from "./config.provider";
-import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
+} from "./api";
+import { translations } from "./translations";
 
 @Injectable({ providedIn: "root" })
 export class HighlightService {
@@ -38,9 +23,7 @@ export class HighlightService {
     private translate: TranslateService,
     private electron: ElectronService,
     private hostWindow: ElectronHostWindow,
-    private toastr: ToastrService,
-    private ngbModal: NgbModal,
-    private sessionsService: ProfilesService
+    private toastr: ToastrService
   ) {
     this.logger = this.logService.create("tabby-highlight");
     this.logger.info("HighlightService ctor");
@@ -59,45 +42,7 @@ export class HighlightService {
     });
   }
 
-  // get pluginMasterSwitch() {
-  //   return this.pluginConfig.highlightEnabled;
-  // }
-
-  // set pluginMasterSwitch(value: boolean) {
-  //   this.pluginConfig.highlightEnabled = value;
-  // }
-
-  // get currentHighlightProfileIndex() {
-  //   let currentIndex = 0;
-  //   const result = this.pluginConfig.highlightProfiles.find((value, index) => {
-  //     currentIndex = index;
-  //     return value.id === this.pluginConfig.highlightCurrentProfile;
-  //   });
-
-  //   return currentIndex;
-  // }
-
-  // set currentHighlightProfileIndex(value) {
-  //   this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles[value].id;
-  //   this.saveConfig();
-  // }
-
-  // get currentReplaceProfileIndex() {
-  //   let currentIndex = 0;
-  //   const result = this.pluginConfig.replaceProfiles.find((value, index) => {
-  //     currentIndex = index;
-  //     return value.id === this.pluginConfig.replaceCurrentProfile;
-  //   });
-
-  //   return currentIndex;
-  // }
-
-  // set currentReplaceProfileIndex(value) {
-  //   this.pluginConfig.replaceCurrentProfile = this.pluginConfig.replaceProfiles[value].id;
-  //   this.saveConfig();
-  // }
-
-  // 高亮相关方法
+  // 高亮相关方法喵
   getHighlightProfiles(appendNil?: boolean) {
     if (appendNil) {
       return [{ id: uuid.NIL, name: this.translate.instant("Disable Highlight") }].concat(
@@ -159,9 +104,6 @@ export class HighlightService {
     this.logger.info(`Highlight profile [${targetProfile.id}] modified`);
     this.saveConfig();
   }
-  // setHighlightProfileById(id: string, newProfile: HighlightProfile) {
-  //   return this.setHighlightProfile(this.getHighlightProfileById(id), newProfile);
-  // }
 
   // 单会话相关方法喵
   addHighlightPerSessionProfileMap(sessionId: string = uuid.NIL, profileId: string = uuid.NIL) {
@@ -255,11 +197,6 @@ export class HighlightService {
       backgroundColor: "1",
     };
     const targetProfile = id ? this.getHighlightProfileById(id) : this.getCurrentHighlightProfile();
-    // if (id) {
-    //   this.getHighlightProfileById(id).keywords.unshift(newKeyword);
-    // } else {
-    //   this.getCurrentHighlightProfile().keywords.unshift(newKeyword);
-    // }
     targetProfile.keywords.unshift(newKeyword);
     this.logger.info(`Highlight profile [${targetProfile.id}] keyword added`);
     this.saveConfig();
@@ -267,12 +204,6 @@ export class HighlightService {
 
   delHighlightKeyword(i: number, id?: string) {
     const targetProfile = id ? this.getHighlightProfileById(id) : this.getCurrentHighlightProfile();
-
-    // if (id) {
-    //   this.getHighlightProfileById(id).keywords.splice(i, 1);
-    // } else {
-    //   this.getCurrentHighlightProfile().keywords.splice(i, 1);
-    // }
     targetProfile.keywords.splice(i, 1);
     this.saveConfig();
   }
@@ -284,10 +215,9 @@ export class HighlightService {
       keywords: [],
     };
     this.pluginConfig.highlightProfiles.push(newProfile);
-    // this.currentHighlightProfileIndex = this.getHighlightProfiles().length - 1;
     this.pluginConfig.highlightCurrentProfile = newProfile.id;
-    this.saveConfig();
     this.logger.info(`Highlight profile [${newProfile.id}] added`);
+    this.saveConfig();
   }
 
   delHighlightProfile(profile: HighlightProfile) {
@@ -300,9 +230,8 @@ export class HighlightService {
     );
 
     this.setCurrentHighlightProfileByIndex(currentIndex);
-
-    this.saveConfig();
     this.logger.info(`Highlight profile [${profile.id}] deleted`);
+    this.saveConfig();
   }
 
   importHighlightProfile(id?: string) {
@@ -310,14 +239,6 @@ export class HighlightService {
       const importedProfile: HighlightProfile = data;
       importedProfile.id = id ? id : this.getCurrentHighlightProfile().id;
       this.setHighlightProfile(this.getCurrentHighlightProfile(), importedProfile, id);
-      // if (id) {
-      //   importedProfile.id = id;
-      //   this.setHighlightProfileById(id, importedProfile);
-      // } else {
-      //   importedProfile.id = this.getCurrentHighlightProfile().id;
-      //   this.setHighlightProfile(this.getCurrentHighlightProfile(), importedProfile);
-      // }
-
       this.logger.info(`Highlight profile [${importedProfile.id}] imported`);
     });
   }
@@ -404,8 +325,8 @@ export class HighlightService {
     };
     this.pluginConfig.replaceProfiles.push(newProfile);
     this.pluginConfig.replaceCurrentProfile = newProfile.id;
-    this.saveConfig();
     this.logger.info(`Replace profile [${newProfile.id}] added`);
+    this.saveConfig();
   }
 
   delReplaceProfile(profile: ReplaceProfile) {
@@ -418,9 +339,8 @@ export class HighlightService {
     );
 
     this.setCurrentReplaceProfileByIndex(currentIndex);
-
-    this.saveConfig();
     this.logger.info(`Replace profile [${profile.id}] deleted`);
+    this.saveConfig();
   }
 
   importReplaceProfile(id?: string) {

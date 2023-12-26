@@ -1,7 +1,7 @@
 import { Injectable, Injector } from "@angular/core";
-import { HighlightPluginConfig, HighlightProfile, ReplaceProfile } from "./config.provider";
 import { ConfigService } from "tabby-core";
 import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
+import { HighlightPluginConfig, HighlightProfile, ReplaceProfile } from "./api";
 import HighlightMiddleware from "./highlight.middleware";
 import { HighlightService } from "./highlight.service";
 
@@ -37,21 +37,11 @@ export class HighlightDecorator extends TerminalDecorator {
 
     if (pluginConfig.highlightEnabled) {
       // 会话配置判定喵~
-      // if (!highlightProfileId && pluginConfig.highlightPerSessionEnabled) {
-      //   highlightProfileId = pluginConfig.highlightPerSessionProfileMap.find(
-      //     (value) => value.sessionId === tab.profile.id
-      //   )?.profileId;
-      // }
       if (!highlightProfile && pluginConfig.highlightPerSessionEnabled) {
         highlightProfile = this.highlightService.getHighlightProfileBySessionId(tab.profile.id);
       }
 
       // 会话分组配置判定喵~
-      // if (!highlightProfileId && pluginConfig.highlightPerSessionGroupEnabled) {
-      //   highlightProfileId = pluginConfig.highlightPerSessionGroupProfileMap.find(
-      //     (value) => value.groupId === tab.profile.group
-      //   )?.profileId;
-      // }
       if (!highlightProfile && pluginConfig.highlightPerSessionGroupEnabled) {
         highlightProfile = this.highlightService.getHighlightProfileBySessionGroupId(
           tab.profile.group
@@ -59,11 +49,6 @@ export class HighlightDecorator extends TerminalDecorator {
       }
 
       // 会话类型配置判定喵~
-      // if (!highlightProfileId && pluginConfig.highlightPerSessionTypeEnabled) {
-      //   highlightProfileId = pluginConfig.highlightPerSessionTypeProfileMap.find(
-      //     (value) => value.typeId === tab.profile.type
-      //   )?.profileId;
-      // }
       if (!highlightProfile && pluginConfig.highlightPerSessionTypeEnabled) {
         highlightProfile = this.highlightService.getHighlightProfileBySessionTypeId(
           tab.profile.type
@@ -71,31 +56,18 @@ export class HighlightDecorator extends TerminalDecorator {
       }
 
       // 全局配置判定喵~
-      // if (!highlightProfileId && pluginConfig.highlightGlobalEnabled) {
-      //   highlightProfileId = pluginConfig.highlightCurrentProfile;
-      // }
       if (!highlightProfile && pluginConfig.highlightGlobalEnabled) {
         highlightProfile = this.highlightService.getCurrentHighlightProfile();
       }
     }
 
-    // const highlightProfile = pluginConfig.highlightProfiles.find(
-    //   (value) => value.id === highlightProfileId
-    // );
-
     let replaceProfile: ReplaceProfile;
     if (pluginConfig.replaceEnabled) {
       // 全局配置判定喵~
-      // if (!replaceProfileId) {
-      //   replaceProfileId = pluginConfig.replaceCurrentProfile;
-      // }
       if (!replaceProfile) {
         replaceProfile = this.highlightService.getCurrentReplaceProfile();
       }
     }
-    // const replaceProfile = pluginConfig.replaceProfiles.find(
-    //   (value) => value.id === replaceProfileId
-    // );
 
     // 不存在的配置喵（通常没有这种情况喵，但万一捏？）
     if (!highlightProfile && !replaceProfile) {

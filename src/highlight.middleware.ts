@@ -3,7 +3,7 @@ import { ToastrService } from "ngx-toastr";
 import { LogService, Logger, TranslateService } from "tabby-core";
 import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
 import { debounce } from "utils-decorators";
-import { HighlightProfile, ReplaceProfile } from "./config.provider";
+import { HighlightProfile, ReplaceProfile } from "./api";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: BaseTerminalTabComponent<any>;

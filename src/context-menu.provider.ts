@@ -1,17 +1,14 @@
 import { Injectable } from "@angular/core";
-import { HighlightPluginConfig } from "./config.provider";
+import { ToastrService } from "ngx-toastr";
 import {
   BaseTabComponent,
   ConfigService,
-  LogService,
   MenuItemOptions,
-  SplitTabComponent,
   TabContextMenuItemProvider,
   TranslateService,
 } from "tabby-core";
-import { BaseTerminalTabComponent, ConnectableTerminalTabComponent } from "tabby-terminal";
-import { ToastrService } from "ngx-toastr";
-import * as uuid from "uuid";
+import { BaseTerminalTabComponent } from "tabby-terminal";
+import { HighlightPluginConfig } from "./api";
 import { HighlightService } from "./highlight.service";
 
 @Injectable()
@@ -21,7 +18,6 @@ export class HighlightContextMenu extends TabContextMenuItemProvider {
   constructor(
     private highlightService: HighlightService,
     public config: ConfigService,
-    private logService: LogService,
     private toastr: ToastrService,
     private translate: TranslateService
   ) {
@@ -51,21 +47,7 @@ export class HighlightContextMenu extends TabContextMenuItemProvider {
               );
               return;
             }
-            // const profileMap = pluginConfig.highlightPerSessionProfileMap.find(
-            //   (mapValue) => mapValue.sessionId === tab.profile.id
-            // );
-            // if (profileMap) {
-            //   profileMap.profileId = value.id;
-            // } else {
-            //   pluginConfig.highlightPerSessionProfileMap.push({
-            //     sessionId: tab.profile.id,
-            //     profileId: value.id,
-            //   });
-            // }
             this.highlightService.setHighlightPerSessionProfileMap(tab.profile.id, value.id);
-            // (tab as any).highlightProfile = pluginConfig.highlightProfiles.find(
-            //   (profileValue) => profileValue.id === value.id
-            // );
             (tab as any).highlightProfile = this.highlightService.getHighlightProfileById(value.id);
             this.config.save();
           },

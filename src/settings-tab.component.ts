@@ -1,7 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component } from "@angular/core";
 import { NgbModal, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
-import fs from "fs";
 import { ToastrService } from "ngx-toastr";
 import {
   ConfigService,
@@ -21,9 +20,9 @@ import {
   HighlightProfile,
   ReplacePattern,
   ReplaceProfile,
-} from "./config.provider";
+} from "./api";
+import { HighlightService } from "./highlight.service";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
-import { HighlightService } from "highlight.service";
 
 /** @hidden */
 @Component({
@@ -95,9 +94,6 @@ export class HighlightSettingsTabComponent {
   currentTheme: string;
   pluginConfig: HighlightPluginConfig;
   uuidNIL = uuid.NIL;
-  // get highlightProfiles(): HighlightProfile[] {
-  //   return this.highlightService.getHighlightProfiles();
-  // }
 
   constructor(
     public config: ConfigService,
@@ -124,7 +120,6 @@ export class HighlightSettingsTabComponent {
     this.sessionTypes = [...new Set(this.sessions.map((item) => item.type))];
   }
   apply() {
-    // this.config.save();
     this.highlightService.saveConfig();
     this.verify();
   }
@@ -134,19 +129,10 @@ export class HighlightSettingsTabComponent {
   }
 
   get currentHighlightProfileIndex() {
-    // let currentIndex = 0;
-    // const result = this.pluginConfig.highlightProfiles.find((value, index) => {
-    //   currentIndex = index;
-    //   return value.id === this.pluginConfig.highlightCurrentProfile;
-    // });
-
-    // return currentIndex;
     return this.highlightService.getCurrentHighlightProfileIndex();
   }
 
   set currentHighlightProfileIndex(value) {
-    // this.pluginConfig.highlightCurrentProfile = this.pluginConfig.highlightProfiles[value].id;
-    // this.apply();
     this.highlightService.setCurrentHighlightProfileByIndex(value);
   }
 
@@ -248,14 +234,12 @@ export class HighlightSettingsTabComponent {
 
   async renameHighlightProfile(event: MouseEvent, profile: HighlightProfile) {
     const modal = this.ngbModal.open(PromptModalComponent);
-    // const profile = this.highlightService.getHighlightProfileById(id);
     modal.componentInstance.prompt = this.translate.instant("Profile name");
     modal.componentInstance.value = profile.name;
     modal.componentInstance.password = false;
     try {
       const result = await modal.result.catch(() => null);
       if (result?.value) {
-        // this.pluginConfig.highlightProfiles[id].name = result.value;
         profile.name = result.value;
         this.apply();
       }
@@ -328,20 +312,10 @@ export class HighlightSettingsTabComponent {
   // Replace
 
   get currentReplaceProfileIndex() {
-    // let currentIndex = 0;
-    // const result = this.pluginConfig.replaceProfiles.find((value, index) => {
-    //   currentIndex = index;
-    //   return value.id === this.pluginConfig.replaceCurrentProfile;
-    // });
-
-    // return currentIndex;
     return this.highlightService.getCurrentReplaceProfileIndex();
   }
 
   set currentReplaceProfileIndex(value) {
-    // this.pluginConfig.replaceCurrentProfile = this.pluginConfig.replaceProfiles[value].id;
-    // this.apply();
-
     this.highlightService.setCurrentReplaceProfileByIndex(value);
   }
 
@@ -391,13 +365,6 @@ export class HighlightSettingsTabComponent {
 
   addReplaceProfile(event: MouseEvent) {
     event.preventDefault();
-    // this.pluginConfig.replaceProfiles.push({
-    //   id: uuid.v4(),
-    //   name: `Profile ${this.pluginConfig.replaceProfiles.length}`,
-    //   patterns: [],
-    // });
-    // this.currentReplaceProfileIndex = this.pluginConfig.replaceProfiles.length - 1;
-    // this.apply();
     this.highlightService.addReplaceProfile();
     this.verify();
   }
@@ -412,13 +379,6 @@ export class HighlightSettingsTabComponent {
       try {
         const result = await modal.result.catch(() => null);
         if (result === true) {
-          // this.pluginConfig.replaceProfiles = this.pluginConfig.replaceProfiles.filter(
-          //   (item, index) => index !== toRemove
-          // );
-          // if (this.currentReplaceProfileIndex === this.pluginConfig.replaceProfiles.length) {
-          //   this.currentReplaceProfileIndex -= 1;
-          // }
-          // this.apply();
           this.highlightService.delReplaceProfile(profile);
         }
       } catch {}
@@ -444,13 +404,6 @@ export class HighlightSettingsTabComponent {
   }
 
   addReplacePattern() {
-    // const newPattern: ReplacePattern = {
-    //   enabled: false,
-    //   search: "INFO",
-    //   replace: "信息",
-    // };
-    // this.pluginConfig.replaceProfiles[this.currentReplaceProfileIndex].patterns.unshift(newPattern);
-    // this.apply();
     this.highlightService.addReplacePattern();
     this.verify();
   }

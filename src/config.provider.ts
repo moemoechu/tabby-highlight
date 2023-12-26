@@ -1,56 +1,5 @@
 import { ConfigProvider } from "tabby-core";
-
-export type HighlightProfile = {
-  id: string;
-  name: string;
-  keywords: HighlightKeyword[];
-};
-export type HighlightKeyword = {
-  text: string;
-  enabled: boolean;
-  isRegExp?: boolean;
-  isCaseSensitive?: boolean;
-  foreground?: boolean;
-  foregroundColor?: string;
-  background: boolean;
-  backgroundColor: string;
-  bold?: boolean;
-  italic?: boolean;
-  underline?: boolean;
-  dim?: boolean;
-};
-
-export type ReplaceProfile = {
-  id: string;
-  name: string;
-  patterns: ReplacePattern[];
-};
-
-export type ReplacePattern = {
-  enabled: boolean;
-  isRegExp?: boolean;
-  isCaseSensitive?: boolean;
-  search: string;
-  replace: string;
-};
-
-export type HighlightPluginConfig = {
-  highlightEnabled: boolean;
-  highlightMode: "xterm-control-sequence";
-  highlightCurrentProfile: string;
-  highlightProfiles: HighlightProfile[];
-  highlightPerSessionEnabled: boolean;
-  highlightPerSessionProfileMap: { sessionId: string; profileId: string }[];
-  highlightPerSessionGroupEnabled: boolean;
-  highlightPerSessionGroupProfileMap: { groupId: string; profileId: string }[];
-  highlightPerSessionTypeEnabled: boolean;
-  highlightPerSessionTypeProfileMap: { typeId: string; profileId: string }[];
-  highlightGlobalEnabled: boolean;
-  highlightKeywords?: HighlightKeyword[]; //废弃喵
-  replaceEnabled: boolean;
-  replaceCurrentProfile: string;
-  replaceProfiles: ReplaceProfile[];
-};
+import { HighlightPluginConfig } from "./api";
 
 /** @hidden */
 export class HighlightConfigProvider extends ConfigProvider {
