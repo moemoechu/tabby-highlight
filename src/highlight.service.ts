@@ -215,9 +215,10 @@ export class HighlightService {
       keywords: [],
     };
     this.pluginConfig.highlightProfiles.push(newProfile);
-    this.pluginConfig.highlightCurrentProfile = newProfile.id;
+    // this.pluginConfig.highlightCurrentProfile = newProfile.id;
     this.logger.info(`Highlight profile [${newProfile.id}] added`);
     this.saveConfig();
+    this.setCurrentHighlightProfileById(newProfile.id);
   }
 
   delHighlightProfile(profile: HighlightProfile) {
@@ -229,9 +230,9 @@ export class HighlightService {
       (item) => item.id !== profile.id
     );
 
-    this.setCurrentHighlightProfileByIndex(currentIndex);
     this.logger.info(`Highlight profile [${profile.id}] deleted`);
     this.saveConfig();
+    this.setCurrentHighlightProfileByIndex(currentIndex);
   }
 
   importHighlightProfile(id?: string) {
@@ -324,9 +325,10 @@ export class HighlightService {
       patterns: [],
     };
     this.pluginConfig.replaceProfiles.push(newProfile);
-    this.pluginConfig.replaceCurrentProfile = newProfile.id;
+    // this.pluginConfig.replaceCurrentProfile = newProfile.id;
     this.logger.info(`Replace profile [${newProfile.id}] added`);
     this.saveConfig();
+    this.setCurrentReplaceProfileById(newProfile.id);
   }
 
   delReplaceProfile(profile: ReplaceProfile) {
@@ -338,9 +340,9 @@ export class HighlightService {
       (item) => item.id !== profile.id
     );
 
-    this.setCurrentReplaceProfileByIndex(currentIndex);
     this.logger.info(`Replace profile [${profile.id}] deleted`);
     this.saveConfig();
+    this.setCurrentReplaceProfileByIndex(currentIndex);
   }
 
   importReplaceProfile(id?: string) {
@@ -393,7 +395,7 @@ export class HighlightService {
 
   saveConfig() {
     this.config.save();
-    this.logger.info(`Highlight settings saved`);
+    this.logger.info(`Plugin settings saved`);
   }
 
   private upgrade() {

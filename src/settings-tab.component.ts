@@ -53,7 +53,7 @@ import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
 export class HighlightSettingsTabComponent {
   styles = [
     {
-      name: "Background",
+      name: "Background Color",
       enabledModel: "background",
       valueType: "number",
       valueModel: "backgroundColor",
@@ -61,7 +61,7 @@ export class HighlightSettingsTabComponent {
       max: 15,
     },
     {
-      name: "Foreground",
+      name: "Foreground Color",
       enabledModel: "foreground",
       valueType: "number",
       valueModel: "foregroundColor",
