@@ -29,13 +29,13 @@ export class HighlightService {
     this.logger.info("HighlightService ctor");
     this.config.ready$.subscribe(() => {
       this.logger.info("config ready");
-      for (const translation of translations) {
-        const [lang, trans] = translation;
-        setTimeout(() => {
+      setImmediate(() => {
+        for (const translation of translations) {
+          const [lang, trans] = translation;
           this.translate.setTranslation(lang, trans, true);
           this.logger.info("translate applied");
-        }, 300);
-      }
+        }
+      });
       this.upgrade();
 
       this.pluginConfig = this.config.store.highlightPlugin;
