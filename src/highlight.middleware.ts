@@ -10,6 +10,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
   logger: Logger;
   toastr: ToastrService;
   translate: TranslateService;
+  enterReplacer = "\n";
 
   constructor(injector: Injector, tab: BaseTerminalTabComponent<any>) {
     super();
@@ -17,6 +18,14 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.logger = injector.get(LogService).create(`tabby-highlight`);
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
+
+    if (process.platform === "win32") {
+      this.enterReplacer = "\r\n";
+    } else if (process.platform === "darwin") {
+      this.enterReplacer = "\r";
+    } else {
+      this.enterReplacer = "\n";
+    }
   }
 
   // 注意：本插件没有做过性能测试喵，不知道多少关键字是极限喵
@@ -33,6 +42,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
     if (replaceProfile) {
       const { patterns } = replaceProfile as ReplaceProfile;
+
       for (const pattern of patterns) {
         const { enabled, isCaseSensitive, isRegExp, search, replace } = pattern;
         if (enabled) {
@@ -54,7 +64,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
             this.logger.error(e.message);
             return super.feedFromSession(data);
           }
-          dataString = dataString.replaceAll(pattern, replace);
+          dataString = dataString.replaceAll(
+            pattern,
+            replace.replaceAll("\\n", this.enterReplacer)
+          );
         }
       }
     }

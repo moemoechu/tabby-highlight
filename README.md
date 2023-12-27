@@ -98,6 +98,7 @@ The input string will be proceed from the top pattern to the end pattern.
 ### Replace Test
 
 ![Replace Test](screenshots/terminal_test_replace.png)
+![Replace Test2](screenshots/terminal_test_replace2.png)
 
 ## Changelog
 

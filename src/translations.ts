@@ -9,6 +9,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Highlight master switch": "高亮总开关",
       "Change any setting of highlight only apply in new sessions.":
         "任何对高亮设置的修改只会应用到新会话。",
+      "Change any setting of replace only apply in new sessions.":
+        "任何对替换设置的修改只会应用到新会话。",
       "Highlight applied!": "高亮已应用！",
       "ON": "开",
       "Keyword": "关键字",
@@ -29,6 +31,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Case": "大小写",
       "Import": "导入",
       "Drag the ON button may reorder the keyword.": "拖动开关可以对关键字排序。",
+      "Drag the ON button may reorder the pattern.": "拖动开关可以对模式排序。",
       "Profile name": "配置名称",
       "Active tab is the global highlight profile.": "活动标签页是全局生效的高亮配置。",
       "Double click tab can change profile name.": "双击标签页头可以更改配置名称。",
@@ -55,6 +58,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Replace Pattern": "替换模式",
       "[Highlight] Can not change session profile due to per session profile not enabled":
         "[高亮] 无法在未启用单会话配置的情况下修改会话配置",
+      "Replacement processed from top to end.": "替换是从上往下处理的。",
+      "If you want to add a new line, add \"\\n\" to the replace pattern.":"如果想要添加新行，在替换模式中添加\\n即可。"
     },
   ],
 ];

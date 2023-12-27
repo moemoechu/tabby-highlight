@@ -341,4 +341,13 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                         button.add-button.btn.btn-outline-secondary((click)='addReplaceProfile($event)')
                             i.fa-regular.fa-square-plus
                 div([ngbNavOutlet]='nav')
+                .alert.alert-info.d-flex.align-items-center
+                    .me-auto
+                        span
+                            p(translate) Drag the ON button may reorder the pattern.
+                            p(translate) Replacement processed from top to end.
+                            p(translate) Active tab is the global highlight profile.
+                            p(translate) Double click tab can change profile name.
+                            p(translate) Change any setting of replace only apply in new sessions.
+                            p(translate) If you want to add a new line, add "\n" to the replace pattern.
 div([ngbNavOutlet]='nav')
