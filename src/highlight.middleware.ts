@@ -11,7 +11,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
   logger: Logger;
   toastr: ToastrService;
   translate: TranslateService;
-  enterReplacer = "\n";
+  enterReplacer = "\r\n";
 
   constructor(injector: Injector, tab: BaseTerminalTabComponent<any>) {
     super();
@@ -20,13 +20,13 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
 
-    if (process.platform === "win32") {
-      this.enterReplacer = "\r\n";
-    } else if (process.platform === "darwin") {
-      this.enterReplacer = "\r";
-    } else {
-      this.enterReplacer = "\n";
-    }
+    // if (process.platform === "win32") {
+    //   this.enterReplacer = "\r\n";
+    // } else if (process.platform === "darwin") {
+    //   this.enterReplacer = "\r";
+    // } else {
+    //   this.enterReplacer = "\n";
+    // }
   }
 
   // 注意：本插件没有做过性能测试喵，不知道多少关键字是极限喵
@@ -35,17 +35,19 @@ export default class HighlightMiddleware extends SessionMiddleware {
     if (data.length === 0) {
       return super.feedFromSession(data);
     }
+    const dataStringRaw = data.toString();
+    const dataStringSplitted = dataStringRaw.split(this.enterReplacer);
 
-    const dataStringSplitted = data.toString().split(this.enterReplacer);
+    // this.logger.debug("raw terminal line:");
+    // this.logger.debug(inspect(dataStringRaw));
+
     const dataStringArray: string[] = [];
     let passthroughFlag = true;
     for (let dataString of dataStringSplitted) {
       // let dataString = data.toString();
 
-      // this.logger.debug("raw terminal line:");
-      // this.logger.debug(inspect(dataString));
-
       const { highlightProfile, replaceProfile } = this.tab as any;
+      let dataStringReplaced = dataString
 
       if (replaceProfile) {
         const { patterns } = replaceProfile as ReplaceProfile;
@@ -71,7 +73,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               this.logger.error(e.message);
               return super.feedFromSession(data);
             }
-            dataString = dataString.replaceAll(
+            dataStringReplaced = dataStringReplaced.replaceAll(
               pattern,
               replace.replaceAll("\\n", this.enterReplacer)
             );
@@ -135,7 +137,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
           // this.logger.debug(`highlight match terminal line when match ${pattern}:`);
           // this.logger.debug(inspect(dataString));
-          const matches = dataString.matchAll(pattern);
+          const matches = dataStringReplaced.matchAll(pattern);
 
           for (const match of matches) {
             // this.logger.debug(`match result:`);
@@ -157,19 +159,19 @@ export default class HighlightMiddleware extends SessionMiddleware {
         if (occurrences.length > 0) {
           passthroughFlag = false;
           // 改为按字符匹配的逻辑，可以解决嵌套问题喵，但……也许有性能问题也不一定(> <)，先就酱喵
-          let highlightDataString = "";
+          let dataStringHighlighted = "";
           let char = "";
 
-          for (let i = 0; i < dataString.length; i++) {
+          for (let i = 0; i < dataStringReplaced.length; i++) {
             // 改来改去越来越复杂喵，性能蹭蹭下降喵，建议去用隔壁ElecTerm，自带高亮喵~
-            const subString = dataString.slice(i);
+            const subString = dataStringReplaced.slice(i);
 
             // 其实本来可以把所有的控制字符都strip掉喵，但谁让咱比较好心，还是挨个进行了处理喵
             const csiSequenceMatch = subString.match(/\x1b\[[0-9;?]*[a-zA-Z]/);
             if (csiSequenceMatch) {
               if (csiSequenceMatch.index === 0) {
                 i += csiSequenceMatch[0].length - 1;
-                highlightDataString += csiSequenceMatch[0];
+                dataStringHighlighted += csiSequenceMatch[0];
                 continue;
               }
             }
@@ -179,7 +181,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             if (oscSequenceMatch) {
               if (oscSequenceMatch.index === 0) {
                 i += oscSequenceMatch[0].length - 1;
-                highlightDataString += oscSequenceMatch[0];
+                dataStringHighlighted += oscSequenceMatch[0];
                 continue;
               }
             }
@@ -225,11 +227,11 @@ export default class HighlightMiddleware extends SessionMiddleware {
               }
             }
 
-            highlightDataString += char;
+            dataStringHighlighted += char;
           }
 
           // dataString = highlightDataString;
-          dataStringArray.push(highlightDataString);
+          dataStringArray.push(dataStringHighlighted);
         } else {
           dataStringArray.push(dataString);
         }
