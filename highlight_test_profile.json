@@ -1,5 +1,5 @@
 {
-  "name": "默认配置",
+  "name": "演示配置",
   "keywords": [
     {
       "text": ".",
@@ -9,7 +9,17 @@
       "foregroundColor": "0",
       "background": true,
       "backgroundColor": 1,
-      "bold": false
+      "bold": false,
+      "dim": false,
+      "underline": false
+    },
+    {
+      "text": "^\\s*\"wholeLineMatch\": \"an invisible line\",$",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "1",
+      "isRegExp": true,
+      "isCaseSensitive": false
     },
     {
       "text": "BOLD",
@@ -247,108 +257,7 @@
       "background": true,
       "backgroundColor": 1,
       "bold": false
-    },
-    {
-      "text": "cute.*over",
-      "enabled": false,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 4,
-      "bold": false,
-      "italic": true,
-      "underline": false
-    },
-    {
-      "text": "twintails cute cat",
-      "enabled": false,
-      "isRegExp": false,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 2,
-      "bold": false
-    },
-    {
-      "text": "[^A-Za-z_&-](last (failed )?login:|launching|checking|loading|creating|building|important|booting|starting|notice|informational|informationen|informazioni|informa玢o|oplysninger|informations?|info|informaci髇|informasi|note|\\(ii\\)|\\(\\!\\!\\))[^A-Za-z_-]",
-      "enabled": false,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 6,
-      "bold": false
-    },
-    {
-      "text": "[^0-9A-Za-z_&-](localhost|([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])\\.[0-9]+\\.[0-9]+\\.[0-9]+|null|none)[^0-9A-Za-z_-]",
-      "enabled": false,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 5,
-      "bold": false
-    },
-    {
-      "text": "[^A-Za-z_&-](\\[\\-w[A-Za-z-]+\\]|caught signal [0-9]+|cannot|(connection (to (remote host|[a-z0-9.]+) )?)?(closed|terminated|stopped|not responding)|exited|no more [A-Za-z] available|unexpected|(command |binary |file )?not found|ooo?o?o?ps|out of (space|memory)|low (memory|disk)|unknown|disabled|disconnected|deprecated|refused|disconnect(ion)?|advertencia|avvertimento|attention|warnings?|achtung|exclamation|alerts?|warnungs?|advarsel|pedwarn|aviso|varoitus|upozorenje|peringatan|uyari|varning|avertissement|\\(ww\\)|\\(\\?\\?\\)|could not|unable to)[^A-Za-z_-]",
-      "enabled": false,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 3,
-      "bold": false
-    },
-    {
-      "text": "([^A-Za-z_&-](accepted|allowed|enabled|connected|erfolgreich|exitoso|successo|sucedido|framg錸gsrik|successfully|successful|succeeded|success)[^A-Za-z_-]|[=>\"':.,;({\\[][ ]*(true|yes|ok)[ ]*[\\]=>\"':.,;)} ])",
-      "enabled": false,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 2,
-      "bold": false
-    },
-    {
-      "text": "([^A-Za-z_&-]((bad|wrong|incorrect|improper|invalid|unsupported|bad)( file| memory)? (descriptor|alloc(ation)?|addr(ess)?|owner(ship)?|arg(ument)?|param(eter)?|setting|length|filename)|not properly|improperly|(operation |connection |authentication |access |permission )?(denied|disallowed|not allowed|refused|problem|failed|failure|not permitted)|no [A-Za-z]+( [A-Za-z]+)? found|invalid|unsupported|not supported|seg(mentation )?fault|corruption|corrupted|corrupt|overflow|underrun|not ok|unimplemented|unsuccessfull|not implemented|permerrors?|fehlers?|errore|errors?|erreurs?|fejl|virhe|gre歬a|erro|fel|\\(ee\\)|\\(ni\\))[^A-Za-z_-]|[=>\"':.,;({\\[][ ]*(false|no|ko)[ ]*[\\]=>\"':.,;)} ])",
-      "enabled": false,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 1,
-      "bold": false
-    },
-    {
-      "text": "错误",
-      "enabled": false,
-      "isRegExp": false,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 1,
-      "bold": false
-    },
-    {
-      "text": "警告",
-      "enabled": false,
-      "isRegExp": false,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": 3,
-      "bold": false
-    },
-    {
-      "text": "信息",
-      "enabled": false,
-      "isRegExp": false,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": "6",
-      "bold": false
     }
-  ]
+  ],
+  "id": "f55ab0fa-a20c-4232-9dbf-f8eb6013756b"
 }
