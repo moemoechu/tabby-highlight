@@ -412,4 +412,13 @@ export class HighlightSettingsTabComponent {
     this.highlightService.delReplacePattern(i);
     this.verify();
   }
+
+  importReplaceProfile(id?: string) {
+    this.highlightService.importReplaceProfile(id);
+    this.verify();
+  }
+
+  exportReplaceProfile(id?: string) {
+    this.highlightService.exportReplaceProfile(id);
+  }
 }

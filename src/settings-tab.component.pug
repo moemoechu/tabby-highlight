@@ -283,6 +283,12 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                                         i.fas.fa-solid.fa-plus
                                         span(translate) Add
                                     .flex-grow-1
+                                    button.btn.btn-primary((click)='importReplaceProfile();')
+                                        i.fas.fa-solid.fa-file-import
+                                        span(translate) Import
+                                    button.btn.btn-primary.ms-2((click)='exportReplaceProfile();')
+                                        i.fas.fa-solid.fa-file-export
+                                        span(translate) Export
                                 .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropReplacePattern($event)')
                                     .list-group-item.active.d-flex.align-items-center()
                                         span(translate, style='margin-left:10px; width: 46px; flex: none;')

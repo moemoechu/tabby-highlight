@@ -348,17 +348,18 @@ export class HighlightService {
   importReplaceProfile(id?: string) {
     this.importProfile((data) => {
       const importedProfile: ReplaceProfile = data;
-      if (id) {
-        importedProfile.id = id;
-        this.setReplaceProfileById(id, importedProfile);
-      } else {
-        importedProfile.id = this.getCurrentReplaceProfile().id;
-        this.setReplaceProfile(this.getCurrentReplaceProfile(), importedProfile);
-      }
+      importedProfile.id = id ? id : this.getCurrentReplaceProfile().id;
+      this.setReplaceProfile(this.getCurrentReplaceProfile(), importedProfile, id);
+      this.logger.info(`Replace profile [${importedProfile.id}] imported`);
     });
   }
+
   exportReplaceProfile(id?: string) {
     this.exportProfile(id ? this.getReplaceProfileById(id) : this.getCurrentReplaceProfile());
+
+    this.logger.info(
+      `Replace profile [${id ?? this.pluginConfig.highlightCurrentProfile}] exported`
+    );
   }
 
   importProfile(handler: (data: any) => void) {
