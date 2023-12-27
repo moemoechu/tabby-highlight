@@ -1,7 +1,12 @@
 import { Injectable, Injector } from "@angular/core";
 import { ConfigService } from "tabby-core";
 import { BaseSession, BaseTerminalTabComponent, TerminalDecorator } from "tabby-terminal";
-import { HighlightPluginConfig, HighlightProfile, ReplaceProfile } from "./api";
+import {
+  HighlightEngagedTab,
+  HighlightPluginConfig,
+  HighlightProfile,
+  ReplaceProfile,
+} from "./api";
 import HighlightMiddleware from "./highlight.middleware";
 import { HighlightService } from "./highlight.service";
 
@@ -29,7 +34,7 @@ export class HighlightDecorator extends TerminalDecorator {
     }
   }
 
-  private attachToSession(session: BaseSession, tab: BaseTerminalTabComponent<any>) {
+  private attachToSession(session: BaseSession, tab: HighlightEngagedTab) {
     const pluginConfig: HighlightPluginConfig = this.config.store.highlightPlugin;
     let highlightProfile: HighlightProfile;
 
@@ -73,8 +78,8 @@ export class HighlightDecorator extends TerminalDecorator {
     }
 
     // 将配置狠狠地注入到标签页喵，方便使用右键菜单切换喵~
-    (tab as any).highlightProfile = highlightProfile;
-    (tab as any).replaceProfile = replaceProfile;
+    tab.highlightProfile = highlightProfile;
+    tab.replaceProfile = replaceProfile;
 
     const middleware = new HighlightMiddleware(this.injector, tab);
     session.middleware.push(middleware);

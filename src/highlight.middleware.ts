@@ -1,19 +1,19 @@
 import { Injector } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { LogService, Logger, TranslateService } from "tabby-core";
-import { BaseTerminalTabComponent, SessionMiddleware } from "tabby-terminal";
+import { SessionMiddleware } from "tabby-terminal";
 import { debounce } from "utils-decorators";
-import { HighlightProfile, ReplaceProfile } from "./api";
+import { HighlightEngagedTab } from "./api";
 import { inspect } from "util";
 
 export default class HighlightMiddleware extends SessionMiddleware {
-  tab: BaseTerminalTabComponent<any>;
+  tab: HighlightEngagedTab;
   logger: Logger;
   toastr: ToastrService;
   translate: TranslateService;
   enterReplacer = "\r\n";
 
-  constructor(injector: Injector, tab: BaseTerminalTabComponent<any>) {
+  constructor(injector: Injector, tab: HighlightEngagedTab) {
     super();
     this.tab = tab;
     this.logger = injector.get(LogService).create(`tabby-highlight`);
@@ -46,11 +46,11 @@ export default class HighlightMiddleware extends SessionMiddleware {
     for (let dataString of dataStringSplitted) {
       // let dataString = data.toString();
 
-      const { highlightProfile, replaceProfile } = this.tab as any;
-      let dataStringReplaced = dataString
+      const { highlightProfile, replaceProfile } = this.tab;
+      let dataStringReplaced = dataString;
 
       if (replaceProfile) {
-        const { patterns } = replaceProfile as ReplaceProfile;
+        const { patterns } = replaceProfile;
 
         for (const pattern of patterns) {
           const { enabled, isCaseSensitive, isRegExp, search, replace } = pattern;
@@ -85,7 +85,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       // this.logger.debug(inspect(dataString));
 
       if (highlightProfile) {
-        const { keywords } = highlightProfile as HighlightProfile;
+        const { keywords } = highlightProfile;
         const occurrences: {
           start: number;
           end: number;

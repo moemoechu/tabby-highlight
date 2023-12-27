@@ -1,3 +1,5 @@
+import { BaseTerminalTabComponent } from "tabby-terminal";
+
 export type HighlightProfile = {
   id: string;
   name: string;
@@ -48,4 +50,9 @@ export type HighlightPluginConfig = {
   replaceEnabled: boolean;
   replaceCurrentProfile: string;
   replaceProfiles: ReplaceProfile[];
+};
+
+export type HighlightEngagedTab = BaseTerminalTabComponent<any> & {
+  highlightProfile?: HighlightProfile;
+  replaceProfile?: ReplaceProfile;
 };
