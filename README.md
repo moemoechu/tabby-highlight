@@ -1,3 +1,5 @@
+[中文](README.zh-CN.md)
+
 # Tabby Highlight Plugin
 
 Tabby terminal keyword highlight plugin based on Xterm control sequence.
