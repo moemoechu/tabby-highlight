@@ -6,7 +6,7 @@
 
 ### 高亮方式
 
-- [x] Highlight keyword based on Xterm control sequence.
+- [x] 基于 Xterm 控制序列高亮
 
 ### 高亮参数
 
