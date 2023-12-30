@@ -22,6 +22,8 @@ import {
 } from "./api";
 import { translations } from "./translations";
 
+const nullProfile: HighlightProfile = { id: uuid.NIL, name: "Disable highlight", keywords: [] };
+
 @Injectable({ providedIn: "root" })
 export class HighlightService {
   private logger: Logger;
@@ -55,9 +57,7 @@ export class HighlightService {
   // 高亮相关方法喵
   getHighlightProfiles(appendNil?: boolean) {
     if (appendNil) {
-      return [{ id: uuid.NIL, name: this.translate.instant("Disable Highlight") }].concat(
-        this.pluginConfig.highlightProfiles
-      );
+      return [nullProfile].concat(this.pluginConfig.highlightProfiles);
     }
     return this.pluginConfig.highlightProfiles;
   }
@@ -87,6 +87,9 @@ export class HighlightService {
     return currentIndex;
   }
   getHighlightProfileById(id: string) {
+    if (id === uuid.NIL) {
+      return nullProfile;
+    }
     return this.pluginConfig.highlightProfiles.find((profile) => profile.id === id);
   }
   getHighlightProfileBySessionId(sessionId: string) {
