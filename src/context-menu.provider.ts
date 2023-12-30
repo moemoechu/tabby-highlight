@@ -48,8 +48,6 @@ export class HighlightContextMenu extends TabContextMenuItemProvider {
               return;
             }
             this.highlightService.setHighlightPerSessionProfileMap(tab.profile.id, value.id);
-            (tab as any).highlightProfile = this.highlightService.getHighlightProfileById(value.id);
-            this.config.save();
           },
         })),
       },

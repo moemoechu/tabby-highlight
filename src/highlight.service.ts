@@ -1,10 +1,19 @@
 import { Injectable } from "@angular/core";
 import fs from "fs";
 import { ToastrService } from "ngx-toastr";
-import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
+import {
+  AppService,
+  ConfigService,
+  LogService,
+  Logger,
+  SplitTabComponent,
+  TranslateService,
+} from "tabby-core";
 import { ElectronHostWindow, ElectronService } from "tabby-electron";
+import { BaseTerminalTabComponent } from "tabby-terminal";
 import * as uuid from "uuid";
 import {
+  HighlightEngagedTab,
   HighlightKeyword,
   HighlightPluginConfig,
   HighlightProfile,
@@ -23,7 +32,8 @@ export class HighlightService {
     private translate: TranslateService,
     private electron: ElectronService,
     private hostWindow: ElectronHostWindow,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private app: AppService
   ) {
     this.logger = this.logService.create("tabby-highlight");
     this.logger.info("HighlightService ctor");
@@ -397,6 +407,71 @@ export class HighlightService {
   saveConfig() {
     this.config.save();
     this.logger.info(`Plugin settings saved`);
+    this.applyPluginSettings();
+  }
+
+  injectProfilesToTab(
+    tab: HighlightEngagedTab,
+    highlightProfile?: HighlightProfile,
+    replaceProfile?: ReplaceProfile
+  ) {
+    // 将配置狠狠地注入到标签页喵，方便使用右键菜单切换喵~
+    tab.highlightProfile = highlightProfile;
+    tab.replaceProfile = replaceProfile;
+  }
+
+  injectHighlightToTab(tab: HighlightEngagedTab) {
+    let highlightProfile: HighlightProfile;
+    if (this.pluginConfig.highlightEnabled) {
+      // 会话配置判定喵~
+      if (!highlightProfile && this.pluginConfig.highlightPerSessionEnabled) {
+        highlightProfile = this.getHighlightProfileBySessionId(tab.profile.id);
+      }
+
+      // 会话分组配置判定喵~
+      if (!highlightProfile && this.pluginConfig.highlightPerSessionGroupEnabled) {
+        highlightProfile = this.getHighlightProfileBySessionGroupId(tab.profile.group);
+      }
+
+      // 会话类型配置判定喵~
+      if (!highlightProfile && this.pluginConfig.highlightPerSessionTypeEnabled) {
+        highlightProfile = this.getHighlightProfileBySessionTypeId(tab.profile.type);
+      }
+
+      // 全局配置判定喵~
+      if (!highlightProfile && this.pluginConfig.highlightGlobalEnabled) {
+        highlightProfile = this.getCurrentHighlightProfile();
+      }
+    }
+
+    let replaceProfile: ReplaceProfile;
+    if (this.pluginConfig.replaceEnabled) {
+      // 全局配置判定喵~
+      if (!replaceProfile) {
+        replaceProfile = this.getCurrentReplaceProfile();
+      }
+    }
+
+    // 不存在的配置喵（通常没有这种情况喵，但万一捏？）
+    if (!highlightProfile && !replaceProfile) {
+      return;
+    }
+    this.injectProfilesToTab(tab, highlightProfile, replaceProfile);
+  }
+
+  applyPluginSettings() {
+    for (const tab of this.app.tabs) {
+      if (tab instanceof SplitTabComponent) {
+        for (const subTab of tab.getAllTabs()) {
+          if (subTab instanceof BaseTerminalTabComponent) {
+            this.injectHighlightToTab(subTab);
+          }
+        }
+      } else if (tab instanceof BaseTerminalTabComponent) {
+        this.injectHighlightToTab(tab);
+      }
+    }
+    this.logger.info(`Plugin settings applied`);
   }
 
   private upgrade() {
