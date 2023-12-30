@@ -20,6 +20,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
 
+    this.logger.info("HighlightMiddleware ctor.");
+
     // if (process.platform === "win32") {
     //   this.enterReplacer = "\r\n";
     // } else if (process.platform === "darwin") {
@@ -83,7 +85,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
       // this.logger.debug("replaced terminal line:");
       // this.logger.debug(inspect(dataString));
-
+      let dataStringHighlighted = dataStringReplaced;
       if (highlightProfile) {
         const { keywords } = highlightProfile;
         const occurrences: {
@@ -159,7 +161,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
         if (occurrences.length > 0) {
           passthroughFlag = false;
           // 改为按字符匹配的逻辑，可以解决嵌套问题喵，但……也许有性能问题也不一定(> <)，先就酱喵
-          let dataStringHighlighted = "";
+          dataStringHighlighted = "";
           let char = "";
 
           for (let i = 0; i < dataStringReplaced.length; i++) {
@@ -229,15 +231,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
             dataStringHighlighted += char;
           }
-
-          // dataString = highlightDataString;
-          dataStringArray.push(dataStringHighlighted);
-        } else {
-          dataStringArray.push(dataStringReplaced);
         }
-      } else {
-        dataStringArray.push(dataStringReplaced);
       }
+      dataStringArray.push(dataStringHighlighted);
     }
 
     if (passthroughFlag) {
