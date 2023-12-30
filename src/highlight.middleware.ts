@@ -235,6 +235,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
         } else {
           dataStringArray.push(dataStringReplaced);
         }
+      } else {
+        dataStringArray.push(dataStringReplaced);
       }
     }
 
