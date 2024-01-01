@@ -1,9 +1,9 @@
 import { Injector } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { LogService, Logger, TranslateService } from "tabby-core";
+import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
 import { SessionMiddleware } from "tabby-terminal";
 import { debounce } from "utils-decorators";
-import { HighlightEngagedTab } from "./api";
+import { HighlightEngagedTab, HighlightPluginConfig } from "./api";
 import { inspect } from "util";
 
 export default class HighlightMiddleware extends SessionMiddleware {
@@ -12,6 +12,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
   toastr: ToastrService;
   translate: TranslateService;
   enterReplacer = "\r\n";
+  pluginConfig: HighlightPluginConfig;
 
   constructor(injector: Injector, tab: HighlightEngagedTab) {
     super();
@@ -19,6 +20,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.logger = injector.get(LogService).create(`tabby-highlight`);
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
+    this.pluginConfig = injector.get(ConfigService).store.highlightPlugin;
 
     this.logger.info("HighlightMiddleware ctor.");
 
@@ -43,6 +45,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
     // this.logger.debug("raw terminal line:");
     // this.logger.debug(inspect(dataStringRaw));
 
+    const { highlightAlternateDisable, replaceAlternateDisable } = this.pluginConfig;
+    const isAlternate = this.tab.alternateScreenActive;
+
     const dataStringArray: string[] = [];
     let passthroughFlag = true;
     for (let dataString of dataStringSplitted) {
@@ -51,7 +56,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       const { highlightProfile, replaceProfile } = this.tab;
       let dataStringReplaced = dataString;
 
-      if (replaceProfile) {
+      if (replaceProfile && ((isAlternate && !replaceAlternateDisable) || !isAlternate)) {
         const { patterns } = replaceProfile;
 
         for (const pattern of patterns) {
@@ -86,7 +91,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
       // this.logger.debug("replaced terminal line:");
       // this.logger.debug(inspect(dataString));
       let dataStringHighlighted = dataStringReplaced;
-      if (highlightProfile) {
+      if (highlightProfile && ((isAlternate && !highlightAlternateDisable) || !isAlternate)) {
         const { keywords } = highlightProfile;
         const occurrences: {
           start: number;

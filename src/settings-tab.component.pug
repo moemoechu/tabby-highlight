@@ -14,6 +14,14 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
             .content-box.w-100(*ngIf='pluginConfig.highlightEnabled === true')
                 .form-line
                     .header
+                        .title(translate) Disable highlight in alternate screen
+                        .description(translate) For example: vi/vim
+                    toggle(
+                        [(ngModel)]='pluginConfig.highlightAlternateDisable',
+                        (ngModelChange)='apply();',
+                    )
+                .form-line
+                    .header
                         .title(translate) Enable per session profile
                     toggle(
                         [(ngModel)]='pluginConfig.highlightPerSessionEnabled',
@@ -262,6 +270,14 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
                     (ngModelChange)='apply();',
                 )
             .content-box.w-100(*ngIf='pluginConfig.replaceEnabled === true')
+                .form-line
+                    .header
+                        .title(translate) Disable replace in alternate screen
+                        .description(translate) For example: vi/vim
+                    toggle(
+                        [(ngModel)]='pluginConfig.replaceAlternateDisable',
+                        (ngModelChange)='apply();',
+                    )
                 ul.nav-tabs(
                     ngbNav, 
                     #nav='ngbNav', 

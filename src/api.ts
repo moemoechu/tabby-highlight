@@ -36,6 +36,7 @@ export type ReplacePattern = {
 
 export type HighlightPluginConfig = {
   highlightEnabled: boolean;
+  highlightAlternateDisable: boolean;
   highlightMode: "xterm-control-sequence";
   highlightCurrentProfile: string;
   highlightProfiles: HighlightProfile[];
@@ -48,6 +49,7 @@ export type HighlightPluginConfig = {
   highlightGlobalEnabled: boolean;
   highlightKeywords?: HighlightKeyword[]; //废弃喵
   replaceEnabled: boolean;
+  replaceAlternateDisable: boolean;
   replaceCurrentProfile: string;
   replaceProfiles: ReplaceProfile[];
 };

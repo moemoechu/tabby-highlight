@@ -105,6 +105,7 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ## Changelog
 
+- 2.2.0: Add support disable highlight/replace in alternate screen.
 - 2.1.0: Support realtime profile changed.
 - 2.0.0: Completely refactor.
 - 1.7.0: Add tab context menu for fast profile switch.

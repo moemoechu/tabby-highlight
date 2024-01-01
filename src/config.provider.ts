@@ -6,6 +6,7 @@ export class HighlightConfigProvider extends ConfigProvider {
   defaults: { highlightPlugin: HighlightPluginConfig } = {
     highlightPlugin: {
       highlightEnabled: false,
+      highlightAlternateDisable: false,
       highlightMode: "xterm-control-sequence",
       highlightCurrentProfile: "60606be0-c0ff-42bc-bf77-de8a2435447f",
       highlightKeywords: null, //废弃喵
@@ -62,6 +63,7 @@ export class HighlightConfigProvider extends ConfigProvider {
       highlightPerSessionTypeProfileMap: [],
       highlightGlobalEnabled: true,
       replaceEnabled: false,
+      replaceAlternateDisable: false,
       replaceCurrentProfile: "986666dd-dac9-4c7a-a295-9b4aff66abdd",
       replaceProfiles: [
         {

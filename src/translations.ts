@@ -59,7 +59,11 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "[Highlight] Can not change session profile due to per session profile not enabled":
         "[高亮] 无法在未启用单会话配置的情况下修改会话配置",
       "Replacement processed from top to end.": "替换是从上往下处理的。",
-      "If you want to add a new line, add \"\\n\" to the replace pattern.":"如果想要添加新行，在替换模式中添加\\n即可。"
+      'If you want to add a new line, add "\\n" to the replace pattern.':
+        "如果想要添加新行，在替换模式中添加\\n即可。",
+      "Disable replace in alternate screen": "在备用屏幕中禁用替换",
+      "Disable highlight in alternate screen": "在备用屏幕中禁用高亮",
+      "For example: vi/vim": "例如：vi/vim",
     },
   ],
 ];
