@@ -186,10 +186,30 @@ export class HighlightSettingsTabComponent {
     this.apply();
   }
 
-  getAnsiColorById(id: number) {
+  getAnsiColorById(id: number): string {
     const schema = this.currentTheme === "light" ? "lightColorScheme" : "colorScheme";
     const colorSchema = this.config.store.terminal[schema].colors;
     return colorSchema[id];
+  }
+
+  getForegroundColor(item: HighlightKeyword): string {
+    if (item.foreground !== undefined) {
+      if (item.foregroundColor !== undefined) {
+        return this.getAnsiColorById(Number.parseInt(item.foregroundColor));
+      }
+      return this.getAnsiColorById(1);
+    }
+    return this.getAnsiColorById(0);
+  }
+
+  getBackgroundColor(item: HighlightKeyword): string {
+    if (item.background !== undefined) {
+      if (item.backgroundColor !== undefined) {
+        return this.getAnsiColorById(Number.parseInt(item.backgroundColor));
+      }
+      return this.getAnsiColorById(1);
+    }
+    return "transparent";
   }
 
   addHighlightProfile(event: MouseEvent) {
