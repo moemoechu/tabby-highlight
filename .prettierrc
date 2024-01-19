@@ -1,1 +1,6 @@
-{ "printWidth": 100, "singleQuote": false, "quoteProps": "consistent" }
+{
+  "printWidth": 100,
+  "singleQuote": false,
+  "quoteProps": "consistent",
+  "plugins": ["@prettier/plugin-pug"]
+}

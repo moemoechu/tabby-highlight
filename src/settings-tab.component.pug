@@ -1,5 +1,5 @@
 h3(translate) Highlight
-ul.nav-tabs(ngbNav, #nav='ngbNav')
+ul.nav-tabs(ngbNav, #nav="ngbNav")
   li(ngbNavItem)
     a(ngbNavLink, translate) Highlight
     ng-template(ngbNavContent)
@@ -7,246 +7,249 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
         .header
           .title(translate) Enable highlight
           .description(translate) Highlight master switch
-        toggle(
-          [(ngModel)]='pluginConfig.highlightEnabled',
-          (ngModelChange)='apply();',
-        )
-      .content-box.w-100(*ngIf='pluginConfig.highlightEnabled === true')
+        toggle([(ngModel)]="pluginConfig.highlightEnabled", (ngModelChange)="apply()")
+      .content-box.w-100(*ngIf="pluginConfig.highlightEnabled === true")
         .form-line
           .header
             .title(translate) Disable highlight in alternate screen
             .description(translate) For example: vi/vim
-          toggle(
-            [(ngModel)]='pluginConfig.highlightAlternateDisable',
-            (ngModelChange)='apply();',
-          )
+          toggle([(ngModel)]="pluginConfig.highlightAlternateDisable", (ngModelChange)="apply()")
         .form-line
           .header
             .title(translate) Enable per session profile
-          toggle(
-            [(ngModel)]='pluginConfig.highlightPerSessionEnabled',
-            (ngModelChange)='apply();',
-          )
-        .content-box.w-100(*ngIf='pluginConfig.highlightPerSessionEnabled === true')
+          toggle([(ngModel)]="pluginConfig.highlightPerSessionEnabled", (ngModelChange)="apply()")
+        .content-box.w-100(*ngIf="pluginConfig.highlightPerSessionEnabled === true")
           .d-flex.w-100
-            button.btn.btn-primary((click)='addHighlightPerSessionProfileMap();')
+            button.btn.btn-primary((click)="addHighlightPerSessionProfileMap()")
               i.fas.fa-solid.fa-plus
               span(translate) Add
           .list-group.mt-3.mb-3
-            .list-group-item.active.d-flex.align-items-center()
-              span.text-center(translate, style='width: 100%;') Session
-              span.text-center(translate, style='width: 100%;') Profile
-              span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+            .list-group-item.active.d-flex.align-items-center
+              span.text-center(translate, style="width: 100%") Session
+              span.text-center(translate, style="width: 100%") Profile
+              span.text-end(translate, style="margin-right: 13px; width: 38px; flex: none")
                 i.fas.fa-solid.fa-trash
-            ng-container(*ngFor='let item of pluginConfig.highlightPerSessionProfileMap; let i = index;')
+            ng-container(
+              *ngFor="let item of pluginConfig.highlightPerSessionProfileMap; let i = index"
+            )
               .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight
                 .input-group
-                  select.form-control(
-                    [(ngModel)]='item.sessionId',
-                    (ngModelChange)='apply();',
-                  )
-                    option([ngValue]='uuidNIL', translate) No session selected
-                    option(*ngFor='let session of getSessions(item.sessionId)', [ngValue]='session.id') {{session.name}}
-                  select.form-control(
-                    [(ngModel)]='item.profileId',
-                    (ngModelChange)='apply();',
-                  )
-                    option([ngValue]='uuidNIL', translate) Disable Highlight
-                    option(*ngFor='let profile of pluginConfig.highlightProfiles', [ngValue]='profile.id') {{profile.name}}
+                  select.form-control([(ngModel)]="item.sessionId", (ngModelChange)="apply()")
+                    option([ngValue]="uuidNIL", translate) No session selected
+                    option(
+                      *ngFor="let session of getSessions(item.sessionId)",
+                      [ngValue]="session.id"
+                    ) {{ session.name }}
+                  select.form-control([(ngModel)]="item.profileId", (ngModelChange)="apply()")
+                    option([ngValue]="uuidNIL", translate) Disable Highlight
+                    option(
+                      *ngFor="let profile of pluginConfig.highlightProfiles",
+                      [ngValue]="profile.id"
+                    ) {{ profile.name }}
                 button.btn.btn-outline-secondary.ms-1(
-                  style='width: 38px; flex: none;',
-                  (click)='delPerSessionProfile(i);')
+                  style="width: 38px; flex: none",
+                  (click)="delPerSessionProfile(i)"
+                )
                   i.fas.fa-solid.fa-trash
         .form-line
           .header
             .title(translate) Enable per session group profile
           toggle(
-            [(ngModel)]='pluginConfig.highlightPerSessionGroupEnabled',
-            (ngModelChange)='apply();',
+            [(ngModel)]="pluginConfig.highlightPerSessionGroupEnabled",
+            (ngModelChange)="apply()"
           )
-        .content-box.w-100(*ngIf='pluginConfig.highlightPerSessionGroupEnabled === true')
+        .content-box.w-100(*ngIf="pluginConfig.highlightPerSessionGroupEnabled === true")
           .d-flex.w-100
-            button.btn.btn-primary((click)='addHighlightPerSessionGroupProfile();')
+            button.btn.btn-primary((click)="addHighlightPerSessionGroupProfile()")
               i.fas.fa-solid.fa-plus
               span(translate) Add
           .list-group.mt-3.mb-3
-            .list-group-item.active.d-flex.align-items-center()
-              span.text-center(translate, style='width: 100%;') Session Group
-              span.text-center(translate, style='width: 100%;') Profile
-              span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+            .list-group-item.active.d-flex.align-items-center
+              span.text-center(translate, style="width: 100%") Session Group
+              span.text-center(translate, style="width: 100%") Profile
+              span.text-end(translate, style="margin-right: 13px; width: 38px; flex: none")
                 i.fas.fa-solid.fa-trash
-            ng-container(*ngFor='let item of pluginConfig.highlightPerSessionGroupProfileMap; let i = index;')
+            ng-container(
+              *ngFor="let item of pluginConfig.highlightPerSessionGroupProfileMap; let i = index"
+            )
               .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight
                 .input-group
-                  select.form-control(
-                    [(ngModel)]='item.groupId',
-                    (ngModelChange)='apply();',
-                  )
-                    option([ngValue]='uuidNIL', translate) No session group selected
-                    option(*ngFor='let group of getSessionGroups(item.groupId)', [ngValue]='group.id') {{group.name}}
-                  select.form-control(
-                    [(ngModel)]='item.profileId',
-                    (ngModelChange)='apply();',
-                  )
-                    option([ngValue]='uuidNIL', translate) Disable Highlight
-                    option(*ngFor='let profile of pluginConfig.highlightProfiles', [ngValue]='profile.id') {{profile.name}}
+                  select.form-control([(ngModel)]="item.groupId", (ngModelChange)="apply()")
+                    option([ngValue]="uuidNIL", translate) No session group selected
+                    option(
+                      *ngFor="let group of getSessionGroups(item.groupId)",
+                      [ngValue]="group.id"
+                    ) {{ group.name }}
+                  select.form-control([(ngModel)]="item.profileId", (ngModelChange)="apply()")
+                    option([ngValue]="uuidNIL", translate) Disable Highlight
+                    option(
+                      *ngFor="let profile of pluginConfig.highlightProfiles",
+                      [ngValue]="profile.id"
+                    ) {{ profile.name }}
                 button.btn.btn-outline-secondary.ms-1(
-                  style='width: 38px; flex: none;',
-                  (click)='delPerSessionGroupProfile(i);',
+                  style="width: 38px; flex: none",
+                  (click)="delPerSessionGroupProfile(i)"
                 )
                   i.fas.fa-solid.fa-trash
         .form-line
           .header
             .title(translate) Enable per session type profile
           toggle(
-            [(ngModel)]='pluginConfig.highlightPerSessionTypeEnabled',
-            (ngModelChange)='apply();',
+            [(ngModel)]="pluginConfig.highlightPerSessionTypeEnabled",
+            (ngModelChange)="apply()"
           )
-        .content-box.w-100(*ngIf='pluginConfig.highlightPerSessionTypeEnabled === true')
+        .content-box.w-100(*ngIf="pluginConfig.highlightPerSessionTypeEnabled === true")
           .d-flex.w-100
-            button.btn.btn-primary((click)='addHighlightPerSessionTypeProfile();')
+            button.btn.btn-primary((click)="addHighlightPerSessionTypeProfile()")
               i.fas.fa-solid.fa-plus
               span(translate) Add
           .list-group.mt-3.mb-3
-            .list-group-item.active.d-flex.align-items-center()
-              span.text-center(translate, style='width: 100%;') Session Type
-              span.text-center(translate, style='width: 100%;') Profile
-              span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+            .list-group-item.active.d-flex.align-items-center
+              span.text-center(translate, style="width: 100%") Session Type
+              span.text-center(translate, style="width: 100%") Profile
+              span.text-end(translate, style="margin-right: 13px; width: 38px; flex: none")
                 i.fas.fa-solid.fa-trash
-            ng-container(*ngFor='let item of pluginConfig.highlightPerSessionTypeProfileMap; let i = index;')
+            ng-container(
+              *ngFor="let item of pluginConfig.highlightPerSessionTypeProfileMap; let i = index"
+            )
               .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight
                 .input-group
-                  select.form-control(
-                    [(ngModel)]='item.typeId',
-                    (ngModelChange)='apply();',
-                  )
-                    option([ngValue]='uuidNIL', translate) No session type selected
-                    option(*ngFor='let type of getSessionTypes(item.typeId)', [ngValue]='type', translate) {{type}}
-                  select.form-control(
-                    [(ngModel)]='item.profileId',
-                    (ngModelChange)='apply();',
-                  )
-                    option([ngValue]='uuidNIL', translate) Disable Highlight
-                    option(*ngFor='let profile of pluginConfig.highlightProfiles', [ngValue]='profile.id') {{profile.name}}
+                  select.form-control([(ngModel)]="item.typeId", (ngModelChange)="apply()")
+                    option([ngValue]="uuidNIL", translate) No session type selected
+                    option(
+                      *ngFor="let type of getSessionTypes(item.typeId)",
+                      [ngValue]="type",
+                      translate
+                    ) {{ type }}
+                  select.form-control([(ngModel)]="item.profileId", (ngModelChange)="apply()")
+                    option([ngValue]="uuidNIL", translate) Disable Highlight
+                    option(
+                      *ngFor="let profile of pluginConfig.highlightProfiles",
+                      [ngValue]="profile.id"
+                    ) {{ profile.name }}
                 button.btn.btn-outline-secondary.ms-1(
-                  style='width: 38px; flex: none;',
-                  (click)='delPerSessionTypeProfile(i);',
+                  style="width: 38px; flex: none",
+                  (click)="delPerSessionTypeProfile(i)"
                 )
                   i.fas.fa-solid.fa-trash
         .form-line
           .header
             .title(translate) Enable global profile
             .description(translate) Global profile is the active tab below
-          toggle(
-            [(ngModel)]='pluginConfig.highlightGlobalEnabled',
-            (ngModelChange)='apply();',
-          )                
+          toggle([(ngModel)]="pluginConfig.highlightGlobalEnabled", (ngModelChange)="apply()") 
         ul.nav-tabs(
-          ngbNav, 
-          #nav='ngbNav', 
-          [(activeId)]='currentHighlightProfileIndex',
-          (navChange)='onHighlightProfileChange($event);',
+          ngbNav,
+          #nav="ngbNav",
+          [(activeId)]="currentHighlightProfileIndex",
+          (navChange)="onHighlightProfileChange($event)",
           cdkDropList,
-          cdkDropListOrientation='horizontal',
-          (cdkDropListDropped)='dropProfile($event)',
+          cdkDropListOrientation="horizontal",
+          (cdkDropListDropped)="dropProfile($event)"
         )
-          ng-container(*ngFor='let profile of pluginConfig.highlightProfiles; let profileIndex = index;')
+          ng-container(
+            *ngFor="let profile of pluginConfig.highlightProfiles; let profileIndex = index"
+          )
             li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
-              a.nav-link(ngbNavLink, (dblclick)='renameHighlightProfile($event, profile);') {{profile.name}}
-                span.close.ms-2((click)='delHighlightProfile($event, profile);')
+              a.nav-link(ngbNavLink, (dblclick)="renameHighlightProfile($event, profile)") {{ profile.name }}
+                span.close.ms-2((click)="delHighlightProfile($event, profile)")
                   i.fa-regular.fa-circle-xmark
               ng-template(ngbNavContent)
                 .d-flex.w-100
-                  button.btn.btn-primary((click)='addKeyword();')
+                  button.btn.btn-primary((click)="addKeyword()")
                     i.fas.fa-solid.fa-plus
                     span(translate) Add
                   .flex-grow-1
-                  button.btn.btn-primary((click)='importHighlightProfile();')
+                  button.btn.btn-primary((click)="importHighlightProfile()")
                     i.fas.fa-solid.fa-file-import
                     span(translate) Import
-                  button.btn.btn-primary.ms-2((click)='exportHighlightProfile();')
+                  button.btn.btn-primary.ms-2((click)="exportHighlightProfile()")
                     i.fas.fa-solid.fa-file-export
                     span(translate) Export
-                .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropKeyword($event)')
-                  .list-group-item.active.d-flex.align-items-center()
-                    span(translate, style='margin-left:10px; width: 46px; flex: none;')
+                .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)="dropKeyword($event)")
+                  .list-group-item.active.d-flex.align-items-center
+                    span(translate, style="margin-left: 10px; width: 46px; flex: none")
                       i.fa-solid.fa-toggle-on
-                    span(translate, style='width: 30px; flex: none;') (.*)
-                    span(translate, style='width: 30px; flex: none;') Aa
-                    span.text-center(translate, style='width: 100%;') Keyword
-                    span.text-end(translate, style='margin-right: 13px; width: 60px; flex: none;')
+                    span(translate, style="width: 30px; flex: none") (.*)
+                    span(translate, style="width: 30px; flex: none") Aa
+                    span.text-center(translate, style="width: 100%") Keyword
+                    span.text-end(translate, style="margin-right: 13px; width: 60px; flex: none")
                       i.fa-solid.fa-palette
-                    span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+                    span.text-end(translate, style="margin-right: 13px; width: 38px; flex: none")
                       i.fas.fa-solid.fa-trash
-                  ng-container(*ngFor='let item of profile.keywords; let i = index;')
-                    .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
+                  ng-container(*ngFor="let item of profile.keywords; let i = index")
+                    .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(
+                      cdkDrag
+                    )
                       toggle(
-                        cdkDragHandle
-                        style='width: 60px; flex: none;',
-                        [(ngModel)]='item.enabled',
-                        (ngModelChange)='apply();',
+                        cdkDragHandle,
+                        style="width: 60px; flex: none",
+                        [(ngModel)]="item.enabled",
+                        (ngModelChange)="apply()"
                       )
                       .content-box.d-flex.align-items-center.w-100(
-                        [style.opacity]='item.enabled ? 1 : 0.5',
+                        [style.opacity]="item.enabled ? 1 : 0.5"
                       )
+                        checkbox.ms-1([(ngModel)]="item.isRegExp", (ngModelChange)="apply()")
                         checkbox.ms-1(
-                          [(ngModel)]='item.isRegExp',
-                          (ngModelChange)='apply();',
-                        )
-                        checkbox.ms-1(
-                          [(ngModel)]='item.isCaseSensitive',
-                          (ngModelChange)='apply();',
+                          [(ngModel)]="item.isCaseSensitive",
+                          (ngModelChange)="apply()"
                         )
                         .content-box.d-flex.align-items-center.w-100.position-relative
                           input.form-control(
-                            type='text',
-                            [style.color]='getForegroundColor(item)',
-                            [style.background-color]='getBackgroundColor(item)',
-                            [style.font-weight]='item.bold ? "bold" : ""',
-                            [style.font-style]='item.italic ? "italic" : ""',
-                            [style.text-decoration]='item.underline ? "underline" : ""',
-                            [(ngModel)]='item.text',
-                            (ngModelChange)='apply();',
-                            style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);'
+                            type="text",
+                            [style.color]="getForegroundColor(item)",
+                            [style.background-color]="getBackgroundColor(item)",
+                            [style.font-weight]="item.bold ? 'bold' : ''",
+                            [style.font-style]="item.italic ? 'italic' : ''",
+                            [style.text-decoration]="item.underline ? 'underline' : ''",
+                            [(ngModel)]="item.text",
+                            (ngModelChange)="apply()",
+                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
                           )
                           .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
-                            *ngIf='!verifyStatus[profileIndex]?.[i]?.[0]',
-                            placement='end',
-                            [ngbTooltip]='verifyStatus[profileIndex]?.[i]?.[1]',
+                            *ngIf="!verifyStatus[profileIndex]?.[i]?.[0]",
+                            placement="end",
+                            [ngbTooltip]="verifyStatus[profileIndex]?.[i]?.[1]"
                           )
                             i.fa-solid.fa-circle-exclamation
-                      div(ngbDropdown, placement='bottom-right')
-                        button.btn.btn-outline-primary.ms-1(ngbDropdownToggle,(click)='$event.stopPropagation()')
+                      div(ngbDropdown, placement="bottom-right")
+                        button.btn.btn-outline-primary.ms-1(
+                          ngbDropdownToggle,
+                          (click)="$event.stopPropagation()"
+                        )
                           i.fa-solid.fa-palette
-                        div.border.border-black(ngbDropdownMenu, style='min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);')
+                        .border.border-black(
+                          ngbDropdownMenu,
+                          style="min-width: 280px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
+                        )
                           .container-fluid
-                            ng-container(*ngFor='let style of styles;')
-                              .row.mt-1(style='min-height: 40px;')
+                            ng-container(*ngFor="let style of styles")
+                              .row.mt-1(style="min-height: 40px")
                                 .col.d-flex.align-items-center
-                                  span.ms-1(translate) {{style.name}}
-                                .col-md-auto.d-flex.align-items-center(*ngIf='style.valueType')
+                                  span.ms-1(translate) {{ style.name }}
+                                .col-md-auto.d-flex.align-items-center(*ngIf="style.valueType")
                                   input.form-control(
-                                    [type]='style.valueType',
-                                    [min]='style.min',
-                                    [max]='style.max',
-                                    [(ngModel)]='item[style.valueModel]',
-                                    (ngModelChange)='apply();',
-                                    style='width: 70px; flex: none; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);'
+                                    [type]="style.valueType",
+                                    [min]="style.min",
+                                    [max]="style.max",
+                                    [(ngModel)]="item[style.valueModel]",
+                                    (ngModelChange)="apply()",
+                                    style="width: 70px; flex: none; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
                                   )
                                 .col-md-auto.d-flex.align-items-center
                                   checkbox.ms-1(
-                                    [(ngModel)]='item[style.enabledModel]',
-                                    (ngModelChange)='apply();',
+                                    [(ngModel)]="item[style.enabledModel]",
+                                    (ngModelChange)="apply()"
                                   )
                       button.btn.btn-outline-secondary.ms-1(
-                        style='width: 38px; flex: none;',
-                        (click)='delKeyword(i);',
+                        style="width: 38px; flex: none",
+                        (click)="delKeyword(i)"
                       )
                         i.fas.fa-solid.fa-trash
-          li.nav-item(role='presentation')
-            button.add-button.btn.btn-outline-secondary((click)='addHighlightProfile($event)')
+          li.nav-item(role="presentation")
+            button.add-button.btn.btn-outline-secondary((click)="addHighlightProfile($event)")
               i.fa-regular.fa-square-plus
-        div([ngbNavOutlet]='nav')
+        div([ngbNavOutlet]="nav")
         .alert.alert-info.d-flex.align-items-center
           .me-auto
             span
@@ -256,7 +259,6 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
               p(translate) Double click tab can change profile name.
               p(translate) The profile selection order is session > group > type > global.
 
-
   li(ngbNavItem)
     a(ngbNavLink, translate) Replace
     ng-template(ngbNavContent)
@@ -264,103 +266,101 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
         .header
           .title(translate) Enable replace
           .description(translate) Replace master switch
-        toggle(
-          [(ngModel)]='pluginConfig.replaceEnabled',
-          (ngModelChange)='apply();',
-        )
-      .content-box.w-100(*ngIf='pluginConfig.replaceEnabled === true')
+        toggle([(ngModel)]="pluginConfig.replaceEnabled", (ngModelChange)="apply()")
+      .content-box.w-100(*ngIf="pluginConfig.replaceEnabled === true")
         .form-line
           .header
             .title(translate) Disable replace in alternate screen
             .description(translate) For example: vi/vim
-          toggle(
-            [(ngModel)]='pluginConfig.replaceAlternateDisable',
-            (ngModelChange)='apply();',
-          )
+          toggle([(ngModel)]="pluginConfig.replaceAlternateDisable", (ngModelChange)="apply()")
         ul.nav-tabs(
-          ngbNav, 
-          #nav='ngbNav', 
-          [(activeId)]='currentReplaceProfileIndex',
-          (navChange)='onReplaceProfileChange($event);',
+          ngbNav,
+          #nav="ngbNav",
+          [(activeId)]="currentReplaceProfileIndex",
+          (navChange)="onReplaceProfileChange($event)",
           cdkDropList,
-          cdkDropListOrientation='horizontal',
-          (cdkDropListDropped)='dropReplaceProfile($event)',
+          cdkDropListOrientation="horizontal",
+          (cdkDropListDropped)="dropReplaceProfile($event)"
         )
-          ng-container(*ngFor='let profile of pluginConfig.replaceProfiles; let profileIndex = index;')
+          ng-container(
+            *ngFor="let profile of pluginConfig.replaceProfiles; let profileIndex = index"
+          )
             li(cdkDrag, ngbNavItem, [ngbNavItem]="profileIndex")
-              a.nav-link(ngbNavLink, (dblclick)='renameReplaceProfile($event, profile);') {{profile.name}}
-                span.close.ms-2((click)='delReplaceProfile($event, profile);')
+              a.nav-link(ngbNavLink, (dblclick)="renameReplaceProfile($event, profile)") {{ profile.name }}
+                span.close.ms-2((click)="delReplaceProfile($event, profile)")
                   i.fa-regular.fa-circle-xmark
               ng-template(ngbNavContent)
                 .d-flex.w-100
-                  button.btn.btn-primary((click)='addReplacePattern();')
+                  button.btn.btn-primary((click)="addReplacePattern()")
                     i.fas.fa-solid.fa-plus
                     span(translate) Add
                   .flex-grow-1
-                  button.btn.btn-primary((click)='importReplaceProfile();')
+                  button.btn.btn-primary((click)="importReplaceProfile()")
                     i.fas.fa-solid.fa-file-import
                     span(translate) Import
-                  button.btn.btn-primary.ms-2((click)='exportReplaceProfile();')
+                  button.btn.btn-primary.ms-2((click)="exportReplaceProfile()")
                     i.fas.fa-solid.fa-file-export
                     span(translate) Export
-                .list-group.mt-3.mb-3(cdkDropList, (cdkDropListDropped)='dropReplacePattern($event)')
-                  .list-group-item.active.d-flex.align-items-center()
-                    span(translate, style='margin-left:10px; width: 46px; flex: none;')
+                .list-group.mt-3.mb-3(
+                  cdkDropList,
+                  (cdkDropListDropped)="dropReplacePattern($event)"
+                )
+                  .list-group-item.active.d-flex.align-items-center
+                    span(translate, style="margin-left: 10px; width: 46px; flex: none")
                       i.fa-solid.fa-toggle-on
-                    span(translate, style='width: 30px; flex: none;') (.*)
-                    span(translate, style='width: 30px; flex: none;') Aa
-                    span.text-center(translate, style='width: 100%;') Search Pattern
-                    span.text-center(translate, style='width: 100%;') Replace Pattern
-                    span.text-end(translate, style='margin-right: 13px; width: 38px; flex: none;')
+                    span(translate, style="width: 30px; flex: none") (.*)
+                    span(translate, style="width: 30px; flex: none") Aa
+                    span.text-center(translate, style="width: 100%") Search Pattern
+                    span.text-center(translate, style="width: 100%") Replace Pattern
+                    span.text-end(translate, style="margin-right: 13px; width: 38px; flex: none")
                       i.fas.fa-solid.fa-trash
-                  ng-container(*ngFor='let item of profile.patterns; let i = index;')
-                    .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(cdkDrag)
+                  ng-container(*ngFor="let item of profile.patterns; let i = index")
+                    .list-group-item.d-flex.align-items-center.list-group-item-action.list-group-item-highlight(
+                      cdkDrag
+                    )
                       toggle(
-                        cdkDragHandle
-                        style='width: 60px; flex: none;',
-                        [(ngModel)]='item.enabled',
-                        (ngModelChange)='apply();',
+                        cdkDragHandle,
+                        style="width: 60px; flex: none",
+                        [(ngModel)]="item.enabled",
+                        (ngModelChange)="apply()"
                       )
                       .content-box.d-flex.align-items-center.w-100(
-                        [style.opacity]='item.enabled ? 1 : 0.5',
+                        [style.opacity]="item.enabled ? 1 : 0.5"
                       )
+                        checkbox.ms-1([(ngModel)]="item.isRegExp", (ngModelChange)="apply()")
                         checkbox.ms-1(
-                          [(ngModel)]='item.isRegExp',
-                          (ngModelChange)='apply();',
-                        )
-                        checkbox.ms-1(
-                          [(ngModel)]='item.isCaseSensitive',
-                          (ngModelChange)='apply();',
+                          [(ngModel)]="item.isCaseSensitive",
+                          (ngModelChange)="apply()"
                         )
                         .content-box.d-flex.align-items-center.w-100.position-relative
                           input.form-control(
-                            style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);'
-                            type='text',
-                            [(ngModel)]='item.search',
-                            (ngModelChange)='apply();',
+                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)",
+                            type="text",
+                            [(ngModel)]="item.search",
+                            (ngModelChange)="apply()"
                           )
                           .badge.rounded-pill.text-bg-danger.position-absolute.center-0.end-0.me-2(
-                            *ngIf='!replaceVerifyStatus[profileIndex]?.[i]?.[0]',
-                            placement='end',
-                            [ngbTooltip]='replaceVerifyStatus[profileIndex]?.[i]?.[1]',
+                            *ngIf="!replaceVerifyStatus[profileIndex]?.[i]?.[0]",
+                            placement="end",
+                            [ngbTooltip]="replaceVerifyStatus[profileIndex]?.[i]?.[1]"
                           )
                             i.fa-solid.fa-circle-exclamation
                         .content-box.d-flex.align-items-center.w-100.ms-1
                           input.form-control(
-                            style='background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px);'
-                            type='text', 
-                            [(ngModel)]='item.replace',
-                            (ngModelChange)='apply();',
+                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)",
+                            type="text",
+                            [(ngModel)]="item.replace",
+                            (ngModelChange)="apply()"
                           )
                       button.btn.btn-outline-secondary.ms-1(
-                        style='width: 38px; flex: none;',
-                        (click)='delReplacePattern(i);',
+                        style="width: 38px; flex: none",
+                        (click)="delReplacePattern(i)"
                       )
                         i.fas.fa-solid.fa-trash
-          li.nav-item(role='presentation')
-            button.add-button.btn.btn-outline-secondary((click)='addReplaceProfile($event)')
+          li.nav-item(role="presentation")
+            button.add-button.btn.btn-outline-secondary((click)="addReplaceProfile($event)")
               i.fa-regular.fa-square-plus
-        div([ngbNavOutlet]='nav')
+        div([ngbNavOutlet]="nav")
         .alert.alert-info.d-flex.align-items-center
           .me-auto
             span
@@ -369,4 +369,4 @@ ul.nav-tabs(ngbNav, #nav='ngbNav')
               p(translate) Active tab is the global highlight profile.
               p(translate) Double click tab can change profile name.
               p(translate) If you want to add a new line, add "\n" to the replace pattern.
-div([ngbNavOutlet]='nav')
+div([ngbNavOutlet]="nav")

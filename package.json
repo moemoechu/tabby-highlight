@@ -22,8 +22,9 @@
   "scripts": {
     "build": "rm -rf dist && webpack --progress --color",
     "watch": "webpack --progress --color --watch",
-    "deploy": "bun run build && rm -rf /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight && mkdir /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight && cp -r ./dist package.json /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight/",
-    "prepublishOnly": "npm run build"
+    "deploy": "npm run build && rm -rf /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight && mkdir /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight && cp -r ./dist package.json /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight/",
+    "prepublishOnly": "npm run build",
+    "copyDeps": "cp -rf /mnt/hgfs/Tabby/resources/builtin-plugins/* ./node_modules/"
   },
   "devDependencies": {
     "@angular/animations": "^15",
@@ -33,14 +34,16 @@
     "@angular/forms": "^15",
     "@angular/platform-browser": "^15",
     "@ng-bootstrap/ng-bootstrap": "^14",
+    "@prettier/plugin-pug": "^3.0.0",
     "@types/uuid": "^9.0.7",
     "@types/webpack-env": "^1",
     "apply-loader": "^2",
     "css-loader": "^6",
     "ngx-toastr": "^16",
     "node-sass": "^9",
+    "prettier": "^3.2.1",
     "pug": "^3",
-    "pug-loader": "^2",
+    "pug-plugin": "^2",
     "sass-loader": "^13",
     "style-loader": "^3",
     "tabby-core": "latest",
@@ -48,7 +51,7 @@
     "tabby-settings": "latest",
     "tabby-terminal": "latest",
     "ts-loader": "^9",
-    "typescript": "^5",
+    "typescript": "^4",
     "utils-decorators": "^2",
     "uuid": "^9.0.1",
     "webpack": "^5",
