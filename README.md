@@ -68,6 +68,8 @@ The input string will be proceed from the top pattern to the end pattern.
 
 **Be careful when importing external setting files. This plugin does not do vulnerability scanning.**
 
+**There some issue at upgrade 1.0 to 2.0, please clear the plugin config when you upgrade 1.0 to 2.0, fresh install is not affect.**
+
 ## Screenshot
 
 ### Keyword Setting

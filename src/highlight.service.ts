@@ -35,7 +35,7 @@ export class HighlightService {
     private electron: ElectronService,
     private hostWindow: ElectronHostWindow,
     private toastr: ToastrService,
-    private app: AppService
+    private app: AppService,
   ) {
     this.logger = this.logService.create("tabby-highlight");
     this.logger.info("HighlightService ctor");
@@ -48,7 +48,7 @@ export class HighlightService {
           this.logger.info("translate applied");
         }
       });
-      this.upgrade();
+      // this.upgrade();
 
       this.pluginConfig = this.config.store.highlightPlugin;
     });
@@ -95,19 +95,19 @@ export class HighlightService {
   getHighlightProfileBySessionId(sessionId: string) {
     return this.getHighlightProfileById(
       this.pluginConfig.highlightPerSessionProfileMap.find((map) => map.sessionId === sessionId)
-        ?.profileId
+        ?.profileId,
     );
   }
   getHighlightProfileBySessionGroupId(groupId: string) {
     return this.getHighlightProfileById(
       this.pluginConfig.highlightPerSessionGroupProfileMap.find((map) => map.groupId === groupId)
-        ?.profileId
+        ?.profileId,
     );
   }
   getHighlightProfileBySessionTypeId(typeId: string) {
     return this.getHighlightProfileById(
       this.pluginConfig.highlightPerSessionTypeProfileMap.find((map) => map.typeId === typeId)
-        ?.profileId
+        ?.profileId,
     );
   }
 
@@ -142,7 +142,7 @@ export class HighlightService {
   }
   getHighlightPerSessionProfileMap(sessionId: string) {
     return this.pluginConfig.highlightPerSessionProfileMap.find(
-      (mapValue) => mapValue.sessionId === sessionId
+      (mapValue) => mapValue.sessionId === sessionId,
     );
   }
 
@@ -170,7 +170,7 @@ export class HighlightService {
   }
   getHighlightPerSessionGroupProfileMap(groupId: string) {
     return this.pluginConfig.highlightPerSessionGroupProfileMap.find(
-      (mapValue) => mapValue.groupId === groupId
+      (mapValue) => mapValue.groupId === groupId,
     );
   }
 
@@ -198,7 +198,7 @@ export class HighlightService {
   }
   getHighlightPerSessionTypeProfileMap(typeId: string) {
     return this.pluginConfig.highlightPerSessionTypeProfileMap.find(
-      (mapValue) => mapValue.typeId === typeId
+      (mapValue) => mapValue.typeId === typeId,
     );
   }
 
@@ -240,7 +240,7 @@ export class HighlightService {
         ? this.getCurrentHighlightProfileIndex() - 1
         : this.getCurrentHighlightProfileIndex();
     this.pluginConfig.highlightProfiles = this.pluginConfig.highlightProfiles.filter(
-      (item) => item.id !== profile.id
+      (item) => item.id !== profile.id,
     );
 
     this.logger.info(`Highlight profile [${profile.id}] deleted`);
@@ -260,7 +260,7 @@ export class HighlightService {
     this.exportProfile(id ? this.getHighlightProfileById(id) : this.getCurrentHighlightProfile());
 
     this.logger.info(
-      `Highlight profile [${id ?? this.pluginConfig.highlightCurrentProfile}] exported`
+      `Highlight profile [${id ?? this.pluginConfig.highlightCurrentProfile}] exported`,
     );
   }
 
@@ -268,7 +268,7 @@ export class HighlightService {
   getReplaceProfiles(appendNil?: boolean) {
     if (appendNil) {
       return [{ id: uuid.NIL, name: this.translate.instant("Disable Replace") }].concat(
-        this.pluginConfig.replaceProfiles
+        this.pluginConfig.replaceProfiles,
       );
     }
     return this.pluginConfig.replaceProfiles;
@@ -350,7 +350,7 @@ export class HighlightService {
         ? this.getCurrentReplaceProfileIndex() - 1
         : this.getCurrentReplaceProfileIndex();
     this.pluginConfig.replaceProfiles = this.pluginConfig.replaceProfiles.filter(
-      (item) => item.id !== profile.id
+      (item) => item.id !== profile.id,
     );
 
     this.logger.info(`Replace profile [${profile.id}] deleted`);
@@ -371,7 +371,7 @@ export class HighlightService {
     this.exportProfile(id ? this.getReplaceProfileById(id) : this.getCurrentReplaceProfile());
 
     this.logger.info(
-      `Replace profile [${id ?? this.pluginConfig.highlightCurrentProfile}] exported`
+      `Replace profile [${id ?? this.pluginConfig.highlightCurrentProfile}] exported`,
     );
   }
 
@@ -416,7 +416,7 @@ export class HighlightService {
   injectProfilesToTab(
     tab: HighlightEngagedTab,
     highlightProfile?: HighlightProfile,
-    replaceProfile?: ReplaceProfile
+    replaceProfile?: ReplaceProfile,
   ) {
     // 将配置狠狠地注入到标签页喵，方便使用右键菜单切换喵~
     tab.highlightProfile = highlightProfile;
