@@ -3,7 +3,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 /** @hidden */
 @Component({
-  template: require("./profile-delete-modal.component.pug"),
+  template: require("./profile-delete-modal.component.html"),
 })
 export class ProfileDeleteModalComponent {
   @Input() prompt: string | undefined;

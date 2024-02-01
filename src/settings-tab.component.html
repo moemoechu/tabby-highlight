@@ -1,0 +1,608 @@
+<h3 translate>Highlight</h3>
+<ul class="nav-tabs" ngbNav #nav="ngbNav">
+  <li ngbNavItem>
+    <a ngbNavLink translate>Highlight</a>
+    <ng-template ngbNavContent>
+      <div class="form-line">
+        <div class="header">
+          <div class="title" translate>Enable highlight</div>
+          <div class="description" translate>Highlight master switch</div>
+        </div>
+        <toggle [(ngModel)]="pluginConfig.highlightEnabled" (ngModelChange)="apply()"></toggle>
+      </div>
+      <div class="content-box w-100" *ngIf="pluginConfig.highlightEnabled === true">
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Disable highlight in alternate screen</div>
+            <div class="description" translate>For example: vi/vim</div>
+          </div>
+          <toggle [(ngModel)]="pluginConfig.highlightAlternateDisable" (ngModelChange)="apply()">
+          </toggle>
+        </div>
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Enable per session profile</div>
+          </div>
+          <toggle [(ngModel)]="pluginConfig.highlightPerSessionEnabled" (ngModelChange)="apply()">
+          </toggle>
+        </div>
+        <div class="content-box w-100" *ngIf="pluginConfig.highlightPerSessionEnabled === true">
+          <div class="d-flex w-100">
+            <button class="btn btn-primary" (click)="addHighlightPerSessionProfileMap()">
+              <i class="fas fa-solid fa-plus"></i>
+              <span translate>Add</span>
+            </button>
+          </div>
+          <div class="list-group mt-3 mb-3">
+            <div class="list-group-item active d-flex align-items-center">
+              <span class="text-center w-100" translate>Session</span>
+              <span class="text-center w-100" translate>Profile</span>
+              <span class="text-end" translate style="margin-right: 13px; width: 38px; flex: none">
+                <i class="fas fa-solid fa-trash"></i>
+              </span>
+            </div>
+            <ng-container
+              *ngFor="let item of pluginConfig.highlightPerSessionProfileMap; let i = index"
+            >
+              <div
+                class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+              >
+                <div class="input-group">
+                  <select
+                    class="form-control"
+                    [(ngModel)]="item.sessionId"
+                    (ngModelChange)="apply()"
+                  >
+                    <option [ngValue]="uuidNIL" translate>No session selected</option>
+                    <option
+                      *ngFor="let session of getSessions(item.sessionId)"
+                      [ngValue]="session.id"
+                    >
+                      {{ session.name }}
+                    </option>
+                  </select>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="item.profileId"
+                    (ngModelChange)="apply()"
+                  >
+                    <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
+                    <option
+                      *ngFor="let profile of pluginConfig.highlightProfiles"
+                      [ngValue]="profile.id"
+                    >
+                      {{ profile.name }}
+                    </option>
+                  </select>
+                </div>
+                <button
+                  class="btn btn-outline-secondary ms-1"
+                  style="width: 38px; flex: none"
+                  (click)="delPerSessionProfile(i)"
+                >
+                  <i class="fas fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Enable per session group profile</div>
+          </div>
+          <toggle
+            [(ngModel)]="pluginConfig.highlightPerSessionGroupEnabled"
+            (ngModelChange)="apply()"
+          >
+          </toggle>
+        </div>
+        <div
+          class="content-box w-100"
+          *ngIf="pluginConfig.highlightPerSessionGroupEnabled === true"
+        >
+          <div class="d-flex w-100">
+            <button class="btn btn-primary" (click)="addHighlightPerSessionGroupProfile()">
+              <i class="fas fa-solid fa-plus"></i>
+              <span translate>Add</span>
+            </button>
+          </div>
+          <div class="list-group mt-3 mb-3">
+            <div class="list-group-item active d-flex align-items-center">
+              <span class="text-center w-100" translate>Session Group</span>
+              <span class="text-center w-100" translate>Profile</span>
+              <span class="text-end" translate style="margin-right: 13px; width: 38px; flex: none">
+                <i class="fas fa-solid fa-trash"></i>
+              </span>
+            </div>
+            <ng-container
+              *ngFor="let item of pluginConfig.highlightPerSessionGroupProfileMap; let i = index"
+            >
+              <div
+                class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+              >
+                <div class="input-group">
+                  <select class="form-control" [(ngModel)]="item.groupId" (ngModelChange)="apply()">
+                    <option [ngValue]="uuidNIL" translate>No session group selected</option>
+                    <option
+                      *ngFor="let group of getSessionGroups(item.groupId)"
+                      [ngValue]="group.id"
+                    >
+                      {{ group.name }}
+                    </option>
+                  </select>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="item.profileId"
+                    (ngModelChange)="apply()"
+                  >
+                    <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
+                    <option
+                      *ngFor="let profile of pluginConfig.highlightProfiles"
+                      [ngValue]="profile.id"
+                    >
+                      {{ profile.name }}
+                    </option>
+                  </select>
+                </div>
+                <button
+                  class="btn btn-outline-secondary ms-1"
+                  style="width: 38px; flex: none"
+                  (click)="delPerSessionGroupProfile(i)"
+                >
+                  <i class="fas fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Enable per session type profile</div>
+          </div>
+          <toggle
+            [(ngModel)]="pluginConfig.highlightPerSessionTypeEnabled"
+            (ngModelChange)="apply()"
+          >
+          </toggle>
+        </div>
+        <div class="content-box w-100" *ngIf="pluginConfig.highlightPerSessionTypeEnabled === true">
+          <div class="d-flex w-100">
+            <button class="btn btn-primary" (click)="addHighlightPerSessionTypeProfile()">
+              <i class="fas fa-solid fa-plus"></i>
+              <span translate>Add</span>
+            </button>
+          </div>
+          <div class="list-group mt-3 mb-3">
+            <div class="list-group-item active d-flex align-items-center">
+              <span class="text-center w-100" translate>Session Type</span>
+              <span class="text-center w-100" translate>Profile</span>
+              <span class="text-end" translate style="margin-right: 13px; width: 38px; flex: none">
+                <i class="fas fa-solid fa-trash"></i>
+              </span>
+            </div>
+            <ng-container
+              *ngFor="let item of pluginConfig.highlightPerSessionTypeProfileMap; let i = index"
+            >
+              <div
+                class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+              >
+                <div class="input-group">
+                  <select class="form-control" [(ngModel)]="item.typeId" (ngModelChange)="apply()">
+                    <option [ngValue]="uuidNIL" translate>No session type selected</option>
+                    <option
+                      *ngFor="let type of getSessionTypes(item.typeId)"
+                      [ngValue]="type"
+                      translate
+                    >
+                      {{ type }}
+                    </option>
+                  </select>
+                  <select
+                    class="form-control"
+                    [(ngModel)]="item.profileId"
+                    (ngModelChange)="apply()"
+                  >
+                    <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
+                    <option
+                      *ngFor="let profile of pluginConfig.highlightProfiles"
+                      [ngValue]="profile.id"
+                    >
+                      {{ profile.name }}
+                    </option>
+                  </select>
+                </div>
+                <button
+                  class="btn btn-outline-secondary ms-1"
+                  style="width: 38px; flex: none"
+                  (click)="delPerSessionTypeProfile(i)"
+                >
+                  <i class="fas fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Enable global profile</div>
+            <div class="description" translate>Global profile is the active tab below</div>
+          </div>
+          <toggle [(ngModel)]="pluginConfig.highlightGlobalEnabled" (ngModelChange)="apply()">
+          </toggle>
+        </div>
+        <ul
+          class="nav-tabs"
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="currentHighlightProfileIndex"
+          (navChange)="onHighlightProfileChange($event)"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="dropProfile($event)"
+        >
+          <ng-container
+            *ngFor="let profile of pluginConfig.highlightProfiles; let profileIndex = index"
+          >
+            <li cdkDrag ngbNavItem [ngbNavItem]="profileIndex">
+              <a class="nav-link" ngbNavLink (dblclick)="renameHighlightProfile($event, profile)"
+                >{{ profile.name
+                }}<span class="close ms-2" (click)="delHighlightProfile($event, profile)">
+                  <i class="fa-regular fa-circle-xmark"></i>
+                </span>
+              </a>
+              <ng-template ngbNavContent>
+                <div class="d-flex w-100">
+                  <button class="btn btn-primary" (click)="addKeyword()">
+                    <i class="fas fa-solid fa-plus"></i>
+                    <span translate>Add</span>
+                  </button>
+                  <div class="flex-grow-1"></div>
+                  <button class="btn btn-primary" (click)="importHighlightProfile()">
+                    <i class="fas fa-solid fa-file-import"></i>
+                    <span translate>Import</span>
+                  </button>
+                  <button class="btn btn-primary ms-2" (click)="exportHighlightProfile()">
+                    <i class="fas fa-solid fa-file-export"></i>
+                    <span translate>Export</span>
+                  </button>
+                </div>
+                <div
+                  class="list-group mt-3 mb-3"
+                  cdkDropList
+                  (cdkDropListDropped)="dropKeyword($event)"
+                >
+                  <div class="list-group-item active d-flex align-items-center">
+                    <span translate style="margin-left: 10px; width: 46px; flex: none">
+                      <i class="fa-solid fa-toggle-on"></i>
+                    </span>
+                    <span translate style="width: 30px; flex: none">(.*)</span>
+                    <span translate style="width: 30px; flex: none">Aa</span>
+                    <span class="text-center w-100" translate>Keyword</span>
+                    <span
+                      class="text-end"
+                      translate
+                      style="margin-right: 13px; width: 60px; flex: none"
+                    >
+                      <i class="fa-solid fa-palette"></i>
+                    </span>
+                    <span
+                      class="text-end"
+                      translate
+                      style="margin-right: 13px; width: 38px; flex: none"
+                    >
+                      <i class="fas fa-solid fa-trash"></i>
+                    </span>
+                  </div>
+                  <ng-container *ngFor="let item of profile.keywords; let i = index">
+                    <div
+                      class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                      cdkDrag
+                    >
+                      <toggle
+                        cdkDragHandle
+                        style="width: 60px; flex: none"
+                        [(ngModel)]="item.enabled"
+                        (ngModelChange)="apply()"
+                      >
+                      </toggle>
+                      <div
+                        class="content-box d-flex align-items-center w-100"
+                        [style.opacity]="item.enabled ? 1 : 0.5"
+                      >
+                        <checkbox
+                          class="ms-1"
+                          [(ngModel)]="item.isRegExp"
+                          (ngModelChange)="apply()"
+                        >
+                        </checkbox>
+                        <checkbox
+                          class="ms-1"
+                          [(ngModel)]="item.isCaseSensitive"
+                          (ngModelChange)="apply()"
+                        >
+                        </checkbox>
+                        <div class="content-box d-flex align-items-center w-100 position-relative">
+                          <input
+                            class="form-control"
+                            type="text"
+                            [style.color]="getForegroundColor(item)"
+                            [style.background-color]="getBackgroundColor(item)"
+                            [style.font-weight]="item.bold ? 'bold' : ''"
+                            [style.font-style]="item.italic ? 'italic' : ''"
+                            [style.text-decoration]="item.underline ? 'underline' : ''"
+                            [(ngModel)]="item.text"
+                            (ngModelChange)="apply()"
+                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
+                          />
+                          <div
+                            class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
+                            *ngIf="!verifyStatus[profileIndex]?.[i]?.[0]"
+                            placement="end"
+                            [ngbTooltip]="verifyStatus[profileIndex]?.[i]?.[1]"
+                          >
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div ngbDropdown placement="bottom-right">
+                        <button
+                          class="btn btn-outline-primary ms-1"
+                          ngbDropdownToggle
+                          (click)="$event.stopPropagation()"
+                        >
+                          <i class="fa-solid fa-palette"></i>
+                        </button>
+                        <div
+                          class="border border-black"
+                          ngbDropdownMenu
+                          style="
+                            min-width: 280px;
+                            background-color: rgba(0, 0, 0, 0.3);
+                            backdrop-filter: blur(3px);
+                          "
+                        >
+                          <div class="container-fluid">
+                            <ng-container *ngFor="let style of styles">
+                              <div class="row mt-1" style="min-height: 40px">
+                                <div class="col d-flex align-items-center">
+                                  <span class="ms-1" translate>{{ style.name }}</span>
+                                </div>
+                                <div
+                                  class="col-md-auto d-flex align-items-center"
+                                  *ngIf="style.valueType"
+                                >
+                                  <input
+                                    class="form-control"
+                                    [type]="style.valueType"
+                                    [min]="style.min"
+                                    [max]="style.max"
+                                    [(ngModel)]="item[style.valueModel]"
+                                    (ngModelChange)="apply()"
+                                    style="
+                                      width: 70px;
+                                      flex: none;
+                                      background-color: rgba(0, 0, 0, 0.3);
+                                      backdrop-filter: blur(3px);
+                                    "
+                                  />
+                                </div>
+                                <div class="col-md-auto d-flex align-items-center">
+                                  <checkbox
+                                    class="ms-1"
+                                    [(ngModel)]="item[style.enabledModel]"
+                                    (ngModelChange)="apply()"
+                                  >
+                                  </checkbox>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-secondary ms-1"
+                        style="width: 38px; flex: none"
+                        (click)="delKeyword(i)"
+                      >
+                        <i class="fas fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </li>
+          </ng-container>
+          <li class="nav-item" role="presentation">
+            <button
+              class="add-button btn btn-outline-secondary"
+              (click)="addHighlightProfile($event)"
+            >
+              <i class="fa-regular fa-square-plus"></i>
+            </button>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+        <div class="alert alert-info d-flex align-items-center">
+          <div class="me-auto">
+            <span>
+              <p translate>Drag the ON button may reorder the keyword.</p>
+              <p translate>Keyword on top get high priority.</p>
+              <p translate>Active tab is the global highlight profile.</p>
+              <p translate>Double click tab can change profile name.</p>
+              <p translate>The profile selection order is session > group > type > global.</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink translate>Replace</a>
+    <ng-template ngbNavContent>
+      <div class="form-line">
+        <div class="header">
+          <div class="title" translate>Enable replace</div>
+          <div class="description" translate>Replace master switch</div>
+        </div>
+        <toggle [(ngModel)]="pluginConfig.replaceEnabled" (ngModelChange)="apply()"></toggle>
+      </div>
+      <div class="content-box w-100" *ngIf="pluginConfig.replaceEnabled === true">
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Disable replace in alternate screen</div>
+            <div class="description" translate>For example: vi/vim</div>
+          </div>
+          <toggle [(ngModel)]="pluginConfig.replaceAlternateDisable" (ngModelChange)="apply()">
+          </toggle>
+        </div>
+        <ul
+          class="nav-tabs"
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="currentReplaceProfileIndex"
+          (navChange)="onReplaceProfileChange($event)"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="dropReplaceProfile($event)"
+        >
+          <ng-container
+            *ngFor="let profile of pluginConfig.replaceProfiles; let profileIndex = index"
+          >
+            <li cdkDrag ngbNavItem [ngbNavItem]="profileIndex">
+              <a class="nav-link" ngbNavLink (dblclick)="renameReplaceProfile($event, profile)"
+                >{{ profile.name
+                }}<span class="close ms-2" (click)="delReplaceProfile($event, profile)">
+                  <i class="fa-regular fa-circle-xmark"></i>
+                </span>
+              </a>
+              <ng-template ngbNavContent>
+                <div class="d-flex w-100">
+                  <button class="btn btn-primary" (click)="addReplacePattern()">
+                    <i class="fas fa-solid fa-plus"></i>
+                    <span translate>Add</span>
+                  </button>
+                  <div class="flex-grow-1"></div>
+                  <button class="btn btn-primary" (click)="importReplaceProfile()">
+                    <i class="fas fa-solid fa-file-import"></i>
+                    <span translate>Import</span>
+                  </button>
+                  <button class="btn btn-primary ms-2" (click)="exportReplaceProfile()">
+                    <i class="fas fa-solid fa-file-export"></i>
+                    <span translate>Export</span>
+                  </button>
+                </div>
+                <div
+                  class="list-group mt-3 mb-3"
+                  cdkDropList
+                  (cdkDropListDropped)="dropReplacePattern($event)"
+                >
+                  <div class="list-group-item active d-flex align-items-center">
+                    <span translate style="margin-left: 10px; width: 46px; flex: none">
+                      <i class="fa-solid fa-toggle-on"></i>
+                    </span>
+                    <span translate style="width: 30px; flex: none">(.*)</span>
+                    <span translate style="width: 30px; flex: none">Aa</span>
+                    <span class="text-center w-100" translate>Search Pattern</span>
+                    <span class="text-center w-100" translate>Replace Pattern</span>
+                    <span
+                      class="text-end"
+                      translate
+                      style="margin-right: 13px; width: 38px; flex: none"
+                    >
+                      <i class="fas fa-solid fa-trash"></i>
+                    </span>
+                  </div>
+                  <ng-container *ngFor="let item of profile.patterns; let i = index">
+                    <div
+                      class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                      cdkDrag
+                    >
+                      <toggle
+                        cdkDragHandle
+                        style="width: 60px; flex: none"
+                        [(ngModel)]="item.enabled"
+                        (ngModelChange)="apply()"
+                      >
+                      </toggle>
+                      <div
+                        class="content-box d-flex align-items-center w-100"
+                        [style.opacity]="item.enabled ? 1 : 0.5"
+                      >
+                        <checkbox
+                          class="ms-1"
+                          [(ngModel)]="item.isRegExp"
+                          (ngModelChange)="apply()"
+                        >
+                        </checkbox>
+                        <checkbox
+                          class="ms-1"
+                          [(ngModel)]="item.isCaseSensitive"
+                          (ngModelChange)="apply()"
+                        >
+                        </checkbox>
+                        <div class="content-box d-flex align-items-center w-100 position-relative">
+                          <input
+                            class="form-control"
+                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
+                            type="text"
+                            [(ngModel)]="item.search"
+                            (ngModelChange)="apply()"
+                          />
+                          <div
+                            class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
+                            *ngIf="!replaceVerifyStatus[profileIndex]?.[i]?.[0]"
+                            placement="end"
+                            [ngbTooltip]="replaceVerifyStatus[profileIndex]?.[i]?.[1]"
+                          >
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                          </div>
+                        </div>
+                        <div class="content-box d-flex align-items-center w-100 ms-1">
+                          <input
+                            class="form-control"
+                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
+                            type="text"
+                            [(ngModel)]="item.replace"
+                            (ngModelChange)="apply()"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        class="btn btn-outline-secondary ms-1"
+                        style="width: 38px; flex: none"
+                        (click)="delReplacePattern(i)"
+                      >
+                        <i class="fas fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </li>
+          </ng-container>
+          <li class="nav-item" role="presentation">
+            <button
+              class="add-button btn btn-outline-secondary"
+              (click)="addReplaceProfile($event)"
+            >
+              <i class="fa-regular fa-square-plus"></i>
+            </button>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+        <div class="alert alert-info d-flex align-items-center">
+          <div class="me-auto">
+            <span>
+              <p translate>Drag the ON button may reorder the pattern.</p>
+              <p translate>Replacement processed from top to end.</p>
+              <p translate>Active tab is the global highlight profile.</p>
+              <p translate>Double click tab can change profile name.</p>
+              <p translate>If you want to add a new line, add "\n" to the replace pattern.</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>

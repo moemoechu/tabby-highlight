@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as url from "url";
-import PugPlugin from "pug-plugin";
 
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
@@ -35,11 +34,13 @@ export default () => ({
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.pug$/,
+        test: /\.html$/,
         use: [
-          "apply-loader",
           {
-            loader: PugPlugin.loader,
+            loader: "html-loader",
+            options: {
+              esModule: false,
+            },
           },
         ],
       },

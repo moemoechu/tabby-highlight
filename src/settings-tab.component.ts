@@ -26,7 +26,7 @@ import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
 
 /** @hidden */
 @Component({
-  template: require("./settings-tab.component.pug"),
+  template: require("./settings-tab.component.html"),
   styles: [
     `
       .list-group-item-highlight {

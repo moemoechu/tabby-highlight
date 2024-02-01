@@ -2,5 +2,6 @@
   "printWidth": 100,
   "singleQuote": false,
   "quoteProps": "consistent",
-  "plugins": ["@prettier/plugin-pug"]
+  "bracketSameLine": false,
+  "singleAttributePerLine": false
 }
