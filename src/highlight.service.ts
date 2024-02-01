@@ -208,6 +208,7 @@ export class HighlightService {
       enabled: false,
       background: true,
       backgroundColor: "1",
+      foregroundColor: "0",
     };
     const targetProfile = id ? this.getHighlightProfileById(id) : this.getCurrentHighlightProfile();
     targetProfile.keywords.unshift(newKeyword);
