@@ -21,6 +21,7 @@
       "isRegExp": true,
       "isCaseSensitive": false
     },
+    { "text": "🍥", "enabled": true, "background": true, "backgroundColor": "13" },
     {
       "text": "BOLD",
       "enabled": true,

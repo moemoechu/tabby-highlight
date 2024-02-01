@@ -1,0 +1,90 @@
+{
+  "id": "986666dd-dac9-4c7a-a295-9b4aff66abdd",
+  "name": "雌小鬼",
+  "patterns": [
+    {
+      "enabled": true,
+      "search": "Last login:\\s*(.*?)\\s*from\\s*(.*)",
+      "replace": "杂鱼～上次是在 $1 从 $2 登录的♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "(\\s*?Filesystem\\s*?Size)",
+      "replace": "杂鱼～快来看看你的磁盘信息♡\\n$1",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "(\\s*?total\\s*?used\\s*?free)",
+      "replace": "杂鱼～快来看看你的内存信息♡\\n$1",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "For more details see (.*?)\\.",
+      "replace": "杂鱼～去看看$1吧，反正你一定很闲♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "Try (.*?) for more information.",
+      "replace": "杂鱼～试试$1吧，反正你一定很闲♡",
+      "isRegExp": true
+    },
+    { "enabled": true, "search": "unknown gnu long option", "replace": "不支持的GNU长参数" },
+    {
+      "enabled": true,
+      "search": "unsupported SysV option",
+      "replace": "不支持的SysV参数",
+      "isRegExp": false
+    },
+    {
+      "enabled": true,
+      "search": "unsupported option (BSD syntax)",
+      "replace": "不支持的参数（BSD 语法）"
+    },
+    {
+      "enabled": true,
+      "search": "(.*?)(?:: unrecognized option )(.*)",
+      "replace": "$1：杂鱼～有不识别的参数：$2♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "(.*?)(?:: invalid option -- )(.*)",
+      "replace": "$1：杂鱼～有错误的参数：$2♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "(?:Similar command is: |相似命令是： )(.*)",
+      "replace": "杂鱼～相似的命令是：$1♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "bash: (.*?): (?:command not found...|未找到命令...)",
+      "replace": "杂鱼～没找到这个命令：'$1'♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": false,
+      "search": "([\\[【])WARN(?:ing)*([\\]】])",
+      "replace": "$1♡警告♡$2",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "ERROR:\\s*(.*)",
+      "replace": "杂鱼～出错啦：$1♡",
+      "isRegExp": true
+    },
+    {
+      "enabled": true,
+      "search": "WARN(?:ing)*:\\s*(.*)",
+      "replace": "杂鱼～有警告：$1♡",
+      "isRegExp": true
+    }
+  ]
+}
