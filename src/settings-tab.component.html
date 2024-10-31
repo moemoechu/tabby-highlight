@@ -546,84 +546,109 @@
                   cdkDropList
                   (cdkDropListDropped)="dropReplacePattern($event)"
                 >
-                  <div class="list-group-item active d-flex align-items-center">
-                    <span translate style="margin-left: 10px; width: 46px; flex: none">
-                      <i class="fa-solid fa-toggle-on"></i>
-                    </span>
-                    <span translate style="width: 30px; flex: none">(.*)</span>
-                    <span translate style="width: 30px; flex: none">Aa</span>
-                    <span class="text-center w-100" translate>Search Pattern</span>
-                    <span class="text-center w-100" translate>Replace Pattern</span>
-                    <span
-                      class="text-end"
-                      translate
-                      style="margin-right: 13px; width: 38px; flex: none"
-                    >
-                      <i class="fas fa-solid fa-trash"></i>
-                    </span>
+                  <div class="container list-group-item active align-items-center">
+                    <div class="row">
+                      <span class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <i class="fa-solid fa-toggle-on"></i>
+                      </span>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span>(.*)</span>
+                      </div>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span>Aa</span>
+                      </div>
+
+                      <div class="col gx-1 d-flex justify-content-center align-items-center">
+                        <span class="text-center w-100" translate>Search Pattern</span>
+                      </div>
+                      <div class="col gx-1 d-flex justify-content-center align-items-center">
+                        <span class="text-center w-100" translate>Replace Pattern</span>
+                      </div>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span>
+                          <i class="fas fa-solid fa-trash"></i>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                   <ng-container *ngFor="let item of profile.patterns; let i = index">
                     <div
-                      class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                      class="container list-group-item align-items-center list-group-item-action list-group-item-highlight"
                       cdkDrag
                     >
-                      <toggle
-                        cdkDragHandle
-                        style="width: 60px; flex: none"
-                        [(ngModel)]="item.enabled"
-                        (ngModelChange)="apply()"
-                      >
-                      </toggle>
-                      <div
-                        class="content-box d-flex align-items-center w-100"
-                        [style.opacity]="item.enabled ? 1 : 0.5"
-                      >
-                        <checkbox
-                          class="ms-1"
-                          [(ngModel)]="item.isRegExp"
-                          (ngModelChange)="apply()"
+                      <div class="row">
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >
-                        </checkbox>
-                        <checkbox
-                          class="ms-1"
-                          [(ngModel)]="item.isCaseSensitive"
-                          (ngModelChange)="apply()"
-                        >
-                        </checkbox>
-                        <div class="content-box d-flex align-items-center w-100 position-relative">
-                          <input
-                            class="form-control"
-                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
-                            type="text"
-                            [(ngModel)]="item.search"
+                          <toggle
+                            cdkDragHandle
+                            [(ngModel)]="item.enabled"
                             (ngModelChange)="apply()"
-                          />
-                          <div
-                            class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
-                            *ngIf="!replaceVerifyStatus[profileIndex]?.[i]?.[0]"
-                            placement="end"
-                            [ngbTooltip]="replaceVerifyStatus[profileIndex]?.[i]?.[1]"
                           >
-                            <i class="fa-solid fa-circle-exclamation"></i>
+                          </toggle>
+                        </div>
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <checkbox [(ngModel)]="item.isRegExp" (ngModelChange)="apply()">
+                          </checkbox>
+                        </div>
+
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <checkbox [(ngModel)]="item.isCaseSensitive" (ngModelChange)="apply()">
+                          </checkbox>
+                        </div>
+
+                        <div class="col gx-1">
+                          <div
+                            class="content-box d-flex align-items-center w-100 position-relative"
+                          >
+                            <input
+                              class="form-control"
+                              style="
+                                background-color: rgba(0, 0, 0, 0.3);
+                                backdrop-filter: blur(3px);
+                              "
+                              type="text"
+                              [(ngModel)]="item.search"
+                              (ngModelChange)="apply()"
+                            />
+                            <div
+                              class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
+                              *ngIf="!replaceVerifyStatus[profileIndex]?.[i]?.[0]"
+                              placement="end"
+                              [ngbTooltip]="replaceVerifyStatus[profileIndex]?.[i]?.[1]"
+                            >
+                              <i class="fa-solid fa-circle-exclamation"></i>
+                            </div>
                           </div>
                         </div>
-                        <div class="content-box d-flex align-items-center w-100 ms-1">
-                          <input
-                            class="form-control"
-                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
-                            type="text"
-                            [(ngModel)]="item.replace"
-                            (ngModelChange)="apply()"
-                          />
+
+                        <div class="col gx-1">
+                          <div class="content-box d-flex align-items-center w-100 ms-1">
+                            <input
+                              class="form-control"
+                              style="
+                                background-color: rgba(0, 0, 0, 0.3);
+                                backdrop-filter: blur(3px);
+                              "
+                              type="text"
+                              [(ngModel)]="item.replace"
+                              (ngModelChange)="apply()"
+                            />
+                          </div>
+                        </div>
+
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <button class="btn btn-outline-secondary" (click)="delReplacePattern(i)">
+                            <i class="fas fa-solid fa-trash"></i>
+                          </button>
                         </div>
                       </div>
-                      <button
-                        class="btn btn-outline-secondary ms-1"
-                        style="width: 38px; flex: none"
-                        (click)="delReplacePattern(i)"
-                      >
-                        <i class="fas fa-solid fa-trash"></i>
-                      </button>
                     </div>
                   </ng-container>
                 </div>
