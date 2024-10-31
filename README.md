@@ -37,7 +37,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 ### Others
 
 - [x] Settings UI support English and Chinese.
-- [x] Tested on Windows and MacOS with Tabby version 1.0.205.
+- [x] Tested on Windows with Tabby version 1.0.215.
 
 ## Usage
 
@@ -73,7 +73,13 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ### Examples
 
+#### Highlight
+
 See [Demo](example_profiles/highlight_demo.json) and [Test case](tests/highlight_test.json).
+
+#### Replace
+
+See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/replace_test.log)
 
 ## Screenshot
 
