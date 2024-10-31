@@ -67,6 +67,7 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Extra settings": "额外设置",
       "Match group": "匹配组",
       "Styles": "样式",
+      "Remark": "备注",
     },
   ],
 ];
