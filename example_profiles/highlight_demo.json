@@ -23,7 +23,7 @@
       "backgroundColor": 1,
       "bold": false,
       "isMatchGroup": true,
-      "matchGroup": 1
+      "matchGroup": "1"
     },
     {
       "text": "(A)(A)(?<tag>C)D(E)F",
@@ -194,14 +194,16 @@
       "bold": false
     },
     {
-      "text": "(?<=\": )-?\\d+(?:\\.\\d+)?(?=[,\\}\\r\\n])",
+      "text": "\":\\s*(-?\\d+(?:\\.\\d+)?)",
       "enabled": true,
       "isRegExp": true,
       "foreground": true,
       "foregroundColor": 0,
       "background": true,
       "backgroundColor": "4",
-      "bold": false
+      "bold": false,
+      "matchGroup": "1",
+      "isMatchGroup": true
     },
     {
       "text": "DEBUG",
@@ -274,14 +276,16 @@
       "bold": false
     },
     {
-      "text": "(?<=\": )-?\\[.*?\\](?=[,\\}\\r\\n])",
+      "text": "\":\\s*(-?\\[.*?\\])",
       "enabled": true,
       "isRegExp": true,
       "foreground": true,
       "foregroundColor": 0,
       "background": true,
       "backgroundColor": 1,
-      "bold": false
+      "bold": false,
+      "matchGroup": "1",
+      "isMatchGroup": true
     }
   ],
   "id": "f55ab0fa-a20c-4232-9dbf-f8eb6013756b"
