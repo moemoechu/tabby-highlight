@@ -13,5 +13,6 @@
   "age": 14,
   "hobby": "nyan~",
   "wholeLineMatch": "an invisible line",
-  "progynova": "🍥"
+  "progynova": "🍥",
+  "match group": "[chocola@host neko]: cat aaa"
 }

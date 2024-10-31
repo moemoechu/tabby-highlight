@@ -271,141 +271,191 @@
                   cdkDropList
                   (cdkDropListDropped)="dropKeyword($event)"
                 >
-                  <div class="list-group-item active d-flex align-items-center">
-                    <span translate style="margin-left: 10px; width: 46px; flex: none">
-                      <i class="fa-solid fa-toggle-on"></i>
-                    </span>
-                    <span translate style="width: 30px; flex: none">(.*)</span>
-                    <span translate style="width: 30px; flex: none">Aa</span>
-                    <span class="text-center w-100" translate>Keyword</span>
-                    <span
-                      class="text-end"
-                      translate
-                      style="margin-right: 13px; width: 60px; flex: none"
-                    >
-                      <i class="fa-solid fa-palette"></i>
-                    </span>
-                    <span
-                      class="text-end"
-                      translate
-                      style="margin-right: 13px; width: 38px; flex: none"
-                    >
-                      <i class="fas fa-solid fa-trash"></i>
-                    </span>
+                  <div class="container list-group-item active align-items-center">
+                    <div class="row">
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span>
+                          <i class="fa-solid fa-toggle-on"></i>
+                        </span>
+                      </div>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span translate>(.*)</span>
+                      </div>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span translate>Aa</span>
+                      </div>
+                      <div class="col gx-1 d-flex justify-content-center align-items-center">
+                        <span class="text-center" translate>Keyword</span>
+                      </div>
+                      <div class="col col-auto gx-1 d-flex">
+                        <span
+                          class="d-flex justify-content-center align-items-center"
+                          style="width: 60px"
+                        >
+                          <i class="fa-solid fa-palette"></i>
+                        </span>
+                      </div>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span>
+                          <i class="fas fa-solid fa-trash"></i>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                   <ng-container *ngFor="let item of profile.keywords; let i = index">
                     <div
-                      class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                      class="container list-group-item align-items-center list-group-item-action list-group-item-highlight"
                       cdkDrag
                     >
-                      <toggle
-                        cdkDragHandle
-                        style="width: 60px; flex: none"
-                        [(ngModel)]="item.enabled"
-                        (ngModelChange)="apply()"
-                      >
-                      </toggle>
-                      <div
-                        class="content-box d-flex align-items-center w-100"
-                        [style.opacity]="item.enabled ? 1 : 0.5"
-                      >
-                        <checkbox
-                          class="ms-1"
-                          [(ngModel)]="item.isRegExp"
-                          (ngModelChange)="apply()"
-                        >
-                        </checkbox>
-                        <checkbox
-                          class="ms-1"
-                          [(ngModel)]="item.isCaseSensitive"
-                          (ngModelChange)="apply()"
-                        >
-                        </checkbox>
-                        <div class="content-box d-flex align-items-center w-100 position-relative">
-                          <input
-                            class="form-control"
-                            type="text"
-                            [style.color]="getForegroundColor(item)"
-                            [style.background-color]="getBackgroundColor(item)"
-                            [style.font-weight]="item.bold ? 'bold' : ''"
-                            [style.font-style]="item.italic ? 'italic' : ''"
-                            [style.text-decoration]="item.underline ? 'underline' : ''"
-                            [(ngModel)]="item.text"
-                            (ngModelChange)="apply()"
-                            style="background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(3px)"
-                          />
-                          <div
-                            class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
-                            *ngIf="!verifyStatus[profileIndex]?.[i]?.[0]"
-                            placement="end"
-                            [ngbTooltip]="verifyStatus[profileIndex]?.[i]?.[1]"
-                          >
-                            <i class="fa-solid fa-circle-exclamation"></i>
-                          </div>
-                        </div>
-                      </div>
-                      <div ngbDropdown placement="bottom-right">
-                        <button
-                          class="btn btn-outline-primary ms-1"
-                          ngbDropdownToggle
-                          (click)="$event.stopPropagation()"
-                        >
-                          <i class="fa-solid fa-palette"></i>
-                        </button>
+                      <div class="row">
                         <div
-                          class="border border-black"
-                          ngbDropdownMenu
-                          style="
-                            min-width: 280px;
-                            background-color: rgba(0, 0, 0, 0.3);
-                            backdrop-filter: blur(3px);
-                          "
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >
-                          <div class="container-fluid">
-                            <ng-container *ngFor="let style of styles">
-                              <div class="row mt-1" style="min-height: 40px">
-                                <div class="col d-flex align-items-center">
-                                  <span class="ms-1" translate>{{ style.name }}</span>
-                                </div>
-                                <div
-                                  class="col-md-auto d-flex align-items-center"
-                                  *ngIf="style.valueType"
-                                >
-                                  <input
-                                    class="form-control"
-                                    [type]="style.valueType"
-                                    [min]="style.min"
-                                    [max]="style.max"
-                                    [(ngModel)]="item[style.valueModel]"
-                                    (ngModelChange)="apply()"
-                                    style="
-                                      width: 70px;
-                                      flex: none;
-                                      background-color: rgba(0, 0, 0, 0.3);
-                                      backdrop-filter: blur(3px);
-                                    "
-                                  />
-                                </div>
-                                <div class="col-md-auto d-flex align-items-center">
-                                  <checkbox
-                                    class="ms-1"
-                                    [(ngModel)]="item[style.enabledModel]"
-                                    (ngModelChange)="apply()"
-                                  >
-                                  </checkbox>
-                                </div>
-                              </div>
-                            </ng-container>
+                          <toggle
+                            cdkDragHandle
+                            [(ngModel)]="item.enabled"
+                            (ngModelChange)="apply()"
+                          >
+                          </toggle>
+                        </div>
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <checkbox [(ngModel)]="item.isRegExp" (ngModelChange)="apply()">
+                          </checkbox>
+                        </div>
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <checkbox [(ngModel)]="item.isCaseSensitive" (ngModelChange)="apply()">
+                          </checkbox>
+                        </div>
+                        <div class="col gx-1">
+                          <div
+                            class="content-box d-flex align-items-center w-100 position-relative"
+                          >
+                            <input
+                              class="form-control"
+                              type="text"
+                              [style.color]="getForegroundColor(item)"
+                              [style.background-color]="getBackgroundColor(item)"
+                              [style.font-weight]="item.bold ? 'bold' : ''"
+                              [style.font-style]="item.italic ? 'italic' : ''"
+                              [style.text-decoration]="item.underline ? 'underline' : ''"
+                              [(ngModel)]="item.text"
+                              (ngModelChange)="apply()"
+                              style="
+                                background-color: rgba(0, 0, 0, 0.3);
+                                backdrop-filter: blur(3px);
+                              "
+                            />
+                            <div
+                              class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
+                              *ngIf="!verifyStatus[profileIndex]?.[i]?.[0]"
+                              placement="end"
+                              [ngbTooltip]="verifyStatus[profileIndex]?.[i]?.[1]"
+                            >
+                              <i class="fa-solid fa-circle-exclamation"></i>
+                            </div>
                           </div>
                         </div>
+                        <div
+                          class="col col-auto gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <div ngbDropdown placement="bottom-right">
+                            <button
+                              class="btn btn-outline-primary"
+                              style="width: 60px"
+                              ngbDropdownToggle
+                              (click)="$event.stopPropagation()"
+                            >
+                              <i class="fa-solid fa-palette"></i>
+                            </button>
+                            <div
+                              class="border border-black"
+                              ngbDropdownMenu
+                              style="
+                                min-width: 280px;
+                                background-color: rgba(0, 0, 0, 0.3);
+                                backdrop-filter: blur(3px);
+                              "
+                            >
+                              <div class="container-fluid">
+                                <div class="h4" translate>Extra settings</div>
+                                <div class="row mt-1" style="min-height: 40px">
+                                  <div class="col d-flex align-items-center">
+                                    <span class="ms-1" translate>Match group</span>
+                                  </div>
+                                  <div class="col-md-auto d-flex align-items-center">
+                                    <input
+                                      class="form-control"
+                                      [type]="text"
+                                      [(ngModel)]="item.matchGroup"
+                                      (ngModelChange)="apply()"
+                                      style="
+                                        width: 70px;
+                                        flex: none;
+                                        background-color: rgba(0, 0, 0, 0.3);
+                                        backdrop-filter: blur(3px);
+                                      "
+                                    />
+                                  </div>
+                                  <div class="col-md-auto d-flex align-items-center">
+                                    <checkbox
+                                      class="ms-1"
+                                      [(ngModel)]="item.isMatchGroup"
+                                      (ngModelChange)="apply()"
+                                    >
+                                    </checkbox>
+                                  </div>
+                                </div>
+                                <div class="h4" translate>Styles</div>
+                                <ng-container *ngFor="let style of styles">
+                                  <div class="row mt-1" style="min-height: 40px">
+                                    <div class="col d-flex align-items-center">
+                                      <span class="ms-1" translate>{{ style.name }}</span>
+                                    </div>
+                                    <div
+                                      class="col-md-auto d-flex align-items-center"
+                                      *ngIf="style.valueType"
+                                    >
+                                      <input
+                                        class="form-control"
+                                        [type]="style.valueType"
+                                        [min]="style.min"
+                                        [max]="style.max"
+                                        [(ngModel)]="item[style.valueModel]"
+                                        (ngModelChange)="apply()"
+                                        style="
+                                          width: 70px;
+                                          flex: none;
+                                          background-color: rgba(0, 0, 0, 0.3);
+                                          backdrop-filter: blur(3px);
+                                        "
+                                      />
+                                    </div>
+                                    <div class="col-md-auto d-flex align-items-center">
+                                      <checkbox
+                                        class="ms-1"
+                                        [(ngModel)]="item[style.enabledModel]"
+                                        (ngModelChange)="apply()"
+                                      >
+                                      </checkbox>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <button class="btn btn-outline-secondary" (click)="delKeyword(i)">
+                            <i class="fas fa-solid fa-trash"></i>
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        class="btn btn-outline-secondary ms-1"
-                        style="width: 38px; flex: none"
-                        (click)="delKeyword(i)"
-                      >
-                        <i class="fas fa-solid fa-trash"></i>
-                      </button>
                     </div>
                   </ng-container>
                 </div>

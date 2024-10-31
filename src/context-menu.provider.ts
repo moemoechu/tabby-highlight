@@ -10,6 +10,7 @@ import {
 import { BaseTerminalTabComponent } from "tabby-terminal";
 import { HighlightPluginConfig } from "./api";
 import { HighlightService } from "./highlight.service";
+import * as uuid from "uuid";
 
 @Injectable()
 export class HighlightContextMenu extends TabContextMenuItemProvider {
@@ -19,7 +20,7 @@ export class HighlightContextMenu extends TabContextMenuItemProvider {
     private highlightService: HighlightService,
     public config: ConfigService,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     super();
   }
@@ -34,22 +35,30 @@ export class HighlightContextMenu extends TabContextMenuItemProvider {
       {
         label: this.translate.instant("Highlight"),
         type: "submenu",
-        submenu: this.highlightService.getHighlightProfiles(true).map((value) => ({
-          type: "radio",
-          label: value.name,
-          checked: (tab as any).highlightProfile?.id === value.id,
-          click: () => {
-            if (!pluginConfig.highlightPerSessionEnabled) {
-              this.toastr.warning(
-                this.translate.instant(
-                  "[Highlight] Can not change session profile due to per session profile not enabled"
-                )
-              );
-              return;
-            }
-            this.highlightService.setHighlightPerSessionProfileMap(tab.profile.id, value.id);
+        submenu: [
+          {
+            id: uuid.NIL,
+            name: this.translate.instant("Disable Highlight"),
+            keywords: [],
           },
-        })),
+        ]
+          .concat(this.highlightService.getHighlightProfiles())
+          .map((value) => ({
+            type: "radio",
+            label: value.name,
+            checked: (tab as any).highlightProfile?.id === value.id,
+            click: () => {
+              if (!pluginConfig.highlightPerSessionEnabled) {
+                this.toastr.warning(
+                  this.translate.instant(
+                    "[Highlight] Can not change session profile due to per session profile not enabled",
+                  ),
+                );
+                return;
+              }
+              this.highlightService.setHighlightPerSessionProfileMap(tab.profile.id, value.id);
+            },
+          })),
       },
     ];
   }

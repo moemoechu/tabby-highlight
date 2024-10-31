@@ -75,14 +75,14 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               // 象征性的捕获并忽略一下错误喵
               this.toast(
-                "[Highlight] Something wrong when creating RegExp, please check replace settings"
+                "[Highlight] Something wrong when creating RegExp, please check replace settings",
               );
               this.logger.error(e.message);
               return super.feedFromSession(data);
             }
             dataStringReplaced = dataStringReplaced.replaceAll(
               pattern,
-              replace.replaceAll("\\n", this.enterReplacer)
+              replace.replaceAll("\\n", this.enterReplacer),
             );
           }
         }
@@ -118,6 +118,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
             italic = false,
             underline = false,
             dim = false,
+            isMatchGroup = false,
+            matchGroup = "0",
           } = keyword;
 
           // 未启用的关键字直接跳过喵
@@ -125,7 +127,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             continue;
           }
 
-          const regexpFlag = isCaseSensitive ? "g" : "gi";
+          const regexpFlag = isCaseSensitive ? "gd" : "gid";
 
           let pattern: RegExp;
           try {
@@ -136,7 +138,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           } catch (e) {
             // 象征性的捕获并忽略一下错误喵
             this.toast(
-              "[Highlight] Something wrong when creating RegExp, please check highlight settings"
+              "[Highlight] Something wrong when creating RegExp, please check highlight settings",
             );
             this.logger.error(e.message);
             return super.feedFromSession(data);
@@ -147,18 +149,31 @@ export default class HighlightMiddleware extends SessionMiddleware {
           const matches = dataStringReplaced.matchAll(pattern);
 
           for (const match of matches) {
-            // this.logger.debug(`match result:`);
-            // console.debug(match);
-            occurrences.push({
-              start: match.index,
-              end: match.index + match[0].length - 1,
-              fg: foreground ? foregroundColor : undefined,
-              bg: background ? backgroundColor : undefined,
-              bold,
-              italic,
-              underline,
-              dim,
-            });
+            const indices = (match as any).indices;
+            let indict: [number, number] = indices[0];
+            if (isMatchGroup) {
+              const group = parseInt(matchGroup);
+              if (!isNaN(group)) {
+                indict = indices[group];
+              } else {
+                // 命名匹配组处理喵
+                indict = indices.groups[matchGroup];
+              }
+            }
+
+            if (indict) {
+              const [start, end] = indict;
+              occurrences.push({
+                start: start,
+                end: end - 1,
+                fg: foreground ? foregroundColor : undefined,
+                bg: background ? backgroundColor : undefined,
+                bold,
+                italic,
+                underline,
+                dim,
+              });
+            }
           }
         }
 
@@ -183,7 +198,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               }
             }
             const oscSequenceMatch = subString.match(
-              /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/
+              /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/,
             );
             if (oscSequenceMatch) {
               if (oscSequenceMatch.index === 0) {

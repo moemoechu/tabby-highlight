@@ -18,6 +18,8 @@ export type HighlightKeyword = {
   italic?: boolean;
   underline?: boolean;
   dim?: boolean;
+  isMatchGroup?: boolean;
+  matchGroup?: string;
 };
 
 export type ReplaceProfile = {

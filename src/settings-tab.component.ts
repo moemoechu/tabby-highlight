@@ -30,7 +30,8 @@ import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
   styles: [
     `
       .list-group-item-highlight {
-        --bs-list-group-action-hover-bg: rgba(0, 0, 0, 0.55);
+        --bs-list-group-bg: rgba(0, 0, 0, 0.25);
+        --bs-list-group-action-hover-bg: rgba(0, 0, 0, 0.65);
         // backdrop-filter: blur(3px);
       }
       .close {
