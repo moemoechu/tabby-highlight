@@ -64,6 +64,9 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Disable replace in alternate screen": "在备用屏幕中禁用替换",
       "Disable highlight in alternate screen": "在备用屏幕中禁用高亮",
       "For example: vi/vim": "例如：vi/vim",
+      "Extra settings": "额外设置",
+      "Match group": "匹配组",
+      "Styles": "样式",
     },
   ],
 ];
