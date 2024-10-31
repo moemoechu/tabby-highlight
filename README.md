@@ -23,6 +23,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] RegExp keywords ready.
 - [x] RegExp verification.
 - [x] Support RegExp match group(number and named).
+- [ ] Support Multi RegExp match group(number and named).
 - [ ] Programable(javascript) keyword match.
 - [x] Priority adjustment.
 - [x] Per keyword case sensitive switch.

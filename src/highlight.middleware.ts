@@ -151,6 +151,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
           for (const match of matches) {
             const indices = (match as any).indices;
             let indict: [number, number] = indices[0];
+
+            // 匹配组处理喵
             if (isMatchGroup) {
               const group = parseInt(matchGroup);
               if (!isNaN(group)) {
