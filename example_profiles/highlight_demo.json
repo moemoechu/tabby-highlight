@@ -184,28 +184,6 @@
       "isCaseSensitive": false
     },
     {
-      "text": "true|false",
-      "enabled": true,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": "6",
-      "bold": false
-    },
-    {
-      "text": "\":\\s*(-?\\d+(?:\\.\\d+)?)",
-      "enabled": true,
-      "isRegExp": true,
-      "foreground": true,
-      "foregroundColor": 0,
-      "background": true,
-      "backgroundColor": "4",
-      "bold": false,
-      "matchGroup": "1",
-      "isMatchGroup": true
-    },
-    {
       "text": "DEBUG",
       "enabled": true,
       "isRegExp": false,
@@ -256,14 +234,26 @@
       "bold": false
     },
     {
-      "text": "\".*?\"",
+      "text": "true|false",
       "enabled": true,
       "isRegExp": true,
       "foreground": true,
       "foregroundColor": 0,
       "background": true,
-      "backgroundColor": "2",
+      "backgroundColor": "6",
       "bold": false
+    },
+    {
+      "text": "\":\\s*(-?\\d+(?:\\.\\d+)?)",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "4",
+      "bold": false,
+      "matchGroup": "1",
+      "isMatchGroup": true
     },
     {
       "text": "\".*?\":+",
@@ -272,8 +262,20 @@
       "foreground": true,
       "foregroundColor": 0,
       "background": true,
-      "backgroundColor": "2",
+      "backgroundColor": "5",
       "bold": false
+    },
+    {
+      "text": "(\".*?\")",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": "2",
+      "bold": false,
+      "matchGroup": "1",
+      "isMatchGroup": false
     },
     {
       "text": "\":\\s*(-?\\[.*?\\])",
