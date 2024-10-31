@@ -157,7 +157,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
                 indict = indices[group];
               } else {
                 // 命名匹配组处理喵
-                indict = indices.groups[matchGroup];
+                indict = indices.groups?.[matchGroup];
               }
             }
 
