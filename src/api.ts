@@ -20,6 +20,7 @@ export type HighlightKeyword = {
   dim?: boolean;
   isMatchGroup?: boolean;
   matchGroup?: string;
+  remark?: string;
 };
 
 export type ReplaceProfile = {

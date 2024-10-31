@@ -384,6 +384,25 @@
                                 <div class="h4" translate>Extra settings</div>
                                 <div class="row mt-1" style="min-height: 40px">
                                   <div class="col d-flex align-items-center">
+                                    <span class="ms-1" translate>Remark</span>
+                                  </div>
+                                  <div class="col-md-auto d-flex align-items-center">
+                                    <input
+                                      class="form-control"
+                                      [type]="text"
+                                      [(ngModel)]="item.remark"
+                                      (ngModelChange)="apply()"
+                                      style="
+                                        width: 170px;
+                                        flex: none;
+                                        background-color: rgba(0, 0, 0, 0.3);
+                                        backdrop-filter: blur(3px);
+                                      "
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mt-1" style="min-height: 40px">
+                                  <div class="col d-flex align-items-center">
                                     <span class="ms-1" translate>Match group</span>
                                   </div>
                                   <div class="col-md-auto d-flex align-items-center">
