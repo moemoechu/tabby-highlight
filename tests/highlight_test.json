@@ -14,5 +14,6 @@
   "hobby": "nyan~",
   "wholeLineMatch": "an invisible line",
   "progynova": "🍥",
-  "match group": "[chocola@host neko]: cat aaa"
+  "match group": "[chocola@host neko]: cat aaa",
+  "named match group": "AACDEF"
 }

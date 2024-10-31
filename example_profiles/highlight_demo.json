@@ -26,6 +26,18 @@
       "matchGroup": 1
     },
     {
+      "text": "(A)(A)(?<tag>C)D(E)F",
+      "enabled": true,
+      "isRegExp": true,
+      "foreground": true,
+      "foregroundColor": 0,
+      "background": true,
+      "backgroundColor": 1,
+      "bold": false,
+      "isMatchGroup": true,
+      "matchGroup": "tag"
+    },
+    {
       "text": "^\\s*\"wholeLineMatch\": \"an invisible line\",$",
       "enabled": true,
       "background": true,
