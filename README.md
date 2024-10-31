@@ -71,6 +71,10 @@ The input string will be proceed from the top pattern to the end pattern.
 
 **There some issue at upgrade 1.0 to 2.0, please clear the plugin config when you upgrade 1.0 to 2.0, fresh install is not affect.**
 
+### Examples
+
+See [Demo](example_profiles/highlight_demo.json) and [Test case](tests/highlight_test.json).
+
 ## Screenshot
 
 ### Keyword Setting
@@ -108,6 +112,7 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ## Changelog
 
+- 2.3.0: Add Regexp match group support.
 - 2.2.0: Add support disable highlight/replace in alternate screen.
 - 2.1.0: Support realtime profile changed.
 - 2.0.0: Completely refactor.
