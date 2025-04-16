@@ -1,5 +1,7 @@
 [中文](README.zh-CN.md)
 
+[![NPM Downloads](https://img.shields.io/npm/dw/tabby-highlight)](https://www.npmjs.com/package/tabby-highlight)
+
 # Tabby Highlight Plugin
 
 Tabby terminal keyword highlight plugin based on Xterm control sequence.
