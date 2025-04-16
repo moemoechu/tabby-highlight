@@ -193,7 +193,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             const subString = dataStringReplaced.slice(i);
 
             // 其实本来可以把所有的控制字符都strip掉喵，但谁让咱比较好心，还是挨个进行了处理喵
-            const csiSequenceMatch = subString.match(/\x1b\[[0-9;?]*[0-9a-zA-Z]/i);
+            const csiSequenceMatch = subString.match(/\x1b\[[0-9;?]*[0-9a-zA-Z]/);
             if (csiSequenceMatch) {
               if (csiSequenceMatch.index === 0) {
                 i += csiSequenceMatch[0].length - 1;
