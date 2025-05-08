@@ -193,7 +193,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             const subString = dataStringReplaced.slice(i);
 
             // 其实本来可以把所有的控制字符都strip掉喵，但谁让咱比较好心，还是挨个进行了处理喵
-            const csiSequenceMatch = subString.match(/\x1b\[[0-9;?]*[0-9a-zA-Z]/);
+            const csiSequenceMatch = subString.match(/\x1b\[[0-9;?]*[0-9a-zA-Z@]/);
             if (csiSequenceMatch) {
               if (csiSequenceMatch.index === 0) {
                 i += csiSequenceMatch[0].length - 1;
@@ -214,42 +214,46 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
             char = subString[0];
             const charCode = char.charCodeAt(0);
+            // 处理宽字符
             if (charCode >= 0xd800 && charCode <= 0xdfff) {
               char += subString[1];
               i++;
             }
-            for (const occurrence of occurrences) {
-              const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
-              if (i >= start && i <= end) {
-                const beginSeq: string[] = [];
-                const endSeq: string[] = [];
+            if (charCode <= 31 || charCode === 127) {
+            } else {
+              for (const occurrence of occurrences) {
+                const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
+                if (i >= start && i <= end) {
+                  const beginSeq: string[] = [];
+                  const endSeq: string[] = [];
 
-                if (fg) {
-                  beginSeq.push(`38;5;${fg}`);
-                  endSeq.push(`39`);
+                  if (fg) {
+                    beginSeq.push(`38;5;${fg}`);
+                    endSeq.push(`39`);
+                  }
+                  if (bg) {
+                    beginSeq.push(`48;5;${bg}`);
+                    endSeq.push(`49`);
+                  }
+                  if (bold) {
+                    beginSeq.push(`1`);
+                    endSeq.push(`22`);
+                  }
+                  if (italic) {
+                    beginSeq.push(`3`);
+                    endSeq.push(`23`);
+                  }
+                  if (underline) {
+                    beginSeq.push(`4`);
+                    endSeq.push(`24`);
+                  }
+                  if (dim) {
+                    beginSeq.push(`2`);
+                    endSeq.push(`22`);
+                  }
+                  char = `\x1b[${beginSeq.join(";")}m${char}\x1b[${endSeq.join(";")}m`;
+                  break;
                 }
-                if (bg) {
-                  beginSeq.push(`48;5;${bg}`);
-                  endSeq.push(`49`);
-                }
-                if (bold) {
-                  beginSeq.push(`1`);
-                  endSeq.push(`22`);
-                }
-                if (italic) {
-                  beginSeq.push(`3`);
-                  endSeq.push(`23`);
-                }
-                if (underline) {
-                  beginSeq.push(`4`);
-                  endSeq.push(`24`);
-                }
-                if (dim) {
-                  beginSeq.push(`2`);
-                  endSeq.push(`22`);
-                }
-                char = `\x1b[${beginSeq.join(";")}m${char}\x1b[${endSeq.join(";")}m`;
-                break;
               }
             }
 
