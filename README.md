@@ -35,6 +35,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Tab context menu fast switch highlight profile.
 - [x] Keywords replace(i.e Error:xxx -> 出错啦：xxx)
 - [x] Per session/group/type highlight profile.
+- [ ] Color picker.
 
 ### Others
 
