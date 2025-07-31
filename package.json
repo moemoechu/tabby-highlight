@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "type": "commonjs",
   "license": "MIT",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "repository": {
     "url": "git+https://github.com/moemoechu/tabby-highlight.git"
   },
@@ -34,8 +34,10 @@
     "@angular/forms": "^15.2.10",
     "@angular/platform-browser": "^15.2.10",
     "@ng-bootstrap/ng-bootstrap": "^14.2.0",
+    "@types/color": "^4.2.0",
     "@types/uuid": "^9.0.8",
     "@types/webpack-env": "^1.18.5",
+    "color": "^4.2.3",
     "css-loader": "^6.11.0",
     "html-loader": "^4.2.0",
     "ngx-toastr": "^16.2.0",

@@ -6,12 +6,27 @@
       "enabled": false,
       "isRegExp": true,
       "foreground": false,
-      "foregroundColor": "0",
+      "foregroundColor": "1",
       "background": true,
-      "backgroundColor": 1,
+      "backgroundColor": "1",
       "bold": false,
       "dim": false,
       "underline": false
+    },
+    {
+      "text": "orange",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "orange",
+      "foregroundColor": "0"
+    },
+    {
+      "text": "True Color",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "#334455",
+      "foregroundColor": "#AABBCC",
+      "foreground": true
     },
     {
       "text": "\\[(\\w+)(?:@\\w+\\s\\w+\\])",
@@ -46,7 +61,8 @@
       "backgroundColor": "1",
       "isRegExp": true,
       "isCaseSensitive": false,
-      "remark": "whole line match"
+      "remark": "whole line match",
+      "isMatchGroup": false
     },
     {
       "text": "🍥",

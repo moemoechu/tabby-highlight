@@ -68,6 +68,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Match group": "匹配组",
       "Styles": "样式",
       "Remark": "备注",
+      "Use single number < 16 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2)":
+        "使用单个数字（小于16）表示ANSI色彩（主题控制），16到256的数字表示ANSI 256色，#RRGGBB表示RGB色彩（如#ffd0f2）",
     },
   ],
 ];

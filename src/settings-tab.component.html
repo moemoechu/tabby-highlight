@@ -436,7 +436,7 @@
                                     </div>
                                     <div
                                       class="col-md-auto d-flex align-items-center"
-                                      *ngIf="style.valueType"
+                                      *ngIf="style.valueType === 'number'"
                                     >
                                       <input
                                         class="form-control"
@@ -445,8 +445,27 @@
                                         [max]="style.max"
                                         [(ngModel)]="item[style.valueModel]"
                                         (ngModelChange)="apply()"
+                                        title="{{ style.title }}"
                                         style="
                                           width: 70px;
+                                          flex: none;
+                                          background-color: rgba(0, 0, 0, 0.3);
+                                          backdrop-filter: blur(3px);
+                                        "
+                                      />
+                                    </div>
+                                    <div
+                                      class="col-md-auto d-flex align-items-center"
+                                      *ngIf="style.valueType === 'text'"
+                                    >
+                                      <input
+                                        class="form-control"
+                                        [type]="style.valueType"
+                                        [(ngModel)]="item[style.valueModel]"
+                                        (ngModelChange)="apply()"
+                                        title="{{ style.title }}"
+                                        style="
+                                          width: 100px;
                                           flex: none;
                                           background-color: rgba(0, 0, 0, 0.3);
                                           backdrop-filter: blur(3px);

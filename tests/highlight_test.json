@@ -5,7 +5,7 @@
   "string": "ssssss",
   "number": 42,
   "flag": true,
-  "colors": ["red", "green", "yellow", "blue", "magenta", "cyan", "white"],
+  "colors": ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "orange", "True Color"],
   "style": ["bold", "italic", "underline", "dim"],
   "logLevels": ["VERBOSE", "DEBUG", "INFO", "WARN", "ERROR"],
   "@type": "cat girl",

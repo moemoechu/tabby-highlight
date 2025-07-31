@@ -23,6 +23,7 @@ import {
 } from "./api";
 import { HighlightService } from "./highlight.service";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
+import Color from "color";
 
 /** @hidden */
 @Component({
@@ -52,40 +53,7 @@ import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
   ],
 })
 export class HighlightSettingsTabComponent {
-  styles = [
-    {
-      name: "Background Color",
-      enabledModel: "background",
-      valueType: "number",
-      valueModel: "backgroundColor",
-      min: 0,
-      max: 15,
-    },
-    {
-      name: "Foreground Color",
-      enabledModel: "foreground",
-      valueType: "number",
-      valueModel: "foregroundColor",
-      min: 0,
-      max: 15,
-    },
-    {
-      name: "Bold",
-      enabledModel: "bold",
-    },
-    {
-      name: "Italic",
-      enabledModel: "italic",
-    },
-    {
-      name: "Underline",
-      enabledModel: "underline",
-    },
-    {
-      name: "Dim",
-      enabledModel: "dim",
-    },
-  ];
+  styles: any[];
 
   sessionTypes: string[];
   alertMessage: string;
@@ -110,6 +78,46 @@ export class HighlightSettingsTabComponent {
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
     this.pluginConfig = this.config.store.highlightPlugin;
     this.verify();
+    this.styles = [
+      {
+        name: "Background Color",
+        enabledModel: "background",
+        valueType: "text",
+        valueModel: "backgroundColor",
+        // min: 0,
+        // max: 15,
+        title: this.translate.instant(
+          "Use single number < 16 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2)",
+        ),
+      },
+      {
+        name: "Foreground Color",
+        enabledModel: "foreground",
+        valueType: "text",
+        valueModel: "foregroundColor",
+        // min: 0,
+        // max: 15,
+        title: this.translate.instant(
+          "Use single number < 16 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2)",
+        ),
+      },
+      {
+        name: "Bold",
+        enabledModel: "bold",
+      },
+      {
+        name: "Italic",
+        enabledModel: "italic",
+      },
+      {
+        name: "Underline",
+        enabledModel: "underline",
+      },
+      {
+        name: "Dim",
+        enabledModel: "dim",
+      },
+    ];
   }
 
   sessions: PartialProfile<Profile>[];
@@ -187,28 +195,74 @@ export class HighlightSettingsTabComponent {
     this.apply();
   }
 
-  getAnsiColorById(id: number): string {
+  getThemeColor(color: number | "foreground" | "background" | "cursor" | "palette") {
+    const schema = this.currentTheme === "light" ? "lightColorScheme" : "colorScheme";
+    const colorSchema = this.config.store.terminal[schema];
+    if (typeof color === "number") {
+      return colorSchema.colors[color];
+    } else if (color === "foreground") {
+      return colorSchema.foreground;
+    } else if (color === "background") {
+      return colorSchema.background;
+    } else if (color === "cursor") {
+      return colorSchema.cursor;
+    } else {
+      return colorSchema.colors[0];
+    }
+  }
+
+  getPalette() {
     const schema = this.currentTheme === "light" ? "lightColorScheme" : "colorScheme";
     const colorSchema = this.config.store.terminal[schema].colors;
-    return colorSchema[id];
+    return colorSchema;
   }
 
   getForegroundColor(item: HighlightKeyword): string {
-    if (item.foreground !== undefined) {
-      if (item.foregroundColor !== undefined) {
-        return this.getAnsiColorById(Number.parseInt(item.foregroundColor));
+    if (item.foreground) {
+      const { foregroundColor = "0" } = item;
+      const fgIndex = parseInt(foregroundColor);
+      if (isNaN(fgIndex)) {
+        try {
+          const color = Color(foregroundColor).hex();
+          return color;
+        } catch (e) {
+          //假装捕获了异常喵
+        }
+      } else if (fgIndex >= 16) {
+        try {
+          const color = Color.ansi256(fgIndex).hex();
+          return color;
+        } catch (e) {
+          //假装捕获了异常喵
+        }
+      } else {
+        return this.getThemeColor(fgIndex);
       }
-      return this.getAnsiColorById(1);
     }
-    return this.getAnsiColorById(0);
+    return this.getThemeColor(0);
   }
 
   getBackgroundColor(item: HighlightKeyword): string {
-    if (item.background !== undefined) {
-      if (item.backgroundColor !== undefined) {
-        return this.getAnsiColorById(Number.parseInt(item.backgroundColor));
+    if (item.background) {
+      const { backgroundColor = "1" } = item;
+      const bgIndex = parseInt(backgroundColor);
+      if (isNaN(bgIndex)) {
+        try {
+          const color = Color(backgroundColor).hex();
+          return color;
+        } catch (e) {
+          //假装捕获了异常喵
+        }
+      } else if (bgIndex >= 16) {
+        try {
+          const color = Color.ansi256(bgIndex).hex();
+          return color;
+        } catch (e) {
+          //假装捕获了异常喵
+        }
+      } else {
+        return this.getThemeColor(bgIndex);
       }
-      return this.getAnsiColorById(1);
     }
     return "transparent";
   }

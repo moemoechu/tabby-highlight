@@ -4,6 +4,7 @@ import { ConfigService, LogService, Logger, TranslateService } from "tabby-core"
 import { SessionMiddleware } from "tabby-terminal";
 import { debounce } from "utils-decorators";
 import { HighlightEngagedTab, HighlightPluginConfig } from "./api";
+import Color from "color";
 import { inspect } from "util";
 
 export default class HighlightMiddleware extends SessionMiddleware {
@@ -214,12 +215,13 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
             char = subString[0];
             const charCode = char.charCodeAt(0);
-            // 处理宽字符
+            // 处理宽字符喵
             if (charCode >= 0xd800 && charCode <= 0xdfff) {
               char += subString[1];
               i++;
             }
             if (charCode <= 31 || charCode === 127) {
+              // 不可见字符不处理喵
             } else {
               for (const occurrence of occurrences) {
                 const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
@@ -227,13 +229,37 @@ export default class HighlightMiddleware extends SessionMiddleware {
                   const beginSeq: string[] = [];
                   const endSeq: string[] = [];
 
-                  if (fg) {
-                    beginSeq.push(`38;5;${fg}`);
-                    endSeq.push(`39`);
-                  }
                   if (bg) {
-                    beginSeq.push(`48;5;${bg}`);
-                    endSeq.push(`49`);
+                    const bgIndex = parseInt(bg);
+                    if (isNaN(bgIndex)) {
+                      try {
+                        const color = Color(bg).rgb().array();
+                        const [r, g, b] = color;
+                        beginSeq.push(`48;2;${r};${g};${b}`);
+                        endSeq.push(`49`);
+                      } catch (e) {
+                        //假装捕获了异常喵
+                      }
+                    } else {
+                      beginSeq.push(`48;5;${bgIndex}`);
+                      endSeq.push(`49`);
+                    }
+                  }
+                  if (fg) {
+                    const fgIndex = parseInt(fg);
+                    if (isNaN(fgIndex)) {
+                      try {
+                        const color = Color(fg).rgb().array();
+                        const [r, g, b] = color;
+                        beginSeq.push(`38;2;${r};${g};${b}`);
+                        endSeq.push(`39`);
+                      } catch (e) {
+                        //假装捕获了异常喵
+                      }
+                    } else {
+                      beginSeq.push(`38;5;${fgIndex}`);
+                      endSeq.push(`39`);
+                    }
                   }
                   if (bold) {
                     beginSeq.push(`1`);

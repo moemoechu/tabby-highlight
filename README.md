@@ -18,7 +18,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Support highlight background and foreground color.
 - [x] Support background and foreground highlight switch separately.
 - [x] Support more style (bold, italic, underline).
-- [ ] ~~Support true color.~~
+- [x] Support true color(24bit RGB).
 
 ### Advanced Feature
 
@@ -120,6 +120,7 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 
 ## Changelog
 
+- 2.5.0: Support true color(RGB).
 - 2.4.0: Add remark.
 - 2.3.0: Add Regexp match group support.
 - 2.2.0: Add support disable highlight/replace in alternate screen.
