@@ -87,7 +87,7 @@ export class HighlightSettingsTabComponent {
         // min: 0,
         // max: 15,
         title: this.translate.instant(
-          "Use single number < 16 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2)",
+          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)",
         ),
       },
       {
@@ -98,7 +98,7 @@ export class HighlightSettingsTabComponent {
         // min: 0,
         // max: 15,
         title: this.translate.instant(
-          "Use single number < 16 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2)",
+          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)",
         ),
       },
       {
