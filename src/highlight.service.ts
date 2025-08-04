@@ -27,7 +27,10 @@ const nullProfile: HighlightProfile = { id: uuid.NIL, name: "Disable highlight",
 @Injectable({ providedIn: "root" })
 export class HighlightService {
   private logger: Logger;
-  private pluginConfig: HighlightPluginConfig;
+  // 兼容设置同步的临时方案喵？
+  get pluginConfig(): HighlightPluginConfig {
+    return this.config.store.highlightPlugin as HighlightPluginConfig;
+  }
   constructor(
     public config: ConfigService,
     private logService: LogService,
@@ -49,8 +52,6 @@ export class HighlightService {
         }
       });
       // this.upgrade();
-
-      this.pluginConfig = this.config.store.highlightPlugin;
     });
   }
 
@@ -408,8 +409,8 @@ export class HighlightService {
     }
   }
 
-  saveConfig() {
-    this.config.save();
+  async saveConfig() {
+    await this.config.save();
     this.logger.info(`Plugin settings saved`);
     this.applyPluginSettings();
   }

@@ -61,8 +61,11 @@ export class HighlightSettingsTabComponent {
   verifyStatus: [boolean, string][][];
 
   currentTheme: string;
-  pluginConfig: HighlightPluginConfig;
   uuidNIL = uuid.NIL;
+  // 兼容设置同步的临时方案喵？
+  get pluginConfig() {
+    return this.config.store.highlightPlugin as HighlightPluginConfig;
+  }
 
   constructor(
     public config: ConfigService,
@@ -76,7 +79,6 @@ export class HighlightSettingsTabComponent {
   ) {
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
-    this.pluginConfig = this.config.store.highlightPlugin;
     this.verify();
     this.styles = [
       {
