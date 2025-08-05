@@ -26,7 +26,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.translate = injector.get(TranslateService);
     this.config = injector.get(ConfigService);
 
-    this.logger.info("HighlightMiddleware ctor.");
+    // this.logger.info("HighlightMiddleware ctor.");
 
     // if (process.platform === "win32") {
     //   this.enterReplacer = "\r\n";
@@ -48,10 +48,13 @@ export default class HighlightMiddleware extends SessionMiddleware {
     // this.logger.debug(inspect(dataStringRaw));
     const dataStringSplitted = dataStringRaw.split(this.enterReplacer);
 
-    // this.logger.debug("raw terminal line:");
-    // this.logger.debug(inspect(dataStringRaw));
+    const { highlightAlternateDisable, replaceAlternateDisable, advanced } = this.pluginConfig;
+    const { debug, debugTerminalOutput, debugPluginOutput, debugMatch } = advanced;
 
-    const { highlightAlternateDisable, replaceAlternateDisable } = this.pluginConfig;
+    if (debug && debugTerminalOutput) {
+      this.logger.debug(`raw terminal line:\n${inspect(dataStringRaw)}`);
+    }
+
     const isAlternate = this.tab.alternateScreenActive;
 
     const dataStringArray: string[] = [];
@@ -313,8 +316,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
       return super.feedFromSession(data);
     }
     const dataStringCombined = dataStringArray.join(this.enterReplacer);
-    // this.logger.debug(`combined output string:`);
-    // this.logger.debug(inspect(dataStringCombined));
+    if (debug && debugPluginOutput) {
+      this.logger.debug(`proceeded output:\n${inspect(dataStringCombined)}`);
+    }
     return super.feedFromSession(Buffer.from(dataStringCombined));
   }
 

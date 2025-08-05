@@ -77,6 +77,15 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Dashed": "短划线",
       "Inverse": "反色",
       "Invisible": "不可见",
+      "DEBUG mode": "调试模式",
+      "Enable debug mode, this may decrease performance, use with caution":
+        "启用调试模式，这会降低性能，请小心使用",
+      "Debug terminal output": "调试终端输出",
+      "Print terminal raw output to devtools, use with caution":
+        "将终端原始内容输出到开发人员工具，请小心使用",
+      "Debug plugin output": "调试插件输出",
+      "Print plugin proceeded output to devtools, use with caution":
+        "将插件处理后的内容输出到开发人员工具，请小心使用",
     },
   ],
 ];

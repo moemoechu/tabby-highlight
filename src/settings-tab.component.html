@@ -745,5 +745,41 @@
       </div>
     </ng-template>
   </li>
+  <li ngbNavItem>
+    <a ngbNavLink translate>Advanced</a
+    ><ng-template ngbNavContent>
+      <div class="form-line">
+        <div class="header">
+          <div class="title" translate>DEBUG mode</div>
+          <div class="description" translate>
+            Enable debug mode, this may decrease performance, use with caution
+          </div>
+        </div>
+        <toggle [(ngModel)]="pluginConfig.advanced.debug" (ngModelChange)="apply()"></toggle>
+      </div>
+      <div class="content-box w-100" *ngIf="pluginConfig?.advanced?.debug === true">
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Debug terminal output</div>
+            <div class="description" translate>
+              Print terminal raw output to devtools, use with caution
+            </div>
+          </div>
+          <toggle [(ngModel)]="pluginConfig.advanced.debugTerminalOutput" (ngModelChange)="apply()">
+          </toggle>
+        </div>
+        <div class="form-line">
+          <div class="header">
+            <div class="title" translate>Debug plugin output</div>
+            <div class="description" translate>
+              Print plugin proceeded output to devtools, use with caution
+            </div>
+          </div>
+          <toggle [(ngModel)]="pluginConfig.advanced.debugPluginOutput" (ngModelChange)="apply()">
+          </toggle>
+        </div>
+      </div>
+    </ng-template>
+  </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>

@@ -75,6 +75,7 @@ export class HighlightConfigProvider extends ConfigProvider {
           ],
         },
       ],
+      advanced: { debug: false },
     },
   };
 }

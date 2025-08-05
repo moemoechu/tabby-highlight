@@ -58,6 +58,12 @@ export type HighlightPluginConfig = {
   replaceAlternateDisable: boolean;
   replaceCurrentProfile: string;
   replaceProfiles: ReplaceProfile[];
+  advanced: {
+    debug?: boolean;
+    debugTerminalOutput?: boolean;
+    debugPluginOutput?: boolean;
+    debugMatch?: boolean;
+  };
 };
 
 export type HighlightEngagedTab = BaseTerminalTabComponent<any> & {
