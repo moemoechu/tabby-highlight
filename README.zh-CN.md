@@ -40,7 +40,7 @@
 
 使用 Tabby 自带的插件管理器安装（【设置】→【插件】→ 搜索 Highlight）
 
-### 颜色
+### 高亮色彩
 
 本插件支持4种色彩模式
 
@@ -116,3 +116,19 @@
 
 ![Replace Test](screenshots/terminal_test_replace.png)
 ![Replace Test2](screenshots/terminal_test_replace2.png)
+
+## 画饼
+
+### 3.0
+
+- [ ] 重构设置界面
+- [ ] 增加调色盘界面
+
+### 4.0
+
+- [ ] 可编程的关键词匹配(javascript)
+- [ ] 可编程的关键词替换(javascript)
+
+### 10.0
+
+- [ ] 支持LSP (做梦)

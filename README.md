@@ -44,7 +44,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 To install, use Tabby builtin plugin manager.
 
-### Color
+### Highlight Color
 
 This plugin support 4 way to set highlight color
 
@@ -53,13 +53,9 @@ This plugin support 4 way to set highlight color
 3. Use css color name like red, green, cyan etc. ([Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color))
 4. Use css hex-color #RRGGBB style. ([Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color))
 
-### Reorder
+### Reorder & Priority
 
-Drag the ON switch will make the keyword draggable.
-
-### Priority
-
-Keyword on top get high priority.
+Drag the ON switch will make the keyword draggable. Keyword on top get high priority.
 
 ### Per session/group/type Profile
 
@@ -133,6 +129,10 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 
 - [ ] Programmable(javascript) keyword match.
 - [ ] Programmable(javascript) replace.
+
+### 10.0
+
+- [ ] LSP Support (in dream)
 
 ## Changelog
 
