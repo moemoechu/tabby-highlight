@@ -114,10 +114,30 @@ export class HighlightSettingsTabComponent {
       {
         name: "Underline",
         enabledModel: "underline",
+        valueType: "select",
+        valueModel: "underlineStyle",
+        min: 1,
+        max: 5,
+        defaultValue: "1",
+        values: [
+          { title: "Single", value: "1" },
+          { title: "Double", value: "2" },
+          { title: "Curly", value: "3" },
+          { title: "Dotted", value: "4" },
+          { title: "Dashed", value: "5" },
+        ],
       },
       {
         name: "Dim",
         enabledModel: "dim",
+      },
+      {
+        name: "Inverse",
+        enabledModel: "inverse",
+      },
+      {
+        name: "Invisible",
+        enabledModel: "invisible",
       },
     ];
   }
@@ -241,7 +261,7 @@ export class HighlightSettingsTabComponent {
         return this.getThemeColor(fgIndex);
       }
     }
-    return this.getThemeColor(0);
+    return item.inverse ? this.getThemeColor("foreground") : this.getThemeColor(0);
   }
 
   getBackgroundColor(item: HighlightKeyword): string {
@@ -267,6 +287,16 @@ export class HighlightSettingsTabComponent {
       }
     }
     return "transparent";
+  }
+
+  getUnderlineStyle(item: HighlightKeyword): string {
+    const { underline, underlineStyle = 1 } = item;
+    const styles = ["", "solid", "double", "wavy", "dotted", "dashed"];
+    if (underline) {
+      return styles[underlineStyle];
+    } else {
+      return "";
+    }
   }
 
   addHighlightProfile(event: MouseEvent) {

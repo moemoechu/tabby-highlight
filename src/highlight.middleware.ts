@@ -103,8 +103,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
           bg?: string;
           bold?: boolean;
           italic?: boolean;
-          underline?: boolean;
+          underline?: string;
           dim?: boolean;
+          inverse?: boolean;
+          invisible?: boolean;
         }[] = [];
 
         for (const keyword of keywords) {
@@ -120,7 +122,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
             bold = false,
             italic = false,
             underline = false,
+            underlineStyle = "1",
             dim = false,
+            inverse = false,
+            invisible = false,
             isMatchGroup = false,
             matchGroup = "0",
           } = keyword;
@@ -175,8 +180,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
                 bg: background ? backgroundColor : undefined,
                 bold,
                 italic,
-                underline,
+                underline: underline ? underlineStyle : undefined,
                 dim,
+                inverse,
+                invisible,
               });
             }
           }
@@ -224,7 +231,8 @@ export default class HighlightMiddleware extends SessionMiddleware {
               // 不可见字符不处理喵
             } else {
               for (const occurrence of occurrences) {
-                const { start, end, bg, fg, bold, italic, underline, dim } = occurrence;
+                const { start, end, bg, fg, bold, italic, underline, dim, inverse, invisible } =
+                  occurrence;
                 if (i >= start && i <= end) {
                   const beginSeq: string[] = [];
                   const endSeq: string[] = [];
@@ -270,12 +278,20 @@ export default class HighlightMiddleware extends SessionMiddleware {
                     endSeq.push(`23`);
                   }
                   if (underline) {
-                    beginSeq.push(`4`);
+                    beginSeq.push(`4:${underline}`);
                     endSeq.push(`24`);
                   }
                   if (dim) {
                     beginSeq.push(`2`);
                     endSeq.push(`22`);
+                  }
+                  if (inverse) {
+                    beginSeq.push(`7`);
+                    endSeq.push(`27`);
+                  }
+                  if (invisible) {
+                    beginSeq.push(`8`);
+                    endSeq.push(`28`);
                   }
                   char = `\x1b[${beginSeq.join(";")}m${char}\x1b[${endSeq.join(";")}m`;
                   break;

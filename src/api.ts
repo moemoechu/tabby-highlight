@@ -17,6 +17,9 @@ export type HighlightKeyword = {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  underlineStyle?: string;
+  inverse?: boolean;
+  invisible?: boolean;
   dim?: boolean;
   isMatchGroup?: boolean;
   matchGroup?: string;

@@ -337,11 +337,16 @@
                             <input
                               class="form-control"
                               type="text"
-                              [style.color]="getForegroundColor(item)"
-                              [style.background-color]="getBackgroundColor(item)"
+                              [style.color]="
+                                item.inverse ? getBackgroundColor(item) : getForegroundColor(item)
+                              "
+                              [style.background-color]="
+                                item.inverse ? getForegroundColor(item) : getBackgroundColor(item)
+                              "
                               [style.font-weight]="item.bold ? 'bold' : ''"
                               [style.font-style]="item.italic ? 'italic' : ''"
                               [style.text-decoration]="item.underline ? 'underline' : ''"
+                              [style.text-decoration-style]="getUnderlineStyle(item)"
                               [(ngModel)]="item.text"
                               (ngModelChange)="apply()"
                               style="
@@ -471,6 +476,29 @@
                                           backdrop-filter: blur(3px);
                                         "
                                       />
+                                    </div>
+                                    <div
+                                      class="col-md-auto d-flex align-items-center"
+                                      *ngIf="style.valueType === 'select'"
+                                    >
+                                      <select
+                                        class="form-control"
+                                        [(ngModel)]="item[style.valueModel]"
+                                        (ngModelChange)="apply()"
+                                        style="
+                                          width: 100px;
+                                          flex: none;
+                                          background-color: rgba(0, 0, 0, 0.3);
+                                          backdrop-filter: blur(3px);
+                                        "
+                                      >
+                                        <option
+                                          *ngFor="let value of style.values"
+                                          [ngValue]="value.value"
+                                        >
+                                          {{ value.title | translate }}
+                                        </option>
+                                      </select>
                                     </div>
                                     <div class="col-md-auto d-flex align-items-center">
                                       <checkbox
