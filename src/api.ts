@@ -53,7 +53,6 @@ export type HighlightPluginConfig = {
   highlightPerSessionTypeEnabled: boolean;
   highlightPerSessionTypeProfileMap: { typeId: string; profileId: string }[];
   highlightGlobalEnabled: boolean;
-  highlightKeywords?: HighlightKeyword[]; //废弃喵
   replaceEnabled: boolean;
   replaceAlternateDisable: boolean;
   replaceCurrentProfile: string;

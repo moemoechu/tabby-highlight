@@ -9,7 +9,6 @@ export class HighlightConfigProvider extends ConfigProvider {
       highlightAlternateDisable: false,
       highlightMode: "xterm-control-sequence",
       highlightCurrentProfile: "60606be0-c0ff-42bc-bf77-de8a2435447f",
-      highlightKeywords: null, //废弃喵
       highlightProfiles: [
         {
           id: "60606be0-c0ff-42bc-bf77-de8a2435447f",
