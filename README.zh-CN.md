@@ -4,34 +4,35 @@
 
 ## 特性
 
-### 高亮方式
+### 高亮
 
-- [x] 基于 Xterm 控制序列高亮
-
-### 高亮参数
-
-- [x] 支持设置高亮前景色和背景色
-- [x] 支持前景色和背景色分开设置
-- [x] 支持多种样式（加粗、斜体、下划线）
-
-### 高级特性
-
-- [x] 支持正则表达式
-- [x] 支持正则表达式验证
-- [x] 支持匹配组（序号和命名）
-- [x] 支持调整关键字优先级
-- [x] 支持单个关键字设置大小写敏感
+- [x] 支持高亮背景色和前景色
+- [x] 支持额外的样式
+- [x] 支持24位真彩色
+- [x] 支持正则表达式匹配
+- [x] 支持正则表达式匹配组
+- [x] 支持优先级调整
 - [x] 支持方案管理
-- [x] 支持导入导出方案
-- [x] 兼容白色主题
-- [x] 支持终端标签页右键切换方案
-- [x] 支持关键字替换功能（例如：Error:xxx -> 出错啦：xxx）
-- [x] 支持按单会话/会话分组/会话类型设置高亮方案
+- [x] 支持方案导入导出
+- [x] 支持标签页右键菜单切换高亮方案
+- [x] 支持单 会话/组/会话类型 高亮方案
 
-### 其他
+### 支持的额外样式
 
-- [x] 设置界面支持中文和英文
-- [x] 在 Windows 下使用 Tabby 1.0.215 测试通过
+- [x] **加粗**
+- [x] _斜体_
+- [x] <span style="text-decoration:underline; text-decoration-style:solid">下划线(单)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:double">下划线(双)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:wavy">下划线(波浪)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:dotted">下划线(点阵)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:dashed">下划线(短划线)</span>
+- [x] 变暗
+- [x] 反色
+- [x] 不可见
+
+### 替换
+
+- [x] 支持关键字替换(i.e Error:xxx -> 出错啦：xxx)
 
 ## 使用方法
 
@@ -61,8 +62,6 @@
 **请小心使用正则表达式，复杂的正则表达式可能会带来性能问题，或者会让终端输出变得混乱**
 
 **请小心导入外部配置文件，本插件不做病毒和漏洞扫描**
-
-**从1.0升级到2.0会有一些问题，如果从1.0升级到2.0，需要将插件配置清除，如果是全新安装则不影响**
 
 ### 栗子
 

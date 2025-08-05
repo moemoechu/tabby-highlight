@@ -8,39 +8,35 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 ## Features
 
-### Highlight Method
-
-- [x] Highlight keyword based on Xterm control sequence.
-- [ ] ~~Highlight keyword based on xterm.js decorator.~~
-
-### Highlight Parameter
+### Highlight
 
 - [x] Support highlight background and foreground color.
-- [x] Support background and foreground highlight switch separately.
-- [x] Support more style (bold, italic, underline(5 styles), inverse, invisible).
+- [x] Support extra styles.
 - [x] Support true color(24bit RGB).
+- [x] Support regular expression keywords match.
+- [x] Support regular expression match group.
+- [x] Support priority adjustment.
+- [x] Support profile manager.
+- [x] Support profile import and export.
+- [x] Support tab context menu fast switch highlight profile.
+- [x] Support per session/group/type highlight profile.
 
-### Advanced Feature
+### Supported Extra Styles
 
-- [x] RegExp keywords ready.
-- [x] RegExp verification.
-- [x] Support RegExp match group(number and named).
-- [ ] Support Multi RegExp match group(number and named).
-- [ ] Programable(javascript) keyword match.
-- [x] Priority adjustment.
-- [x] Per keyword case sensitive switch.
-- [x] Profile manager.
-- [x] Keywords import and export.
-- [x] Compatible with white themes.
-- [x] Tab context menu fast switch highlight profile.
-- [x] Keywords replace(i.e Error:xxx -> 出错啦：xxx)
-- [x] Per session/group/type highlight profile.
-- [ ] Color picker.
+- [x] **Bold**
+- [x] _Italic_
+- [x] <span style="text-decoration:underline; text-decoration-style:solid">Underline(Single)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:double">Underline(Double)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:wavy">Underline(Curly)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:dotted">Underline(Dotted)</span>
+- [x] <span style="text-decoration:underline; text-decoration-style:dashed">Underline(Dashed)</span>
+- [x] Dim
+- [x] Inverse
+- [x] Invisible
 
-### Others
+### Replace
 
-- [x] Settings UI support English and Chinese.
-- [x] Tested on Windows with Tabby version 1.0.215.
+- [x] Support keywords replace(i.e Error:xxx -> 出错啦：xxx)
 
 ## Usage
 
@@ -68,11 +64,9 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ### **Warning**
 
-**Use carefully with RegExp, complex RegExp will cause performance issue and may make the terminal output in chaos.**
+**Use carefully with RegExp, complex RegExp will cause performance issue and may lead the terminal output in chaos.**
 
 **Be careful when importing external setting files. This plugin does not do vulnerability scanning.**
-
-**There some issue at upgrade 1.0 to 2.0, please clear the plugin config when you upgrade 1.0 to 2.0, fresh install is not affect.**
 
 ### Examples
 
@@ -118,6 +112,18 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 
 ![Replace Test](screenshots/terminal_test_replace.png)
 ![Replace Test2](screenshots/terminal_test_replace2.png)
+
+## Plan
+
+### 3.0
+
+- [ ] Refactor the setting UI.
+- [ ] Add color picker.
+
+### 4.0
+
+- [ ] Programmable(javascript) keyword match.
+- [ ] Programmable(javascript) replace.
 
 ## Changelog
 
