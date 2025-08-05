@@ -40,6 +40,15 @@
 
 使用 Tabby 自带的插件管理器安装（【设置】→【插件】→ 搜索 Highlight）
 
+### 颜色
+
+本插件支持4种色彩模式
+
+1. 使用0-15表示ANSI标准16色 (由Tabby主题控制)
+2. 使用16-256的数字表示ANSI标准256色([xterm.js内置](https://github.com/xtermjs/xterm.js/blob/4c0cf27cfc0205df624452f9657a4acaa3276a19/src/browser/Types.ts#L205))
+3. 使用css命名色彩，如red, green, cyan 等等 ([参考](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color))
+4. 使用css十六进制色彩#RRGGBB ([参考](https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color))
+
 ### 排序
 
 拖动关键字的开关可以排序关键字

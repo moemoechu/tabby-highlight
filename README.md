@@ -44,6 +44,15 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 
 To install, use Tabby builtin plugin manager.
 
+### Color
+
+This plugin support 4 way to set highlight color
+
+1. Use number 0-15 for ANSI16 color (managed by tabby theme)
+2. Use number 16-256 for ANSI256 color ([xterm.js builtin](https://github.com/xtermjs/xterm.js/blob/4c0cf27cfc0205df624452f9657a4acaa3276a19/src/browser/Types.ts#L205))
+3. Use css color name like red, green, cyan etc. ([Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color))
+4. Use css hex-color #RRGGBB style. ([Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/hex-color))
+
 ### Reorder
 
 Drag the ON switch will make the keyword draggable.
