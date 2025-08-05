@@ -13,7 +13,10 @@ export default class HighlightMiddleware extends SessionMiddleware {
   toastr: ToastrService;
   translate: TranslateService;
   enterReplacer = "\r\n";
-  pluginConfig: HighlightPluginConfig;
+  config: ConfigService;
+  get pluginConfig() {
+    return this.config.store.highlightPlugin as HighlightPluginConfig;
+  }
 
   constructor(injector: Injector, tab: HighlightEngagedTab) {
     super();
@@ -21,7 +24,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
     this.logger = injector.get(LogService).create(`tabby-highlight`);
     this.toastr = injector.get(ToastrService);
     this.translate = injector.get(TranslateService);
-    this.pluginConfig = injector.get(ConfigService).store.highlightPlugin;
+    this.config = injector.get(ConfigService);
 
     this.logger.info("HighlightMiddleware ctor.");
 
