@@ -2,6 +2,23 @@
   "name": "演示配置",
   "keywords": [
     {
+      "text": "invisible",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "1",
+      "foregroundColor": "0",
+      "invisible": true
+    },
+    {
+      "text": "inverse",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "red",
+      "foregroundColor": "cyan",
+      "inverse": true,
+      "foreground": true
+    },
+    {
       "text": ".",
       "enabled": false,
       "isRegExp": true,
@@ -14,6 +31,81 @@
       "underline": false
     },
     {
+      "text": "dashed",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "3",
+      "foregroundColor": "0",
+      "underlineStyle": "5",
+      "underline": true,
+      "foreground": false
+    },
+    {
+      "text": "dotted",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "4",
+      "foregroundColor": "0",
+      "underlineStyle": "4",
+      "underline": true
+    },
+    {
+      "text": "curly",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "5",
+      "foregroundColor": "0",
+      "underline": true,
+      "underlineStyle": "3"
+    },
+    {
+      "text": "double",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "6",
+      "foregroundColor": "0",
+      "underline": true,
+      "underlineStyle": "2"
+    },
+    {
+      "text": "single",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "7",
+      "foregroundColor": "0",
+      "underline": true,
+      "underlineStyle": "1"
+    },
+    {
+      "text": "ansi255",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "255",
+      "foregroundColor": "0",
+      "foreground": false
+    },
+    {
+      "text": "ansi200",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "200",
+      "foregroundColor": "0"
+    },
+    {
+      "text": "ansi100",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "100",
+      "foregroundColor": "0"
+    },
+    {
+      "text": "ansi20",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "20",
+      "foregroundColor": "0"
+    },
+    {
       "text": "orange",
       "enabled": true,
       "background": true,
@@ -21,12 +113,21 @@
       "foregroundColor": "0"
     },
     {
-      "text": "True Color",
+      "text": "#ffd0f2",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "#ffd0f2",
+      "foregroundColor": "0"
+    },
+    {
+      "text": "#334455",
       "enabled": true,
       "background": true,
       "backgroundColor": "#334455",
       "foregroundColor": "#AABBCC",
-      "foreground": true
+      "foreground": false,
+      "dim": false,
+      "underline": false
     },
     {
       "text": "\\[(\\w+)(?:@\\w+\\s\\w+\\])",
