@@ -61,6 +61,62 @@ Drag the ON switch will make the keyword draggable. Keyword on top get high prio
 
 The profile selection order is session > group > type > global.
 
+### Programmable highlight
+
+#### Usage
+
+Enable JS switch at keyword setting
+
+js code must be in a function like this
+
+```js
+function highlight(input) {
+  // your logic
+}
+```
+
+the function must return positions or string you want to highlight
+
+positions is a array of number or [number, number]
+
+it hold the character position will be highlight, start from 0
+
+i.e:
+
+`[2, 4, 6, 8]` means character at position 2, 4, 6, 8 will be highlight
+
+`[[3, 7], [10, 15]]` means character at position from 3 to 7 and from 10 to 15 will be highlight
+
+#### Example
+
+```js
+// highlight odd number
+function highlight(input) {
+  if (!input.includes("programmable match")) {
+    return;
+  }
+  const pos = [];
+  for (i = 0; i < input.length; i++) {
+    const num = parseInt(input[i]);
+    if (!isNaN(num) && num % 2 != 0) {
+      pos.push(i);
+    }
+  }
+  return pos;
+}
+```
+
+```js
+// highlight substring
+function highlight(input) {
+  if (!input.includes("js return string")) {
+    return;
+  }
+  const r = input.match(/".*?": "(.*?)"/);
+  return r[1].slice(3, 8);
+}
+```
+
 ### Replace
 
 This feature is just for **FUN**, the replace rule only affect content displayed, does not change the real content.
@@ -69,7 +125,7 @@ The input string will be proceed from the top pattern to the end pattern.
 
 ### **Warning**
 
-**Use carefully with RegExp, complex RegExp will cause performance issue and may lead the terminal output in chaos.**
+**Use carefully with RegExp/JS, complex RegExp/JS will cause performance issue and may lead the terminal output in chaos.**
 
 **Be careful when importing external setting files. This plugin does not do vulnerability scanning.**
 
@@ -120,18 +176,10 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 
 ## Plan
 
-### 3.0
-
 - [ ] Refactor the setting UI.
 - [ ] Add color picker.
-
-### 4.0
-
-- [ ] Programmable(javascript) keyword match.
+- [x] Programmable(javascript) keyword match.
 - [ ] Programmable(javascript) replace.
-
-### 10.0
-
 - [ ] LSP Support (in dream)
 
 ## Changelog
