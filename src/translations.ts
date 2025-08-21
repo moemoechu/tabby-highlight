@@ -88,6 +88,10 @@ export const translations: [string, HighlightPluginTranslations][] = [
         "将插件处理后的内容输出到开发人员工具，请小心使用",
       "Format": "格式化",
       "Edit Keyword": "编辑关键字",
+      "[Highlight] Something wrong when creating JS Function, please check highlight settings":
+        "[高亮] 创建JS函数时出现错误，请检查高亮配置",
+      "[Highlight] Something wrong when execute JS Function, please check highlight settings":
+        "[高亮] 执行JS函数时出现错误，请检查高亮配置",
     },
   ],
 ];
