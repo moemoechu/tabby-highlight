@@ -124,6 +124,16 @@ function highlight(input) {
 }
 ```
 
+```js
+// return a regexp, regexp switch must be checked
+function highlight(input) {
+  if (!input.includes("js return string")) {
+    return;
+  }
+  return `".*?": "(.*?)"`;
+}
+```
+
 ### Replace
 
 This feature is just for **FUN**, the replace rule only affect content displayed, does not change the real content.
