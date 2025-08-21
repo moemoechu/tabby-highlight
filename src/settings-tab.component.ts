@@ -339,7 +339,6 @@ export class HighlightSettingsTabComponent {
     }
     try {
       const result = await modal.result.catch(() => null);
-      console.log(result);
       if (typeof result === "string") {
         keyword.text = result;
         this.apply();

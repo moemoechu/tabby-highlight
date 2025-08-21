@@ -1,53 +1,20 @@
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { Component, ElementRef, Input, Type, ViewChild } from "@angular/core";
-import { NgbActiveModal, NgbModal, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
-import { ToastrService } from "ngx-toastr";
-import {
-  ConfigService,
-  PartialProfile,
-  PartialProfileGroup,
-  Profile,
-  ProfileGroup,
-  ProfilesService,
-  PromptModalComponent,
-  TranslateService,
-} from "tabby-core";
-import { ElectronHostWindow, ElectronService } from "tabby-electron";
-import * as uuid from "uuid";
-import {
-  HighlightKeyword,
-  HighlightPluginConfig,
-  HighlightProfile,
-  ReplacePattern,
-  ReplaceProfile,
-} from "./api";
-import { HighlightService } from "./highlight.service";
-import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
-import Color from "color";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { javascript } from "@codemirror/lang-javascript";
-import { EditorView, basicSetup } from "codemirror";
 import { oneDark } from "@codemirror/theme-one-dark";
 import {} from "@codemirror/view";
-// import hljs from "highlight.js/lib/core";
-// import javascript from "highlight.js/lib/languages/javascript";
-// hljs.registerLanguage("javascript", javascript);
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { EditorView, basicSetup } from "codemirror";
+import { ConfigService } from "tabby-core";
+import beautify from "js-beautify";
 
 /** @hidden */
 @Component({
   template: require("./pattern-editor-modal.component.html"),
-  // styles: [require("./pattern-editor-modal.component.scss")],
   styles: [],
 })
 export class PatternEditorModalComponent {
   constructor(
     public config: ConfigService,
-    private electron: ElectronService,
-    private hostWindow: ElectronHostWindow,
-    private toastr: ToastrService,
-    private translate: TranslateService,
-    private ngbModal: NgbModal,
-    private sessionsService: ProfilesService,
-    private highlightService: HighlightService,
     private modalInstance: NgbActiveModal,
   ) {
     console.log(this.type);
@@ -70,6 +37,21 @@ export class PatternEditorModalComponent {
       doc: this.code,
       parent: this.editorContainer.nativeElement,
       extensions,
+    });
+  }
+
+  format() {
+    if (this.type !== "javascript") {
+      return;
+    }
+    const newCode = this.editorView.state.doc.toString();
+    const formattedCode = beautify(newCode, { indent_size: 2, space_before_conditional: true });
+    this.editorView.dispatch({
+      changes: {
+        from: 0,
+        to: this.editorView.state.doc.length,
+        insert: formattedCode,
+      },
     });
   }
   ok() {
