@@ -15,6 +15,7 @@ Tabby terminal keyword highlight plugin based on Xterm control sequence.
 - [x] Support true color(24bit RGB).
 - [x] Support regular expression keywords match.
 - [x] Support regular expression match group.
+- [x] Support programmable(javascript) highlight.
 - [x] Support priority adjustment.
 - [x] Support profile manager.
 - [x] Support profile import and export.
@@ -70,8 +71,14 @@ Enable JS switch at keyword setting
 js code must be in a function like this
 
 ```js
+// sync function only
 function highlight(input) {
   // your logic
+  // you can use lodash by using variable _
+  _.forEach(input, (char) => {
+    console.log(char);
+  });
+  return; // return nothing means do not highlight anything
 }
 ```
 

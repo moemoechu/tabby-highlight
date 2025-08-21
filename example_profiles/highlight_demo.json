@@ -2,12 +2,31 @@
   "name": "演示配置",
   "keywords": [
     {
+      "text": "function highlight(input) {\n  if (!input.includes(\"js return string\")) {\n    return;\n  }\n  const r = input.match(/\".*?\": \"(.*?)\"/);\n  return r[1].slice(3, 8);\n}",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "1",
+      "foregroundColor": "0",
+      "isJS": true,
+      "remark": "slice"
+    },
+    {
+      "text": "function highlight(input) {\n  if (!input.includes(\"programmable match\")) {\n    return;\n  }\n  const pos = [];\n  for (i = 0; i < input.length; i++) {\n    const num = parseInt(input[i]);\n    if (!isNaN(num) && num % 2 != 0) {\n      pos.push(i);\n    }\n  }\n  return pos;\n}",
+      "enabled": true,
+      "background": true,
+      "backgroundColor": "4",
+      "foregroundColor": "0",
+      "isJS": true,
+      "remark": "ODD"
+    },
+    {
       "text": "invisible",
       "enabled": true,
       "background": true,
       "backgroundColor": "1",
       "foregroundColor": "0",
-      "invisible": true
+      "invisible": true,
+      "isCaseSensitive": false
     },
     {
       "text": "inverse",
@@ -16,7 +35,8 @@
       "backgroundColor": "red",
       "foregroundColor": "cyan",
       "inverse": true,
-      "foreground": true
+      "foreground": true,
+      "isCaseSensitive": false
     },
     {
       "text": ".",
