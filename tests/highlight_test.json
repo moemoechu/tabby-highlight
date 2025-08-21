@@ -18,5 +18,6 @@
   "wholeLineMatch": "an invisible line",
   "progynova": "🍥",
   "match group": "[chocola@host neko]: cat aaa",
-  "named match group": "AACDEF"
+  "named match group": "AACDEF",
+  "programmable match": "0123456789"
 }
