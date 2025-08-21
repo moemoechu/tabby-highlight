@@ -23,6 +23,7 @@ import {
 } from "./api";
 import { HighlightService } from "./highlight.service";
 import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
+import { PatternEditorModalComponent } from "./pattern-editor-modal.component";
 import Color from "color";
 
 /** @hidden */
@@ -184,7 +185,8 @@ export class HighlightSettingsTabComponent {
       for (const keyword of keywords) {
         let status = true;
         let errInfo = "";
-        const { isRegExp, text } = keyword;
+        const { isJS, isRegExp, text } = keyword;
+
         if (isRegExp) {
           try {
             const regexp = new RegExp(text, "g");
@@ -327,6 +329,24 @@ export class HighlightSettingsTabComponent {
   addKeyword() {
     this.highlightService.addHighlightKeyword();
     this.verify();
+  }
+
+  async editKeyword(event: MouseEvent, keyword: HighlightKeyword) {
+    const modal = this.ngbModal.open(PatternEditorModalComponent);
+    modal.componentInstance.code = keyword.text;
+    if (keyword.isJS) {
+      modal.componentInstance.type = "javascript";
+    }
+    try {
+      const result = await modal.result.catch(() => null);
+      console.log(result);
+      if (typeof result === "string") {
+        keyword.text = result;
+        this.apply();
+      }
+    } catch {}
+    event.preventDefault();
+    event.stopImmediatePropagation();
   }
 
   delKeyword(i: number) {

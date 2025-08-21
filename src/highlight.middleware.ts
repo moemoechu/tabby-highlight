@@ -119,6 +119,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           const {
             text,
             enabled,
+            isJS = false,
             isRegExp = false,
             isCaseSensitive = false,
             foreground = false,
@@ -141,56 +142,102 @@ export default class HighlightMiddleware extends SessionMiddleware {
             continue;
           }
 
-          const regexpFlag = isCaseSensitive ? "gd" : "gid";
-
-          let pattern: RegExp;
-          try {
-            // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
-            pattern = isRegExp
-              ? new RegExp(`${text}`, regexpFlag)
-              : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
-          } catch (e) {
-            // 象征性的捕获并忽略一下错误喵
-            this.toast(
-              "[Highlight] Something wrong when creating RegExp, please check highlight settings",
-            );
-            this.logger.error(e.message);
-            return super.feedFromSession(data);
-          }
-
-          // this.logger.debug(`highlight match terminal line when match ${pattern}:`);
-          // this.logger.debug(inspect(dataString));
-          const matches = dataStringReplaced.matchAll(pattern);
-
-          for (const match of matches) {
-            const indices = (match as any).indices;
-            let indict: [number, number] = indices[0];
-
-            // 匹配组处理喵
-            if (isMatchGroup) {
-              const group = parseInt(matchGroup);
-              if (!isNaN(group)) {
-                indict = indices[group];
+          if (isJS) {
+            // 真的要实现可编程高亮喵？会不会出现什么巨大漏洞然后被超市喵？
+            // 要不要用eval喵？毕竟速度最快喵？
+            // const matcher = eval(text);
+            // console.log(text);
+            const highlightFunc = new Function(`${text}; return highlight;`);
+            const highlight = highlightFunc();
+            let results: (number | [number, number])[] = [];
+            try {
+              results = highlight(dataStringReplaced) ?? [];
+            } catch (e) {
+              console.log(e);
+              continue;
+            }
+            if (!Array.isArray(results) || results.length === 0) {
+              continue;
+            }
+            // const results: (number | [number, number])[] = [1, 3, 5, [6, 7]];
+            for (const result of results) {
+              let start = -1;
+              let end = -1;
+              if (typeof result === "number") {
+                start = result;
+                end = result;
               } else {
-                // 命名匹配组处理喵
-                indict = indices.groups?.[matchGroup];
+                const [s, e] = result;
+                start = s;
+                end = e;
+              }
+              if (start >= 0 && end >= 0) {
+                occurrences.push({
+                  start,
+                  end,
+                  fg: foreground ? foregroundColor : undefined,
+                  bg: background ? backgroundColor : undefined,
+                  bold,
+                  italic,
+                  underline: underline ? underlineStyle : undefined,
+                  dim,
+                  inverse,
+                  invisible,
+                });
               }
             }
+          } else {
+            const regexpFlag = isCaseSensitive ? "gd" : "gid";
 
-            if (indict) {
-              const [start, end] = indict;
-              occurrences.push({
-                start: start,
-                end: end - 1,
-                fg: foreground ? foregroundColor : undefined,
-                bg: background ? backgroundColor : undefined,
-                bold,
-                italic,
-                underline: underline ? underlineStyle : undefined,
-                dim,
-                inverse,
-                invisible,
-              });
+            let pattern: RegExp;
+            try {
+              // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
+              pattern = isRegExp
+                ? new RegExp(`${text}`, regexpFlag)
+                : new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
+            } catch (e) {
+              // 象征性的捕获并忽略一下错误喵
+              this.toast(
+                "[Highlight] Something wrong when creating RegExp, please check highlight settings",
+              );
+              this.logger.error(e.message);
+              return super.feedFromSession(data);
+            }
+
+            // this.logger.debug(`highlight match terminal line when match ${pattern}:`);
+            // this.logger.debug(inspect(dataString));
+            const matches = dataStringReplaced.matchAll(pattern);
+
+            for (const match of matches) {
+              const indices = (match as any).indices;
+              let indict: [number, number] = indices[0];
+
+              // 匹配组处理喵
+              if (isMatchGroup) {
+                const group = parseInt(matchGroup);
+                if (!isNaN(group)) {
+                  indict = indices[group];
+                } else {
+                  // 命名匹配组处理喵
+                  indict = indices.groups?.[matchGroup];
+                }
+              }
+
+              if (indict) {
+                const [start, end] = indict;
+                occurrences.push({
+                  start: start,
+                  end: end - 1,
+                  fg: foreground ? foregroundColor : undefined,
+                  bg: background ? backgroundColor : undefined,
+                  bold,
+                  italic,
+                  underline: underline ? underlineStyle : undefined,
+                  dim,
+                  inverse,
+                  invisible,
+                });
+              }
             }
           }
         }

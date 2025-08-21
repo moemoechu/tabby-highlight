@@ -8,6 +8,7 @@ export type HighlightProfile = {
 export type HighlightKeyword = {
   text: string;
   enabled: boolean;
+  isJS?: boolean;
   isRegExp?: boolean;
   isCaseSensitive?: boolean;
   foreground?: boolean;
