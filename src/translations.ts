@@ -86,6 +86,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Debug plugin output": "调试插件输出",
       "Print plugin proceeded output to devtools, use with caution":
         "将插件处理后的内容输出到开发人员工具，请小心使用",
+      "Format": "格式化",
+      "Edit Keyword": "编辑关键字",
     },
   ],
 ];

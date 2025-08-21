@@ -76,7 +76,7 @@ export class HighlightSettingsTabComponent {
     private translate: TranslateService,
     private ngbModal: NgbModal,
     private sessionsService: ProfilesService,
-    private highlightService: HighlightService,
+    private highlightService: HighlightService
   ) {
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
@@ -90,7 +90,7 @@ export class HighlightSettingsTabComponent {
         // min: 0,
         // max: 15,
         title: this.translate.instant(
-          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)",
+          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)"
         ),
       },
       {
@@ -101,7 +101,7 @@ export class HighlightSettingsTabComponent {
         // min: 0,
         // max: 15,
         title: this.translate.instant(
-          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)",
+          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)"
         ),
       },
       {
@@ -187,7 +187,14 @@ export class HighlightSettingsTabComponent {
         let errInfo = "";
         const { isJS, isRegExp, text } = keyword;
 
-        if (isRegExp) {
+        if (isJS) {
+          try {
+            const highlightFunc = new Function(`${text}; return highlight;`)();
+          } catch (e) {
+            errInfo = e.message;
+            status = false;
+          }
+        } else if (isRegExp) {
           try {
             const regexp = new RegExp(text, "g");
           } catch (e) {
@@ -205,7 +212,7 @@ export class HighlightSettingsTabComponent {
     moveItemInArray(
       this.highlightService.getCurrentHighlightProfile().keywords,
       event.previousIndex,
-      event.currentIndex,
+      event.currentIndex
     );
     this.apply();
   }
@@ -214,7 +221,7 @@ export class HighlightSettingsTabComponent {
     moveItemInArray(
       this.highlightService.getHighlightProfiles(),
       event.previousIndex,
-      event.currentIndex,
+      event.currentIndex
     );
     this.apply();
   }
@@ -406,8 +413,8 @@ export class HighlightSettingsTabComponent {
     return this.sessions.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionProfileMap.some(
-          (exist) => exist.sessionId === all.id,
-        ) || all.id === sessionId,
+          (exist) => exist.sessionId === all.id
+        ) || all.id === sessionId
     );
   }
 
@@ -418,8 +425,8 @@ export class HighlightSettingsTabComponent {
     return this.sessionGroups.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionGroupProfileMap.some(
-          (exist) => exist.groupId === all.id,
-        ) || all.id === groupId,
+          (exist) => exist.groupId === all.id
+        ) || all.id === groupId
     );
   }
   getSessionTypes(typeId) {
@@ -430,8 +437,8 @@ export class HighlightSettingsTabComponent {
     return this.sessionTypes.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionTypeProfileMap.some(
-          (exist) => exist.typeId === all,
-        ) || all === typeId,
+          (exist) => exist.typeId === all
+        ) || all === typeId
     );
   }
 
@@ -484,7 +491,7 @@ export class HighlightSettingsTabComponent {
     moveItemInArray(
       this.pluginConfig.replaceProfiles[this.currentReplaceProfileIndex].patterns,
       event.previousIndex,
-      event.currentIndex,
+      event.currentIndex
     );
     this.apply();
   }

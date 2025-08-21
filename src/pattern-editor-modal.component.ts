@@ -44,15 +44,17 @@ export class PatternEditorModalComponent {
     if (this.type !== "javascript") {
       return;
     }
-    const newCode = this.editorView.state.doc.toString();
-    const formattedCode = beautify(newCode, { indent_size: 2, space_before_conditional: true });
-    this.editorView.dispatch({
-      changes: {
-        from: 0,
-        to: this.editorView.state.doc.length,
-        insert: formattedCode,
-      },
-    });
+    const code = this.editorView.state.doc.toString();
+    const formattedCode = beautify(code, { indent_size: 2, space_before_conditional: true });
+    if (code !== formattedCode) {
+      this.editorView.dispatch({
+        changes: {
+          from: 0,
+          to: this.editorView.state.doc.length,
+          insert: formattedCode,
+        },
+      });
+    }
   }
   ok() {
     const newCode = this.editorView.state.doc.toString();

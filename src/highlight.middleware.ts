@@ -6,6 +6,7 @@ import { debounce } from "utils-decorators";
 import { HighlightEngagedTab, HighlightPluginConfig } from "./api";
 import Color from "color";
 import { inspect } from "util";
+import _ from "lodash";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: HighlightEngagedTab;
@@ -84,14 +85,14 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               // 象征性的捕获并忽略一下错误喵
               this.toast(
-                "[Highlight] Something wrong when creating RegExp, please check replace settings",
+                "[Highlight] Something wrong when creating RegExp, please check replace settings"
               );
               this.logger.error(e.message);
               return super.feedFromSession(data);
             }
             dataStringReplaced = dataStringReplaced.replaceAll(
               pattern,
-              replace.replaceAll("\\n", this.enterReplacer),
+              replace.replaceAll("\\n", this.enterReplacer)
             );
           }
         }
@@ -147,13 +148,25 @@ export default class HighlightMiddleware extends SessionMiddleware {
             // 要不要用eval喵？毕竟速度最快喵？
             // const matcher = eval(text);
             // console.log(text);
-            const highlightFunc = new Function(`${text}; return highlight;`);
-            const highlight = highlightFunc();
+            let highlightFunc: Function;
+            try {
+              highlightFunc = new Function("_", `${text}; return highlight;`)(_);
+            } catch (e) {
+              console.error(e);
+              this.toast(
+                "[Highlight] Something wrong when creating JS Function, please check highlight settings"
+              );
+              continue;
+            }
+            // const highlight = highlightFunc();
             let results: (number | [number, number])[] = [];
             try {
-              results = highlight(dataStringReplaced) ?? [];
+              results = highlightFunc(dataStringReplaced) ?? [];
             } catch (e) {
-              console.log(e);
+              console.error(e);
+              this.toast(
+                "[Highlight] Something wrong when execute JS Function, please check highlight settings"
+              );
               continue;
             }
             if (!Array.isArray(results) || results.length === 0) {
@@ -198,7 +211,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               // 象征性的捕获并忽略一下错误喵
               this.toast(
-                "[Highlight] Something wrong when creating RegExp, please check highlight settings",
+                "[Highlight] Something wrong when creating RegExp, please check highlight settings"
               );
               this.logger.error(e.message);
               return super.feedFromSession(data);
@@ -263,7 +276,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               }
             }
             const oscSequenceMatch = subString.match(
-              /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/,
+              /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/
             );
             if (oscSequenceMatch) {
               if (oscSequenceMatch.index === 0) {
