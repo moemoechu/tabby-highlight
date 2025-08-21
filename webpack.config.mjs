@@ -6,9 +6,9 @@ const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 export default () => ({
   target: "node",
   entry: "src/index.ts",
-  devtool: "source-map",
+  // devtool: "source-map",
   context: __dirname,
-  mode: "development",
+  mode: "production",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",

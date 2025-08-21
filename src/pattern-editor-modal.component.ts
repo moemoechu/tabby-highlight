@@ -16,9 +16,7 @@ export class PatternEditorModalComponent {
   constructor(
     public config: ConfigService,
     private modalInstance: NgbActiveModal,
-  ) {
-    console.log(this.type);
-  }
+  ) {}
 
   @ViewChild("editorContainer") editorContainer!: ElementRef;
   @Input() code: string = "";
