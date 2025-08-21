@@ -19,5 +19,6 @@
   "progynova": "🍥",
   "match group": "[chocola@host neko]: cat aaa",
   "named match group": "AACDEF",
-  "programmable match": "0123456789"
+  "programmable match": "0123456789",
+  "js return string": "abcdefghijk"
 }
