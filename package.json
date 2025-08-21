@@ -1,6 +1,6 @@
 {
   "name": "tabby-highlight",
-  "description": "Tabby terminal keyword highlight plugin",
+  "description": "Tabby terminal keyword highlight plugin, support text, regexp, javascript",
   "module": "index.ts",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -14,7 +14,8 @@
     "name": "moemoechu"
   },
   "keywords": [
-    "tabby-plugin"
+    "tabby-plugin",
+    "highlight"
   ],
   "files": [
     "dist"

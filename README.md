@@ -4,7 +4,7 @@
 
 # Tabby Highlight Plugin
 
-Tabby terminal keyword highlight plugin based on Xterm control sequence.
+Tabby terminal keyword highlight plugin, support text, regexp, javascript
 
 ## Features
 
