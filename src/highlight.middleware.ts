@@ -70,16 +70,44 @@ export default class HighlightMiddleware extends SessionMiddleware {
         const { patterns } = replaceProfile;
 
         for (const pattern of patterns) {
-          const { enabled, isCaseSensitive, isRegExp, search, replace } = pattern;
-          if (enabled) {
-            passthroughFlag = false;
+          const { enabled, isJS, isCaseSensitive, isRegExp, search, replace } = pattern;
+          if (!enabled) {
+            continue;
+          }
+          passthroughFlag = false;
 
+          if (isJS) {
+            let replaceFunc: Function;
+            try {
+              replaceFunc = new Function("_", `${search}; return replace;`)(_);
+            } catch (e) {
+              console.error(e);
+              this.toast(
+                "[Highlight] Something wrong when creating JS Function, please check replace settings"
+              );
+              continue;
+            }
+            let results: string;
+            try {
+              results = replaceFunc(dataStringReplaced) ?? "";
+            } catch (e) {
+              console.error(e);
+              this.toast(
+                "[Highlight] Something wrong when execute JS Function, please check replace settings"
+              );
+              continue;
+            }
+
+            if (typeof results === "string") {
+              dataStringReplaced = results;
+            }
+          } else {
             const regexpFlag = isCaseSensitive ? "g" : "gi";
 
-            let pattern: RegExp;
+            let searchPattern: RegExp;
             try {
               // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
-              pattern = isRegExp
+              searchPattern = isRegExp
                 ? new RegExp(`${search}`, regexpFlag)
                 : new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
             } catch (e) {
@@ -91,7 +119,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               return super.feedFromSession(data);
             }
             dataStringReplaced = dataStringReplaced.replaceAll(
-              pattern,
+              searchPattern,
               replace.replaceAll("\\n", this.enterReplacer)
             );
           }
