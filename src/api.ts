@@ -35,6 +35,7 @@ export type ReplaceProfile = {
 
 export type ReplacePattern = {
   enabled: boolean;
+  isJS?: boolean;
   isRegExp?: boolean;
   isCaseSensitive?: boolean;
   search: string;

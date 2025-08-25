@@ -648,6 +648,11 @@
                         <i class="fa-solid fa-toggle-on"></i>
                       </span>
                       <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                        <span>
+                          <i class="fa-brands fa-square-js"></i>
+                        </span>
+                      </div>
+                      <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
                         <span>(.*)</span>
                       </div>
                       <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
@@ -655,10 +660,10 @@
                       </div>
 
                       <div class="col gx-1 d-flex justify-content-center align-items-center">
-                        <span class="text-center w-100" translate>Search Pattern</span>
+                        <span class="text-center" translate>Search Pattern</span>
                       </div>
                       <div class="col gx-1 d-flex justify-content-center align-items-center">
-                        <span class="text-center w-100" translate>Replace Pattern</span>
+                        <span class="text-center" translate>Replace Pattern</span>
                       </div>
                       <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
                         <span>
@@ -674,27 +679,47 @@
                     >
                       <div class="row">
                         <div
-                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center form-switch"
                         >
-                          <toggle
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
                             cdkDragHandle
                             [(ngModel)]="item.enabled"
                             (ngModelChange)="apply()"
-                          >
-                          </toggle>
+                          />
                         </div>
                         <div
                           class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >
-                          <checkbox [(ngModel)]="item.isRegExp" (ngModelChange)="apply()">
-                          </checkbox>
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [(ngModel)]="item.isJS"
+                            (ngModelChange)="apply()"
+                          />
+                        </div>
+                        <div
+                          class="col col-1 gx-1 d-flex justify-content-center align-items-center"
+                        >
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [(ngModel)]="item.isRegExp"
+                            (ngModelChange)="apply()"
+                          />
                         </div>
 
                         <div
                           class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >
-                          <checkbox [(ngModel)]="item.isCaseSensitive" (ngModelChange)="apply()">
-                          </checkbox>
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [(ngModel)]="item.isCaseSensitive"
+                            (ngModelChange)="apply()"
+                          />
                         </div>
 
                         <div class="col gx-1">
@@ -711,19 +736,25 @@
                               [(ngModel)]="item.search"
                               (ngModelChange)="apply()"
                             />
-                            <div
-                              class="badge rounded-pill text-bg-danger position-absolute center-0 end-0 me-2"
-                              *ngIf="!replaceVerifyStatus[profileIndex]?.[i]?.[0]"
-                              placement="end"
-                              [ngbTooltip]="replaceVerifyStatus[profileIndex]?.[i]?.[1]"
-                            >
-                              <i class="fa-solid fa-circle-exclamation"></i>
+                            <div class="position-absolute end-0 me-1 d-flex align-items-center">
+                              <div
+                                class="badge rounded-pill text-bg-danger m-1"
+                                *ngIf="!replaceVerifyStatus[profileIndex]?.[i]?.[0]"
+                                placement="end"
+                                [ngbTooltip]="replaceVerifyStatus[profileIndex]?.[i]?.[1]"
+                              >
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                              </div>
+                              <div class="m-1" (click)="editReplaceSearchPattern($event, item)">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                              </div>
                             </div>
                           </div>
                         </div>
-
                         <div class="col gx-1">
-                          <div class="content-box d-flex align-items-center w-100 ms-1">
+                          <div
+                            class="content-box d-flex align-items-center w-100 position-relative"
+                          >
                             <input
                               class="form-control"
                               style="
@@ -734,9 +765,13 @@
                               [(ngModel)]="item.replace"
                               (ngModelChange)="apply()"
                             />
+                            <div class="position-absolute end-0 me-1 d-flex align-items-center">
+                              <div class="m-1" (click)="editReplaceReplacePattern($event, item)">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                              </div>
+                            </div>
                           </div>
                         </div>
-
                         <div
                           class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >

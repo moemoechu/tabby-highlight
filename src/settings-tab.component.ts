@@ -502,6 +502,36 @@ export class HighlightSettingsTabComponent {
     this.verify();
   }
 
+  async editReplaceSearchPattern(event: MouseEvent, pattern: ReplacePattern) {
+    const modal = this.ngbModal.open(PatternEditorModalComponent);
+    modal.componentInstance.code = pattern.search;
+    if (pattern.isJS) {
+      modal.componentInstance.type = "javascript";
+    }
+    try {
+      const result = await modal.result.catch(() => null);
+      if (typeof result === "string") {
+        pattern.search = result;
+        this.apply();
+      }
+    } catch {}
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+  async editReplaceReplacePattern(event: MouseEvent, pattern: ReplacePattern) {
+    const modal = this.ngbModal.open(PatternEditorModalComponent);
+    modal.componentInstance.code = pattern.replace;
+    try {
+      const result = await modal.result.catch(() => null);
+      if (typeof result === "string") {
+        pattern.replace = result;
+        this.apply();
+      }
+    } catch {}
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
   async delReplaceProfile(event: MouseEvent, profile: ReplaceProfile) {
     if (this.highlightService.getReplaceProfiles().length > 1) {
       const modal = this.ngbModal.open(ProfileDeleteModalComponent);
