@@ -95,6 +95,8 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Click expand to edit.": "点击展开按钮编辑。",
       "Edit JavaScript": "编辑代码",
       "Edit Text": "编辑文本",
+      "Regular Expression": "正则表达式",
+      "Expand edit": "展开编辑",
     },
   ],
 ];

@@ -323,6 +323,7 @@
                             cdkDragHandle
                             [(ngModel)]="item.enabled"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Enable' | translate }}"
                           />
                         </div>
                         <div
@@ -333,6 +334,7 @@
                             type="checkbox"
                             [(ngModel)]="item.isJS"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Javascript' | translate }}"
                           />
                         </div>
                         <div
@@ -343,6 +345,7 @@
                             type="checkbox"
                             [(ngModel)]="item.isRegExp"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Regular Expression' | translate }}"
                           />
                         </div>
                         <div
@@ -353,6 +356,7 @@
                             type="checkbox"
                             [(ngModel)]="item.isCaseSensitive"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Case sensitive' | translate }}"
                           />
                         </div>
                         <div class="col gx-1">
@@ -412,7 +416,11 @@
                               >
                                 <i class="fa-solid fa-circle-exclamation"></i>
                               </div>
-                              <div class="m-1" (click)="editKeyword($event, item)">
+                              <div
+                                class="m-1"
+                                (click)="editKeyword($event, item)"
+                                ngbTooltip="{{ 'Expand edit' | translate }}"
+                              >
                                 <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                               </div>
                             </div>
@@ -427,6 +435,7 @@
                               style="width: 60px"
                               ngbDropdownToggle
                               (click)="$event.stopPropagation()"
+                              ngbTooltip="{{ 'Style' | translate }}"
                             >
                               <i class="fa-solid fa-screwdriver-wrench"></i>
                             </button>
@@ -495,7 +504,7 @@
                                     </div>
                                     <div
                                       class="col-md-auto d-flex align-items-center"
-                                      *ngIf="style.valueType === 'number'"
+                                      *ngIf="style.valueType === 'number'; else elseTextInputBlock"
                                     >
                                       <input
                                         class="form-control"
@@ -504,7 +513,7 @@
                                         [max]="style.max"
                                         [(ngModel)]="item[style.valueModel]"
                                         (ngModelChange)="apply()"
-                                        title="{{ style.title }}"
+                                        title="{{ style.title | translate }}"
                                         style="
                                           width: 70px;
                                           flex: none;
@@ -513,47 +522,54 @@
                                         "
                                       />
                                     </div>
-                                    <div
-                                      class="col-md-auto d-flex align-items-center"
-                                      *ngIf="style.valueType === 'text'"
-                                    >
-                                      <input
-                                        class="form-control"
-                                        [type]="style.valueType"
-                                        [(ngModel)]="item[style.valueModel]"
-                                        (ngModelChange)="apply()"
-                                        title="{{ style.title }}"
-                                        style="
-                                          width: 100px;
-                                          flex: none;
-                                          background-color: rgba(0, 0, 0, 0.3);
-                                          backdrop-filter: blur(3px);
-                                        "
-                                      />
-                                    </div>
-                                    <div
-                                      class="col-md-auto d-flex align-items-center"
-                                      *ngIf="style.valueType === 'select'"
-                                    >
-                                      <select
-                                        class="form-control"
-                                        [(ngModel)]="item[style.valueModel]"
-                                        (ngModelChange)="apply()"
-                                        style="
-                                          width: 100px;
-                                          flex: none;
-                                          background-color: rgba(0, 0, 0, 0.3);
-                                          backdrop-filter: blur(3px);
+                                    <ng-template #elseTextInputBlock>
+                                      <div
+                                        class="col-md-auto d-flex align-items-center"
+                                        *ngIf="
+                                          style.valueType === 'text';
+                                          else elseSelectInputBlock
                                         "
                                       >
-                                        <option
-                                          *ngFor="let value of style.values"
-                                          [ngValue]="value.value"
+                                        <input
+                                          class="form-control"
+                                          [type]="style.valueType"
+                                          [(ngModel)]="item[style.valueModel]"
+                                          (ngModelChange)="apply()"
+                                          title="{{ style.title | translate }}"
+                                          style="
+                                            width: 100px;
+                                            flex: none;
+                                            background-color: rgba(0, 0, 0, 0.3);
+                                            backdrop-filter: blur(3px);
+                                          "
+                                        />
+                                      </div>
+                                    </ng-template>
+                                    <ng-template #elseSelectInputBlock>
+                                      <div
+                                        class="col-md-auto d-flex align-items-center"
+                                        *ngIf="style.valueType === 'select'"
+                                      >
+                                        <select
+                                          class="form-control"
+                                          [(ngModel)]="item[style.valueModel]"
+                                          (ngModelChange)="apply()"
+                                          style="
+                                            width: 100px;
+                                            flex: none;
+                                            background-color: rgba(0, 0, 0, 0.3);
+                                            backdrop-filter: blur(3px);
+                                          "
                                         >
-                                          {{ value.title | translate }}
-                                        </option>
-                                      </select>
-                                    </div>
+                                          <option
+                                            *ngFor="let value of style.values"
+                                            [ngValue]="value.value"
+                                          >
+                                            {{ value.title | translate }}
+                                          </option>
+                                        </select>
+                                      </div>
+                                    </ng-template>
                                     <div class="col-md-auto d-flex align-items-center">
                                       <checkbox
                                         class="ms-1"
@@ -571,7 +587,11 @@
                         <div
                           class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >
-                          <button class="btn btn-outline-secondary" (click)="delKeyword(i)">
+                          <button
+                            class="btn btn-outline-secondary"
+                            (click)="delKeyword(i)"
+                            ngbTooltip="{{ 'Delete' | translate }}"
+                          >
                             <i class="fas fa-solid fa-trash"></i>
                           </button>
                         </div>
@@ -712,6 +732,7 @@
                             cdkDragHandle
                             [(ngModel)]="item.enabled"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Enable' | translate }}"
                           />
                         </div>
                         <div
@@ -722,6 +743,7 @@
                             type="checkbox"
                             [(ngModel)]="item.isJS"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Javascript' | translate }}"
                           />
                         </div>
                         <div
@@ -732,6 +754,7 @@
                             type="checkbox"
                             [(ngModel)]="item.isRegExp"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Regular Expression' | translate }}"
                           />
                         </div>
 
@@ -743,6 +766,7 @@
                             type="checkbox"
                             [(ngModel)]="item.isCaseSensitive"
                             (ngModelChange)="apply()"
+                            ngbTooltip="{{ 'Case sensitive' | translate }}"
                           />
                         </div>
 
@@ -784,7 +808,11 @@
                               >
                                 <i class="fa-solid fa-circle-exclamation"></i>
                               </div>
-                              <div class="m-1" (click)="editReplaceSearchPattern($event, item)">
+                              <div
+                                class="m-1"
+                                (click)="editReplaceSearchPattern($event, item)"
+                                ngbTooltip="{{ 'Expand edit' | translate }}"
+                              >
                                 <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                               </div>
                             </div>
@@ -814,7 +842,11 @@
                         <div
                           class="col col-1 gx-1 d-flex justify-content-center align-items-center"
                         >
-                          <button class="btn btn-outline-secondary" (click)="delReplacePattern(i)">
+                          <button
+                            class="btn btn-outline-secondary"
+                            (click)="delReplacePattern(i)"
+                            ngbTooltip="{{ 'Delete' | translate }}"
+                          >
                             <i class="fas fa-solid fa-trash"></i>
                           </button>
                         </div>

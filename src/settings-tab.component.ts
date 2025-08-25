@@ -54,7 +54,64 @@ import Color from "color";
   ],
 })
 export class HighlightSettingsTabComponent {
-  styles: any[];
+  styles = [
+    {
+      name: "Background Color",
+      enabledModel: "background",
+      valueType: "text",
+      valueModel: "backgroundColor",
+      // min: 0,
+      // max: 15,
+      title:
+        "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)",
+    },
+    {
+      name: "Foreground Color",
+      enabledModel: "foreground",
+      valueType: "text",
+      valueModel: "foregroundColor",
+      // min: 0,
+      // max: 15,
+      title:
+        "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)",
+    },
+    {
+      name: "Bold",
+      enabledModel: "bold",
+    },
+    {
+      name: "Italic",
+      enabledModel: "italic",
+    },
+    {
+      name: "Underline",
+      enabledModel: "underline",
+      valueType: "select",
+      valueModel: "underlineStyle",
+      min: 1,
+      max: 5,
+      defaultValue: "1",
+      values: [
+        { title: "Single", value: "1" },
+        { title: "Double", value: "2" },
+        { title: "Curly", value: "3" },
+        { title: "Dotted", value: "4" },
+        { title: "Dashed", value: "5" },
+      ],
+    },
+    {
+      name: "Dim",
+      enabledModel: "dim",
+    },
+    {
+      name: "Inverse",
+      enabledModel: "inverse",
+    },
+    {
+      name: "Invisible",
+      enabledModel: "invisible",
+    },
+  ];
 
   sessionTypes: string[];
   alertMessage: string;
@@ -81,66 +138,6 @@ export class HighlightSettingsTabComponent {
     // 兼容亮色主题太麻烦了喵，先做个基本兼容，以后再说喵
     this.currentTheme = this.config.store.appearance.colorSchemeMode;
     this.verify();
-    this.styles = [
-      {
-        name: "Background Color",
-        enabledModel: "background",
-        valueType: "text",
-        valueModel: "backgroundColor",
-        // min: 0,
-        // max: 15,
-        title: this.translate.instant(
-          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)"
-        ),
-      },
-      {
-        name: "Foreground Color",
-        enabledModel: "foreground",
-        valueType: "text",
-        valueModel: "foregroundColor",
-        // min: 0,
-        // max: 15,
-        title: this.translate.instant(
-          "Use number 0-15 for ANSI color(themed), 16-256 for ANSI 256 color, #RRGGBB for RGB color (i.e. #ffd0f2), or color name(i.e. orange)"
-        ),
-      },
-      {
-        name: "Bold",
-        enabledModel: "bold",
-      },
-      {
-        name: "Italic",
-        enabledModel: "italic",
-      },
-      {
-        name: "Underline",
-        enabledModel: "underline",
-        valueType: "select",
-        valueModel: "underlineStyle",
-        min: 1,
-        max: 5,
-        defaultValue: "1",
-        values: [
-          { title: "Single", value: "1" },
-          { title: "Double", value: "2" },
-          { title: "Curly", value: "3" },
-          { title: "Dotted", value: "4" },
-          { title: "Dashed", value: "5" },
-        ],
-      },
-      {
-        name: "Dim",
-        enabledModel: "dim",
-      },
-      {
-        name: "Inverse",
-        enabledModel: "inverse",
-      },
-      {
-        name: "Invisible",
-        enabledModel: "invisible",
-      },
-    ];
   }
 
   sessions: PartialProfile<Profile>[];
