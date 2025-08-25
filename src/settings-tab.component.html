@@ -34,54 +34,68 @@
             </button>
           </div>
           <div class="list-group mt-3 mb-3">
-            <div class="list-group-item active d-flex align-items-center">
-              <span class="text-center w-100" translate>Session</span>
-              <span class="text-center w-100" translate>Profile</span>
-              <span class="text-end" translate style="margin-right: 13px; width: 38px; flex: none">
-                <i class="fas fa-solid fa-trash"></i>
-              </span>
+            <div class="container list-group-item active align-items-center">
+              <div class="row">
+                <div class="col gx-1 d-flex justify-content-center align-items-center">
+                  <span class="text-center" translate>Session</span>
+                </div>
+                <div class="col gx-1 d-flex justify-content-center align-items-center">
+                  <span class="text-center" translate>Profile</span>
+                </div>
+                <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                  <span>
+                    <i class="fas fa-solid fa-trash"></i>
+                  </span>
+                </div>
+              </div>
             </div>
             <ng-container
               *ngFor="let item of pluginConfig.highlightPerSessionProfileMap; let i = index"
             >
               <div
-                class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                class="container list-group-item align-items-center list-group-item-action list-group-item-highlight"
               >
-                <div class="input-group">
-                  <select
-                    class="form-control"
-                    [(ngModel)]="item.sessionId"
-                    (ngModelChange)="apply()"
-                  >
-                    <option [ngValue]="uuidNIL" translate>No session selected</option>
-                    <option
-                      *ngFor="let session of getSessions(item.sessionId)"
-                      [ngValue]="session.id"
+                <div class="row">
+                  <div class="col gx-1 content-box d-flex align-items-center w-100">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="item.sessionId"
+                      (ngModelChange)="apply()"
                     >
-                      {{ session.name }}
-                    </option>
-                  </select>
-                  <select
-                    class="form-control"
-                    [(ngModel)]="item.profileId"
-                    (ngModelChange)="apply()"
-                  >
-                    <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
-                    <option
-                      *ngFor="let profile of pluginConfig.highlightProfiles"
-                      [ngValue]="profile.id"
+                      <option [ngValue]="uuidNIL" translate>No session selected</option>
+                      <option
+                        *ngFor="let session of getSessions(item.sessionId)"
+                        [ngValue]="session.id"
+                      >
+                        {{ session.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col gx-1 content-box d-flex align-items-center w-100">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="item.profileId"
+                      (ngModelChange)="apply()"
                     >
-                      {{ profile.name }}
-                    </option>
-                  </select>
+                      <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
+                      <option
+                        *ngFor="let profile of pluginConfig.highlightProfiles"
+                        [ngValue]="profile.id"
+                      >
+                        {{ profile.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                    <button
+                      class="btn btn-outline-secondary"
+                      (click)="delPerSessionProfile(i)"
+                      ngbTooltip="{{ 'Delete' | translate }}"
+                    >
+                      <i class="fas fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  class="btn btn-outline-secondary ms-1"
-                  style="width: 38px; flex: none"
-                  (click)="delPerSessionProfile(i)"
-                >
-                  <i class="fas fa-solid fa-trash"></i>
-                </button>
               </div>
             </ng-container>
           </div>
@@ -107,50 +121,68 @@
             </button>
           </div>
           <div class="list-group mt-3 mb-3">
-            <div class="list-group-item active d-flex align-items-center">
-              <span class="text-center w-100" translate>Session Group</span>
-              <span class="text-center w-100" translate>Profile</span>
-              <span class="text-end" translate style="margin-right: 13px; width: 38px; flex: none">
-                <i class="fas fa-solid fa-trash"></i>
-              </span>
+            <div class="container list-group-item active align-items-center">
+              <div class="row">
+                <div class="col gx-1 d-flex justify-content-center align-items-center">
+                  <span class="text-center" translate>Session Group</span>
+                </div>
+                <div class="col gx-1 d-flex justify-content-center align-items-center">
+                  <span class="text-center" translate>Profile</span>
+                </div>
+                <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                  <span>
+                    <i class="fas fa-solid fa-trash"></i>
+                  </span>
+                </div>
+              </div>
             </div>
             <ng-container
               *ngFor="let item of pluginConfig.highlightPerSessionGroupProfileMap; let i = index"
             >
               <div
-                class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                class="list-group-item align-items-center list-group-item-action list-group-item-highlight"
               >
-                <div class="input-group">
-                  <select class="form-control" [(ngModel)]="item.groupId" (ngModelChange)="apply()">
-                    <option [ngValue]="uuidNIL" translate>No session group selected</option>
-                    <option
-                      *ngFor="let group of getSessionGroups(item.groupId)"
-                      [ngValue]="group.id"
+                <div class="row">
+                  <div class="col gx-1 content-box d-flex align-items-center w-100">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="item.groupId"
+                      (ngModelChange)="apply()"
                     >
-                      {{ group.name }}
-                    </option>
-                  </select>
-                  <select
-                    class="form-control"
-                    [(ngModel)]="item.profileId"
-                    (ngModelChange)="apply()"
-                  >
-                    <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
-                    <option
-                      *ngFor="let profile of pluginConfig.highlightProfiles"
-                      [ngValue]="profile.id"
+                      <option [ngValue]="uuidNIL" translate>No session group selected</option>
+                      <option
+                        *ngFor="let group of getSessionGroups(item.groupId)"
+                        [ngValue]="group.id"
+                      >
+                        {{ group.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col gx-1 content-box d-flex align-items-center w-100">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="item.profileId"
+                      (ngModelChange)="apply()"
                     >
-                      {{ profile.name }}
-                    </option>
-                  </select>
+                      <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
+                      <option
+                        *ngFor="let profile of pluginConfig.highlightProfiles"
+                        [ngValue]="profile.id"
+                      >
+                        {{ profile.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                    <button
+                      class="btn btn-outline-secondary"
+                      (click)="delPerSessionGroupProfile(i)"
+                      ngbTooltip="{{ 'Delete' | translate }}"
+                    >
+                      <i class="fas fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  class="btn btn-outline-secondary ms-1"
-                  style="width: 38px; flex: none"
-                  (click)="delPerSessionGroupProfile(i)"
-                >
-                  <i class="fas fa-solid fa-trash"></i>
-                </button>
               </div>
             </ng-container>
           </div>
@@ -173,51 +205,69 @@
             </button>
           </div>
           <div class="list-group mt-3 mb-3">
-            <div class="list-group-item active d-flex align-items-center">
-              <span class="text-center w-100" translate>Session Type</span>
-              <span class="text-center w-100" translate>Profile</span>
-              <span class="text-end" translate style="margin-right: 13px; width: 38px; flex: none">
-                <i class="fas fa-solid fa-trash"></i>
-              </span>
+            <div class="container list-group-item active align-items-center">
+              <div class="row">
+                <div class="col gx-1 d-flex justify-content-center align-items-center">
+                  <span class="text-center" translate>Session Type</span>
+                </div>
+                <div class="col gx-1 d-flex justify-content-center align-items-center">
+                  <span class="text-center" translate>Profile</span>
+                </div>
+                <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                  <span>
+                    <i class="fas fa-solid fa-trash"></i>
+                  </span>
+                </div>
+              </div>
             </div>
             <ng-container
               *ngFor="let item of pluginConfig.highlightPerSessionTypeProfileMap; let i = index"
             >
               <div
-                class="list-group-item d-flex align-items-center list-group-item-action list-group-item-highlight"
+                class="list-group-item align-items-center list-group-item-action list-group-item-highlight"
               >
-                <div class="input-group">
-                  <select class="form-control" [(ngModel)]="item.typeId" (ngModelChange)="apply()">
-                    <option [ngValue]="uuidNIL" translate>No session type selected</option>
-                    <option
-                      *ngFor="let type of getSessionTypes(item.typeId)"
-                      [ngValue]="type"
-                      translate
+                <div class="row">
+                  <div class="col gx-1 content-box d-flex align-items-center w-100">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="item.typeId"
+                      (ngModelChange)="apply()"
                     >
-                      {{ type }}
-                    </option>
-                  </select>
-                  <select
-                    class="form-control"
-                    [(ngModel)]="item.profileId"
-                    (ngModelChange)="apply()"
-                  >
-                    <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
-                    <option
-                      *ngFor="let profile of pluginConfig.highlightProfiles"
-                      [ngValue]="profile.id"
+                      <option [ngValue]="uuidNIL" translate>No session type selected</option>
+                      <option
+                        *ngFor="let type of getSessionTypes(item.typeId)"
+                        [ngValue]="type"
+                        translate
+                      >
+                        {{ type }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col gx-1 content-box d-flex align-items-center w-100">
+                    <select
+                      class="form-control"
+                      [(ngModel)]="item.profileId"
+                      (ngModelChange)="apply()"
                     >
-                      {{ profile.name }}
-                    </option>
-                  </select>
+                      <option [ngValue]="uuidNIL" translate>Disable Highlight</option>
+                      <option
+                        *ngFor="let profile of pluginConfig.highlightProfiles"
+                        [ngValue]="profile.id"
+                      >
+                        {{ profile.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col col-1 gx-1 d-flex justify-content-center align-items-center">
+                    <button
+                      class="btn btn-outline-secondary"
+                      (click)="delPerSessionTypeProfile(i)"
+                      ngbTooltip="{{ 'Delete' | translate }}"
+                    >
+                      <i class="fas fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  class="btn btn-outline-secondary ms-1"
-                  style="width: 38px; flex: none"
-                  (click)="delPerSessionTypeProfile(i)"
-                >
-                  <i class="fas fa-solid fa-trash"></i>
-                </button>
               </div>
             </ng-container>
           </div>
