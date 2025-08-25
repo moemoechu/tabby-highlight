@@ -407,36 +407,53 @@ export class HighlightSettingsTabComponent {
     if (!this.sessions) {
       return [];
     }
-    return this.sessions.filter(
+
+    const filteredSessions = this.sessions.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionProfileMap.some(
           (exist) => exist.sessionId === all.id
         ) || all.id === sessionId
     );
+    if (sessionId !== this.uuidNIL && !this.sessions.find((item) => item.id === sessionId)) {
+      filteredSessions.push({
+        id: sessionId,
+        name: this.translate.instant("[Deleted Session]"),
+        type: "none",
+      });
+    }
+    return filteredSessions;
   }
 
   getSessionGroups(groupId) {
     if (!this.sessionGroups) {
       return [];
     }
-    return this.sessionGroups.filter(
+    const filteredSessionGrops = this.sessionGroups.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionGroupProfileMap.some(
           (exist) => exist.groupId === all.id
         ) || all.id === groupId
     );
+    if (groupId !== this.uuidNIL && !this.sessionGroups.find((item) => item.id === groupId)) {
+      filteredSessionGrops.push({ id: groupId, name: this.translate.instant("[Deleted Group]") });
+    }
+    return filteredSessionGrops;
   }
   getSessionTypes(typeId) {
     if (!this.sessions) {
       return [];
     }
 
-    return this.sessionTypes.filter(
+    const filteredSessionType = this.sessionTypes.filter(
       (all) =>
         !this.pluginConfig.highlightPerSessionTypeProfileMap.some(
           (exist) => exist.typeId === all
         ) || all === typeId
     );
+    if (typeId !== this.uuidNIL && !this.sessionTypes.find((item) => item === typeId)) {
+      filteredSessionType.push(this.translate.instant("[Unknown Type]"));
+    }
+    return filteredSessionType;
   }
 
   // Replace

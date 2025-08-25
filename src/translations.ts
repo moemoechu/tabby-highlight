@@ -97,6 +97,9 @@ export const translations: [string, HighlightPluginTranslations][] = [
       "Edit Text": "编辑文本",
       "Regular Expression": "正则表达式",
       "Expand edit": "展开编辑",
+      "[Deleted Session]": "【已删除的会话】",
+      "[Deleted Group]": "【已删除的分组】",
+      "[Unknown Type]": "【未知的类型】",
     },
   ],
 ];
