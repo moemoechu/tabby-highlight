@@ -38,6 +38,7 @@ Tabby terminal keyword highlight plugin, support text, regexp, javascript
 ### Replace
 
 - [x] Support keywords replace(i.e Error:xxx -> 出错啦：xxx)
+- [x] Support programmable(javascript) replace.
 
 ## Usage
 
@@ -196,11 +197,12 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 - [ ] Refactor the setting UI.
 - [ ] Add color picker.
 - [x] Programmable(javascript) keyword match.
-- [ ] Programmable(javascript) replace.
+- [x] Programmable(javascript) replace.
 - [ ] LSP Support (in dream)
 
 ## Changelog
 
+- 3.0.0: Support programmable(javascript) highlight and replace.
 - 2.6.0: Support all 5 underline styles, inverse and invisible style.
 - 2.5.0: Support true color(RGB).
 - 2.4.0: Add remark.
