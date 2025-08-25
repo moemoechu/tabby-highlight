@@ -360,6 +360,7 @@
                             class="content-box d-flex align-items-center w-100 position-relative"
                           >
                             <input
+                              *ngIf="item.isJS; else highlightNotJS"
                               class="form-control"
                               type="text"
                               [style.color]="
@@ -372,13 +373,36 @@
                               [style.font-style]="item.italic ? 'italic' : ''"
                               [style.text-decoration]="item.underline ? 'underline' : ''"
                               [style.text-decoration-style]="getUnderlineStyle(item)"
-                              [(ngModel)]="item.text"
-                              (ngModelChange)="apply()"
+                              disabled
+                              readonly
+                              value="{{ 'Click expand to edit.' | translate }}"
                               style="
                                 background-color: rgba(0, 0, 0, 0.3);
                                 backdrop-filter: blur(3px);
                               "
                             />
+                            <ng-template #highlightNotJS>
+                              <input
+                                class="form-control"
+                                type="text"
+                                [style.color]="
+                                  item.inverse ? getBackgroundColor(item) : getForegroundColor(item)
+                                "
+                                [style.background-color]="
+                                  item.inverse ? getForegroundColor(item) : getBackgroundColor(item)
+                                "
+                                [style.font-weight]="item.bold ? 'bold' : ''"
+                                [style.font-style]="item.italic ? 'italic' : ''"
+                                [style.text-decoration]="item.underline ? 'underline' : ''"
+                                [style.text-decoration-style]="getUnderlineStyle(item)"
+                                [(ngModel)]="item.text"
+                                (ngModelChange)="apply()"
+                                style="
+                                  background-color: rgba(0, 0, 0, 0.3);
+                                  backdrop-filter: blur(3px);
+                                "
+                              />
+                            </ng-template>
                             <div class="position-absolute end-0 me-1 d-flex align-items-center">
                               <div
                                 class="badge rounded-pill text-bg-danger m-1"
@@ -727,15 +751,30 @@
                             class="content-box d-flex align-items-center w-100 position-relative"
                           >
                             <input
+                              *ngIf="item.isJS; else replaceNotJS"
                               class="form-control"
                               style="
                                 background-color: rgba(0, 0, 0, 0.3);
                                 backdrop-filter: blur(3px);
                               "
                               type="text"
-                              [(ngModel)]="item.search"
-                              (ngModelChange)="apply()"
+                              disabled
+                              readonly
+                              value="{{ 'Click expand to edit.' | translate }}"
                             />
+
+                            <ng-template #replaceNotJS>
+                              <input
+                                class="form-control"
+                                style="
+                                  background-color: rgba(0, 0, 0, 0.3);
+                                  backdrop-filter: blur(3px);
+                                "
+                                type="text"
+                                [(ngModel)]="item.search"
+                                (ngModelChange)="apply()"
+                              />
+                            </ng-template>
                             <div class="position-absolute end-0 me-1 d-flex align-items-center">
                               <div
                                 class="badge rounded-pill text-bg-danger m-1"

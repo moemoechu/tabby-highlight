@@ -462,8 +462,15 @@ export class HighlightSettingsTabComponent {
       for (const pattern of patterns) {
         let status = true;
         let errInfo = "";
-        const { isRegExp, search } = pattern;
-        if (isRegExp) {
+        const { isJS, isRegExp, search } = pattern;
+        if (isJS) {
+          try {
+            const replaceFunc = new Function(`${search}; return replace;`)();
+          } catch (e) {
+            errInfo = e.message;
+            status = false;
+          }
+        } else if (isRegExp) {
           try {
             const regexp = new RegExp(search, "g");
           } catch (e) {

@@ -16,6 +16,8 @@ import { HighlightService } from "./highlight.service";
 import { HighlightSettingsTabComponent } from "./settings-tab.component";
 import { HighlightSettingsTabProvider } from "./settings-tab.provider";
 import { HighlightContextMenu } from "./context-menu.provider";
+import { PatternEditorModalComponent } from "./pattern-editor-modal.component";
+import { ProfileDeleteModalComponent } from "./profile-delete-modal.component";
 
 @NgModule({
   imports: [CommonModule, FormsModule, TabbyCoreModule, NgbModule],
@@ -26,7 +28,11 @@ import { HighlightContextMenu } from "./context-menu.provider";
     { provide: TabContextMenuItemProvider, useClass: HighlightContextMenu, multi: true },
   ],
   entryComponents: [HighlightSettingsTabComponent],
-  declarations: [HighlightSettingsTabComponent],
+  declarations: [
+    HighlightSettingsTabComponent,
+    PatternEditorModalComponent,
+    ProfileDeleteModalComponent,
+  ],
 })
 export default class HighlightModule {
   constructor(public config: ConfigService, private highlight: HighlightService) {}

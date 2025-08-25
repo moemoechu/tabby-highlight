@@ -89,7 +89,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             }
             let results: string;
             try {
-              results = replaceFunc(dataStringReplaced) ?? "";
+              results = replaceFunc(dataStringReplaced);
             } catch (e) {
               console.error(e);
               this.toast(

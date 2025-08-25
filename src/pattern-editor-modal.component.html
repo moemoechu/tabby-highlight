@@ -1,6 +1,6 @@
 <div class="modal-header">
   <div class="modal-title">
-    <h3 translate>Edit Pattern</h3>
+    <h3 translate>Edit {{ type === "javascript" ? "JavaScript" : "Text" }}</h3>
   </div>
 </div>
 <div class="modal-body">
@@ -9,7 +9,9 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" (click)="format()" translate>Format</button>
+  <button *ngIf="type === 'javascript'" class="btn btn-primary" (click)="format()" translate>
+    Format
+  </button>
   <button class="btn btn-primary" (click)="ok()" translate>OK</button>
   <button class="btn btn-danger ms-2" (click)="cancel()" translate>Cancel</button>
 </div>
