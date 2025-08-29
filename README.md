@@ -97,6 +97,8 @@ i.e:
 
 #### Example
 
+More example please see plugin builtin template
+
 ```js
 // highlight odd number
 function highlight(input) {
@@ -174,6 +176,10 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 ### Regexp Verify
 
 ![Regexp Verify](screenshots/setting_verify.png)
+
+### Code editor and Template
+
+![Code editor](screenshots/setting_editor.png)
 
 ### Context Menu
 
