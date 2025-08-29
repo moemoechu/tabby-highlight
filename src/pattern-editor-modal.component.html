@@ -9,9 +9,25 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button *ngIf="type === 'javascript'" class="btn btn-primary" (click)="format()" translate>
-    Format
-  </button>
+  <ng-container *ngIf="type === 'javascript'">
+    <div class="col gx-1 content-box d-flex align-items-center w-100">
+      <select class="form-control" [(ngModel)]="selectedTemplate">
+        <option [ngValue]="-1" translate>Select template</option>
+        <option *ngFor="let template of getTemplate(); let i = index" [ngValue]="i" translate>
+          {{ template.name }}
+        </option>
+      </select>
+    </div>
+    <button
+      *ngIf="type === 'javascript'"
+      class="btn btn-primary"
+      (click)="applyTemplate(selectedTemplate)"
+      translate
+    >
+      Apply Template
+    </button>
+    <button class="btn btn-primary" (click)="format()" translate>Format</button></ng-container
+  >
   <button class="btn btn-primary" (click)="ok()" translate>OK</button>
   <button class="btn btn-danger ms-2" (click)="cancel()" translate>Cancel</button>
 </div>

@@ -1,12 +1,12 @@
 import { Injector } from "@angular/core";
+import Color from "color";
+import _ from "lodash";
 import { ToastrService } from "ngx-toastr";
 import { ConfigService, LogService, Logger, TranslateService } from "tabby-core";
 import { SessionMiddleware } from "tabby-terminal";
+import { inspect } from "util";
 import { debounce } from "utils-decorators";
 import { HighlightEngagedTab, HighlightPluginConfig } from "./api";
-import Color from "color";
-import { inspect } from "util";
-import _ from "lodash";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: HighlightEngagedTab;
@@ -76,10 +76,14 @@ export default class HighlightMiddleware extends SessionMiddleware {
           }
           passthroughFlag = false;
 
+          let realSearch: string = search;
+          let isReplaceJSReturnString = false;
+          let searchPattern: RegExp;
+          let replacePattern: string = replace;
           if (isJS) {
             let replaceFunc: Function;
             try {
-              replaceFunc = new Function("_", `${search}; return replace;`)(_);
+              replaceFunc = new Function("_", `${realSearch}; return replace;`)(_);
             } catch (e) {
               console.error(e);
               this.toast(
@@ -87,7 +91,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               );
               continue;
             }
-            let results: string;
+            let results: string | [string | RegExp, string];
             try {
               results = replaceFunc(dataStringReplaced);
             } catch (e) {
@@ -100,16 +104,29 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
             if (typeof results === "string") {
               dataStringReplaced = results;
+            } else if (Array.isArray(results)) {
+              const [jsSearchPattern, jsReplacePattern] = results;
+              replacePattern = jsReplacePattern;
+              if (typeof jsSearchPattern === "string") {
+                realSearch = jsSearchPattern;
+                isReplaceJSReturnString = true;
+              } else {
+                searchPattern = jsSearchPattern;
+              }
             }
-          } else {
+          }
+
+          if (!isJS || isReplaceJSReturnString || searchPattern) {
             const regexpFlag = isCaseSensitive ? "g" : "gi";
 
-            let searchPattern: RegExp;
+            // let searchPattern: RegExp;
             try {
               // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
-              searchPattern = isRegExp
-                ? new RegExp(`${search}`, regexpFlag)
-                : new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
+              if (!searchPattern) {
+                searchPattern = isRegExp
+                  ? new RegExp(`${realSearch}`, regexpFlag)
+                  : new RegExp(realSearch.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
+              }
             } catch (e) {
               // 象征性的捕获并忽略一下错误喵
               this.toast(
@@ -120,7 +137,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             }
             dataStringReplaced = dataStringReplaced.replaceAll(
               searchPattern,
-              replace.replaceAll("\\n", this.enterReplacer)
+              replacePattern.replaceAll("\\n", this.enterReplacer)
             );
           }
         }
@@ -174,6 +191,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           let realText = text;
 
           let isJSReturnString = false;
+          let pattern: RegExp;
           if (isJS) {
             // 真的要实现可编程高亮喵？会不会出现什么巨大漏洞然后被超市喵？
             // 要不要用eval喵？毕竟速度最快喵？
@@ -190,7 +208,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               continue;
             }
             // const highlight = highlightFunc();
-            let results: (number | [number, number])[] = [];
+            let results: (number | [number, number])[] | string | RegExp;
             try {
               results = highlightFunc(dataStringReplaced) ?? [];
             } catch (e) {
@@ -200,9 +218,12 @@ export default class HighlightMiddleware extends SessionMiddleware {
               );
               continue;
             }
+
             if (typeof results === "string") {
               isJSReturnString = true;
               realText = results;
+            } else if (results instanceof RegExp) {
+              pattern = results;
             } else if (Array.isArray(results) && results.length > 0) {
               // const results: (number | [number, number])[] = [1, 3, 5, [6, 7]];
               for (const result of results) {
@@ -236,22 +257,22 @@ export default class HighlightMiddleware extends SessionMiddleware {
             }
           }
 
-          if (!isJS || isJSReturnString) {
-            const regexpFlag = isCaseSensitive ? "gd" : "gid";
-
-            let pattern: RegExp;
-            try {
-              // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
-              pattern = isRegExp
-                ? new RegExp(`${realText}`, regexpFlag)
-                : new RegExp(realText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
-            } catch (e) {
-              // 象征性的捕获并忽略一下错误喵
-              this.toast(
-                "[Highlight] Something wrong when creating RegExp, please check highlight settings"
-              );
-              this.logger.error(e.message);
-              return super.feedFromSession(data);
+          if (!isJS || isJSReturnString || pattern) {
+            if (!pattern) {
+              try {
+                const regexpFlag = isCaseSensitive ? "gd" : "gid";
+                // 不管是字符串还是正则，通通用正则来匹配，只不过对于字符串需要一丢丢特殊处理，不然会寄喵
+                pattern = isRegExp
+                  ? new RegExp(`${realText}`, regexpFlag)
+                  : new RegExp(realText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), regexpFlag);
+              } catch (e) {
+                // 象征性的捕获并忽略一下错误喵
+                this.toast(
+                  "[Highlight] Something wrong when creating RegExp, please check highlight settings"
+                );
+                this.logger.error(e.message);
+                return super.feedFromSession(data);
+              }
             }
 
             // this.logger.debug(`highlight match terminal line when match ${pattern}:`);
@@ -260,6 +281,11 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
             for (const match of matches) {
               const indices = (match as any).indices;
+              if (!indices) {
+                this.toast("[Highlight] indices not exist, please check highlight settings");
+                this.logger.error("[Highlight] indices not exist, please check highlight settings");
+                continue;
+              }
               let indict: [number, number] = indices[0];
 
               // 匹配组处理喵

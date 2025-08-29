@@ -338,6 +338,7 @@ export class HighlightSettingsTabComponent {
   async editKeyword(event: MouseEvent, keyword: HighlightKeyword) {
     const modal = this.ngbModal.open(PatternEditorModalComponent);
     modal.componentInstance.code = keyword.text;
+    modal.componentInstance.mode = "highlight";
     if (keyword.isJS) {
       modal.componentInstance.type = "javascript";
     }
@@ -526,6 +527,7 @@ export class HighlightSettingsTabComponent {
   async editReplaceSearchPattern(event: MouseEvent, pattern: ReplacePattern) {
     const modal = this.ngbModal.open(PatternEditorModalComponent);
     modal.componentInstance.code = pattern.search;
+    modal.componentInstance.mode = "replace";
     if (pattern.isJS) {
       modal.componentInstance.type = "javascript";
     }
@@ -542,6 +544,7 @@ export class HighlightSettingsTabComponent {
   async editReplaceReplacePattern(event: MouseEvent, pattern: ReplacePattern) {
     const modal = this.ngbModal.open(PatternEditorModalComponent);
     modal.componentInstance.code = pattern.replace;
+    modal.componentInstance.mode = "replace";
     try {
       const result = await modal.result.catch(() => null);
       if (typeof result === "string") {
