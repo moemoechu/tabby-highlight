@@ -202,11 +202,9 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 
 ## Plan
 
-- [ ] Refactor the setting UI.
 - [ ] Add color picker.
 - [x] Programmable(javascript) keyword match.
 - [x] Programmable(javascript) replace.
-- [ ] LSP Support (in dream)
 
 ## Changelog
 
