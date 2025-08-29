@@ -6,7 +6,12 @@ import { ConfigService, LogService, Logger, TranslateService } from "tabby-core"
 import { SessionMiddleware } from "tabby-terminal";
 import { inspect } from "util";
 import { debounce } from "utils-decorators";
-import { HighlightEngagedTab, HighlightPluginConfig } from "./api";
+import {
+  HighlightEngagedTab,
+  HighlightJSFunctionResultType,
+  HighlightPluginConfig,
+  ReplaceJSFunctionResultType,
+} from "./api";
 
 export default class HighlightMiddleware extends SessionMiddleware {
   tab: HighlightEngagedTab;
@@ -91,7 +96,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               );
               continue;
             }
-            let results: string | [string | RegExp, string];
+            let results: ReplaceJSFunctionResultType;
             try {
               results = replaceFunc(dataStringReplaced);
             } catch (e) {
@@ -208,7 +213,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               continue;
             }
             // const highlight = highlightFunc();
-            let results: (number | [number, number])[] | string | RegExp;
+            let results: HighlightJSFunctionResultType;
             try {
               results = highlightFunc(dataStringReplaced) ?? [];
             } catch (e) {

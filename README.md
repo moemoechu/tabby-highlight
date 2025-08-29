@@ -83,6 +83,8 @@ function highlight(input) {
 }
 ```
 
+for return type, see [api](src/api.ts)
+
 the function must return positions or string you want to highlight
 
 positions is a array of number or [number, number]
