@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "type": "commonjs",
   "license": "MIT",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "repository": {
     "url": "git+https://github.com/moemoechu/tabby-highlight.git"
   },
@@ -25,7 +25,7 @@
     "watch": "webpack --progress --color --watch",
     "deploy": "npm run build && rm -rf /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight && mkdir /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight && cp -r ./dist package.json /mnt/hgfs/Tabby/data/plugins/node_modules/tabby-highlight/",
     "prepublishOnly": "npm run build",
-    "copyDeps": "cp -rf /mnt/hgfs/Tabby/resources/builtin-plugins/* ./node_modules/"
+    "copyDeps": "rm -rf ./node_modules/tabby-* && cp -rf /mnt/hgfs/Tabby/resources/builtin-plugins/* ./node_modules/"
   },
   "devDependencies": {
     "@angular/animations": "^15.2.10",
@@ -53,10 +53,10 @@
     "sass": "^1.90.0",
     "sass-loader": "^13.3.3",
     "style-loader": "^3.3.4",
-    "tabby-core": "^1.0.197-nightly.1",
-    "tabby-electron": "^1.0.197-nightly.1",
-    "tabby-settings": "^1.0.197-nightly.1",
-    "tabby-terminal": "^1.0.197-nightly.1",
+    "tabby-core": "^1.0.231-nightly.0",
+    "tabby-electron": "^1.0.231-nightly.0",
+    "tabby-settings": "^1.0.231-nightly.0",
+    "tabby-terminal": "^1.0.231-nightly.0",
     "ts-loader": "^9.5.2",
     "typescript": "^4.9.5",
     "utils-decorators": "^2.10.0",
