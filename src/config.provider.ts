@@ -74,7 +74,12 @@ export class HighlightConfigProvider extends ConfigProvider {
           ],
         },
       ],
-      advanced: { debug: false },
+      advanced: {
+        debug: false,
+        debugTerminalOutput: false,
+        debugPluginOutput: false,
+        debugMatch: false,
+      },
     },
   };
 }
