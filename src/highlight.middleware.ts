@@ -83,7 +83,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
 
           let realSearch: string = search;
           let isReplaceJSReturnString = false;
-          let searchPattern: RegExp;
+          let searchPattern: RegExp | undefined;
           let replacePattern: string = replace;
           if (isJS) {
             let replaceFunc: Function;
@@ -92,7 +92,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               console.error(e);
               this.toast(
-                "[Highlight] Something wrong when creating JS Function, please check replace settings"
+                "[Highlight] Something wrong when creating JS Function, please check replace settings",
               );
               continue;
             }
@@ -102,7 +102,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               console.error(e);
               this.toast(
-                "[Highlight] Something wrong when execute JS Function, please check replace settings"
+                "[Highlight] Something wrong when execute JS Function, please check replace settings",
               );
               continue;
             }
@@ -135,14 +135,14 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               // 象征性的捕获并忽略一下错误喵
               this.toast(
-                "[Highlight] Something wrong when creating RegExp, please check replace settings"
+                "[Highlight] Something wrong when creating RegExp, please check replace settings",
               );
-              this.logger.error(e.message);
+              this.logger.error((e as any).message);
               return super.feedFromSession(data);
             }
             dataStringReplaced = dataStringReplaced.replaceAll(
               searchPattern,
-              replacePattern.replaceAll("\\n", this.enterReplacer)
+              replacePattern.replaceAll("\\n", this.enterReplacer),
             );
           }
         }
@@ -196,7 +196,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
           let realText = text;
 
           let isJSReturnString = false;
-          let pattern: RegExp;
+          let pattern: RegExp | undefined;
           if (isJS) {
             // 真的要实现可编程高亮喵？会不会出现什么巨大漏洞然后被超市喵？
             // 要不要用eval喵？毕竟速度最快喵？
@@ -208,7 +208,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               console.error(e);
               this.toast(
-                "[Highlight] Something wrong when creating JS Function, please check highlight settings"
+                "[Highlight] Something wrong when creating JS Function, please check highlight settings",
               );
               continue;
             }
@@ -219,7 +219,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
             } catch (e) {
               console.error(e);
               this.toast(
-                "[Highlight] Something wrong when execute JS Function, please check highlight settings"
+                "[Highlight] Something wrong when execute JS Function, please check highlight settings",
               );
               continue;
             }
@@ -273,9 +273,9 @@ export default class HighlightMiddleware extends SessionMiddleware {
               } catch (e) {
                 // 象征性的捕获并忽略一下错误喵
                 this.toast(
-                  "[Highlight] Something wrong when creating RegExp, please check highlight settings"
+                  "[Highlight] Something wrong when creating RegExp, please check highlight settings",
                 );
-                this.logger.error(e.message);
+                this.logger.error((e as any).message);
                 return super.feedFromSession(data);
               }
             }
@@ -344,7 +344,7 @@ export default class HighlightMiddleware extends SessionMiddleware {
               }
             }
             const oscSequenceMatch = subString.match(
-              /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/
+              /\x1b\](?:[^\x07\x1b]*|\x1b(?:[^[\x07]|$))*[\x07\x1b]/,
             );
             if (oscSequenceMatch) {
               if (oscSequenceMatch.index === 0) {

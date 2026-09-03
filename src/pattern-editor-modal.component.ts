@@ -105,9 +105,9 @@ export class PatternEditorModalComponent {
   @Input() code: string = "";
   @Input() type: string = "plain";
 
-  @Input() mode: "highlight" | "replace";
+  @Input() mode: "highlight" | "replace" = "highlight";
 
-  editorView: EditorView;
+  editorView!: EditorView;
 
   ngAfterViewInit(): void {
     const extensions = [basicSetup, oneDark, EditorView.lineWrapping];
