@@ -205,6 +205,8 @@ See [mesugaki](example_profiles/replace_mesugaki.json) and [Test case](tests/rep
 - [ ] Add color picker.
 - [x] Programmable(javascript) keyword match.
 - [x] Programmable(javascript) replace.
+- [ ] Add option to strip control sequence for origin output
+- [ ] Support multi buffer input including cross-input-buffer control sequence
 
 ## Changelog
 
